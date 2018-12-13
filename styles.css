@@ -174,7 +174,7 @@ position:fixed;
 .search-icon{
     margin: 0 9px 3px 0;
     line-height: 2px;
-    curson:pointer;
+    cursor:pointer;
 }
 
 .search-bar{
@@ -184,7 +184,6 @@ position:fixed;
     height: 36px;
     border: 2px solid #FFFFFF;
     border-radius: 4px;
-    display: inline-block;
     color: #FFFFFF;
     line-height: 35px;
 }
