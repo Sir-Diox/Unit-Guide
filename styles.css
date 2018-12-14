@@ -53,10 +53,23 @@ left: 0px;
 right: 0px;
 top: 0px;
 background: #2B2B2B;
-border-bottom: 3px solid #6F6F6F;
-height: 69px;
+height: 68px;
 z-index: 1000;
 position:fixed;
+}
+
+.navbar:after{
+bottom: -5px;
+box-shadow: inset 0px 4px 8px -3px rgb(164, 164, 164);
+content: "";
+height: 5px;
+left: 0px;
+opacity: 1;
+pointer-events: none;
+position: absolute;
+right: 0px;
+width: 100%;
+z-index: 2050;
 }
 
 .home-page-link:hover{
