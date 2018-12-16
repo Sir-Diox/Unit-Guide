@@ -144,6 +144,7 @@ z-index: 2050;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
 }
+
 .float-left{
     float:left;
 }
@@ -514,7 +515,7 @@ margin-left: 6px;
 border: 1px solid #FFFFFF;
 border-radius: 3px;
 width:388px;
-height:500px;
+max-height:500px;
 }
 
 .top-label-unit-name{
@@ -532,7 +533,7 @@ height:500px;
 
 .unit-description-text{
     text-align:center;
-    color:rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.8);
     margin:0;
     font-size: 14px;
     line-height: 17px;
@@ -582,6 +583,7 @@ height:500px;
 .energy-cost-digit, .metal-cost-digit{
     color:white;
     width:200px;
+    font-family:'Exo 2';
 }
 
 .summoning-code{
@@ -661,13 +663,21 @@ height:500px;
     position: relative;
 }
 
+.box-shadow-for-bar{
+    width: 126px;
+    height: 10px;
+    position: absolute;
+    left: 2px;
+    top: 9px;
+}
+
 .parameter-value{
     position: relative;
     top: -8px;
-    color:white;
-    font-size:14px;
-    font-weight: 600;
+    color: white;
+    font-size: 14px;
     text-align: left;
+    font-family: 'Exo 2';
 }
 
 .preview-info{
