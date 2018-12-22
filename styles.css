@@ -54,7 +54,7 @@ right: 0px;
 top: 0px;
 background: #2B2B2B;
 height: 68px;
-z-index: 1000;
+z-index: 2000;
 position:fixed;
 }
 
@@ -69,7 +69,7 @@ pointer-events: none;
 position: absolute;
 right: 0px;
 width: 100%;
-z-index: 2050;
+z-index: 0;
 }
 
 .home-page-link:hover{
@@ -145,6 +145,17 @@ z-index: 2050;
     z-index: 1;
 }
 
+.search-result-content {
+    position: absolute;
+    min-width: 282px;
+    z-index: 1;
+}
+
+.loading-icon{
+    height: 24px;
+    display: none;
+}
+
 .float-left{
     float:left;
 }
@@ -157,19 +168,33 @@ z-index: 2050;
     text-align: left;
 }
 
+.unit-name-containter{
+    display: table-cell;
+    height: 72px;
+    vertical-align: middle;
+    line-height: 20px;
+    font-family: 'Exo 2';
+    width: 194px;
+    font-size: 16px;
+}
+
 .dropdown-submenu{
     float:left;
     overflow:hidden;
 }
 
-.dropdown-submenu:hover .dropdown-content {
+.dropdown-search-results{
+    float:left;
+}
+
+.dropdown-submenu:hover .dropdown-content, .dropdown-search-results:hover .dropdown-content  {
     display: block;
 }
 
 .search-input{
     position: relative;
     padding: 0 0 0 6px;
-    width: 224px;
+    width: 248px;
     height: 29px;
     border: 0;
     display: inline-block;
@@ -193,7 +218,7 @@ z-index: 2050;
 
 .search-bar{
     float:right;
-    width: 259px;
+    width: 282px;
     position: relative;
     height: 36px;
     border: 2px solid #FFFFFF;
@@ -374,6 +399,52 @@ color: #FFFFFF;
     margin-top: 0px;
 }
 
+#search-input-results{
+    background: #181818;
+    display: none;
+    left: -2px;
+    top: 32px;
+}
+
+.border-white{
+    border: 2px solid #FFFFFF;
+    border-radius: 0 0 4px 4px;
+}
+.search-input-row{
+    height:76px;
+    padding: 4px;
+}
+.unit-name-html{
+    height: 100%;
+    vertical-align: top;
+    display: inline-block;
+    line-height: 74px;
+    width: auto;
+    margin-left: 10px;
+    letter-spacing: 0.05em;
+}
+
+.availability-dot{
+    background: #65FF4C;
+    border-radius: 50px;
+    width: 8px;
+    height: 8px;
+    z-index: 1000;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    border: 1px solid #000000;
+}
+
+.availability-dot2{
+    color: #65FF4C;
+    z-index: 1000;
+    position: absolute;
+    right: 1px;
+    font-size: 14px;
+    top: -1px;
+}
+
 .unit-type{
     font-style: normal;
     font-weight: 600;
@@ -468,6 +539,28 @@ color: #FFFFFF;
 	transition: all 0.3s ease;
 }
 
+.decrease-background{
+    background-size: 72px 72px !important;
+    width: 72px !important;
+    height: 72px !important;
+    margin-bottom: 4px;
+    display: block;
+    float: left;
+}
+
+.decrease-background:before{
+    content: '';
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 0px;
+    max-width: 72px;
+    height: 72px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 7px;
+    transition:  0.3s ease;
+}
+
 .unit-box:hover:before{
     width:96px;
 }
@@ -515,13 +608,17 @@ margin-left: 6px;
 border: 1px solid #FFFFFF;
 border-radius: 3px;
 width:388px;
-max-height:500px;
+max-height:600px;
+z-index:10000;
+line-height:1.5;
+font-size:16px;
 }
 
 .top-label-unit-name{
-    height:45px;
+    max-height:100px;
     background: #333333;
     width:100%;
+    position: relative;
 }
 
 .unit-name-text{
@@ -537,6 +634,7 @@ max-height:500px;
     margin:0;
     font-size: 14px;
     line-height: 17px;
+    padding-bottom: 5px;
 }
 
 .unit-image-box{
@@ -562,6 +660,7 @@ max-height:500px;
     line-height: 20px;
     display: inline-block;
     padding: 0 3px 0 3px;
+    color:black;
     background: #FBFF4C;
     font-weight: 600;
     border-radius: 3px;
@@ -574,6 +673,7 @@ max-height:500px;
     line-height: 20px;
     width:94px;
     display: inline-block;
+    color:black;
     padding: 0 3px 0 3px;
     background: #D2DEFD;
     font-weight: 600;
@@ -589,10 +689,13 @@ max-height:500px;
 .summoning-code{
     width:94px;
     display: inline-block;
-    font-weight: 600;
     color:white;
     margin-right:12px;
     line-height:normal;
+}
+
+.highlight-the-written-phrase{
+    background: #8989897d;
 }
 
 .summoning-code-text{
@@ -612,6 +715,7 @@ max-height:500px;
     text-align: center;
     color: white;
     margin-top: 5px;
+    margin-bottom:10px;
 }
 
 .parameter-name{
@@ -688,4 +792,8 @@ max-height:500px;
     position: relative;
     color: rgba(255, 255, 255, 0.6);
     text-align: center;
+}
+
+.useful-info-padding{
+    padding-right: 20px;
 }
