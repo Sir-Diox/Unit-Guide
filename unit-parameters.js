@@ -124,7 +124,7 @@ var rangeOfParameters ={
         h85: 2500,
         h9: 5000,
         h95: 5700,
-        h10: 10000
+        h10: 20000
     },
     range : {
         h0: 20,

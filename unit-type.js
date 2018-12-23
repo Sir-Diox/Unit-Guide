@@ -176,7 +176,7 @@ function checkUnitType(){
         unitTypeObj.isFighter=true;
         }
     }
-    else if(unitData.builder!=0 && (unitData.jammerRange =="n/a" || unitData.jammerRange =="0" )) // is cons, semi-con
+    else if (unitData.builder != 0 && (unitData.jammerRange == "n/a" || unitData.jammerRange == "0") && unitData.movementSpeed != "n/a") // is cons, semi-con
     {
             if(unitData.builder!=0 && unitData.canMove==1 && unitData.canBuild != "" && unitData.movementSpeed < 4){
             unitTypeObj.isCons=true;
@@ -196,36 +196,39 @@ function checkUnitType(){
     }
     else if(unitData.movementSpeed <0.5 || unitData.movementSpeed == "n/a"){ // is building?
         unitTypeObj.isBuilding=true;
-        if(unitData.canMove==1){
-                unitTypeObj.isLab=true;  
+        if (unitData.canMove == 1) {
+            unitTypeObj.isLab = true;
         }
-        else if(unitData.canAttack==1) {
-            if(unitData.name == "Geothermal Powerplant"){
-                unitTypeObj.isEco=true;
+        else if (unitData.canAttack == 1) {
+            if (unitData.name == "Geothermal Powerplant") {
+                unitTypeObj.isEco = true;
             }
-            else{
-            unitTypeObj.isDefenseShootingBuilding=true;
-            }
-            }
-        else if(unitData.radarRange!=0 && unitData.radarRange!="n/a"){ // is radar or jammer building?
-            if(unitData.radarRange!=0 && unitData.jammerRange !="n/a"){
-                unitTypeObj.isRadarAndJammerBuilding=true;
-            }
-            else{
-                unitTypeObj.isRadarBuilding=true;
+            else {
+                unitTypeObj.isDefenseShootingBuilding = true;
             }
         }
-        else if (unitData.jammerRange !="n/a"){ // is jammer building?
-                unitTypeObj.isJammerBuilding=true;
+        else if (unitData.radarRange != 0 && unitData.radarRange != "n/a") { // is radar or jammer building?
+            if (unitData.radarRange != 0 && unitData.jammerRange != "n/a") {
+                unitTypeObj.isRadarAndJammerBuilding = true;
+            }
+            else {
+                unitTypeObj.isRadarBuilding = true;
+            }
         }
-        else if (unitData.isEco){
-            unitTypeObj.isEco=true;
-            if(unitData.minEnergyIncome != undefined){
-                unitTypeObj.isEnergySupplier=true;
+        else if (unitData.jammerRange != "n/a") { // is jammer building?
+            unitTypeObj.isJammerBuilding = true;
+        }
+        else if (unitData.isEco) {
+            unitTypeObj.isEco = true;
+            if (unitData.minEnergyIncome != undefined) {
+                unitTypeObj.isEnergySupplier = true;
             }
-            else{
-                unitTypeObj.isMetalSupplier=true;
+            else {
+                unitTypeObj.isMetalSupplier = true;
             }
+        }
+        else {
+            unitTypeObj.isLab = true;
         }
 
     }
