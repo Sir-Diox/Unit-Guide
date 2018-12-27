@@ -3,8 +3,8 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="shortcut icon" href="favicon.ico" />
-    <link href='https://fonts.googleapis.com/css?family=Teko' rel='stylesheet'>
-    <link href='https://fonts.googleapis.com/css?family=Exo%202' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css?family=Teko:400,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Exo+2:300,400,600,700" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="perfect-scrollbar.css">
@@ -22,7 +22,7 @@
             <div class="tier-buttons">
                 <span class="teko-18 go-to">Go to:</span>
                 <div class="dropdown-submenu">
-                    <span class="exo2-16 tier-button dropbtn">Tier 1<img style="margin-left:7px;" src="arrow.svg" /></span>
+                    <span class="teko-18 tier-button dropbtn">Tier 1<img style="margin-left:7px;" src="arrow.svg" /></span>
                     <div class="dropdown-content">
                         <a href="#">Link 1</a>
                         <a href="#">Link 2</a>
@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="dropdown-submenu">
-                    <span class="exo2-16 tier-button dropbtn">Tier 2<img style="margin-left:7px;" src="arrow.svg" /></span>
+                    <span class="teko-18 tier-button dropbtn">Tier 2<img style="margin-left:7px;" src="arrow.svg" /></span>
                     <div class="dropdown-content">
                         <a href="#">Link 1</a>
                         <a href="#">Link 2</a>
@@ -38,17 +38,16 @@
                     </div>
                 </div>
                 <div class="dropdown-submenu">
-                    <span class="exo2-16 tier-button dropbtn">Tier 3<img style="margin-left:7px;" src="arrow.svg" /></span>
+                    <span class="teko-18 tier-button dropbtn">Tier 3<img style="margin-left:7px;" src="arrow.svg" /></span>
                     <div class="dropdown-content">
                         <a href="#">Link 1</a>
                         <a href="#">Link 2</a>
                         <a href="#">Link 3</a>
                     </div>
                 </div>
-                <span class="exo2-16 tier-button">Tier 4</span>
+                <span class="teko-18 tier-button">Tier 4</span>
                 <span class="teko-18 search-bar dropdown-search-results">
                     <input type="text" id="search-input" class="search-input exo2-16" placeholder="Search..." /><img class="loading-icon" src="loading_icon.gif" /> <img class="search-icon" src="search-icon.svg" />
-
                     <div class="input-results-container"><div id="search-input-results" class="search-result-content"></div></div>
                 </span>
             </div>
@@ -63,7 +62,8 @@
             <img src="ARM.png" class="arm-logo-banner" />
             <img src="CORE.png" class="core-logo-banner" />
             <img src="unit-guide-text.svg" class="main-banner-text">
-
+            <p class="teko-18 white">Compatible with mod's 9.0 version</p>
+            <p class="teko-18 white">Guide's last update: 20 jan 2019</p>
         </div>
 
 
@@ -71,9 +71,16 @@
         <div class="horizontal-tier-divider-line"></div>
         <img src="tier-hexagon-bg.svg" class="center-img" style="z-index:10;">
         <img src="tier-1.svg" class="center-img" style="top:-145px; z-index:11;">
+
+        <div class="tier-quote-box">
+            <img src="t1_quote_1.svg" class="quote-text" />
+        </div>
+
+
         <div class="tier-unit-type-divider">
-            <div class="tier-number teko-29"><span class="horizontal-tier-line"></span><span class="tier-number-width">Tier 1</span><span class="horizontal-tier-line"></span></div>
-            <div class="unit-type teko-47">Kbots</div>
+            <div class="tier-number teko-18"><span class="tier-number-width">Tier 1</span></div>
+            <img class="unit-type-bg" src="unit_type_bg.svg" />
+            <div class="unit-type teko-29">Kbots</div>
         </div>
 
         <div class="units-container" onmouseover="takeCoords(event)">
@@ -98,7 +105,7 @@
                                     <div class="unit-name">Construction KBot</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-arm">
-                                    <div class="unit-box" uname="Peewee" w1="60" w1-rt="1" w1-r="180" side="arm" style="background: url('units-images/armpw.jpg')"></div>
+                                    <div class="unit-box" uname="Peewee" w1="60" w1-rt="1" w1-r="180" only-dps="1" side="arm" style="background: url('units-images/armpw.jpg')"></div>
                                     <div class="unit-name">Peewee</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-arm">
@@ -110,7 +117,7 @@
                                     <div class="unit-name">Hammer</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-arm">
-                                    <div class="unit-box" uname="Warrior" w1="90" w1-rt="1" w1-r="180" w2="108" w2-rt="1.2" w2-r="240" side="arm" style="background: url('units-images/armwar.jpg')"></div>
+                                    <div class="unit-box" uname="Warrior" w1="90" w1-rt="1" w1-r="180" w2="108" w2-rt="1.2" w2-r="240" only-dps="1" side="arm" style="background: url('units-images/armwar.jpg')"></div>
                                     <div class="unit-name">Warrior</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-arm">
@@ -182,8 +189,9 @@
         </div>
 
         <div class="tier-unit-type-divider">
-            <div class="tier-number teko-29"><span class="horizontal-tier-line"></span><span class="tier-number-width">Tier 1</span><span class="horizontal-tier-line"></span></div>
-            <div class="unit-type teko-47">Vehicles</div>
+            <div class="tier-number teko-18"><span class="tier-number-width">Tier 1</span></div>
+            <img class="unit-type-bg" src="unit_type_bg.svg" />
+            <div class="unit-type teko-29">Vehicles</div>
         </div>
 
         <div class="units-container" onmouseover="takeCoords(event)">
@@ -210,7 +218,7 @@
                                     <div class="unit-name">Jeffy</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-arm">
-                                    <div class="unit-box" uname="Flash" w1="60" w1-rt="1" w1-r="180" side="arm" style="background: url('units-images/armflash.jpg')"></div>
+                                    <div class="unit-box" uname="Flash" w1="60" w1-rt="1" w1-r="180" only-dps="1" side="arm" style="background: url('units-images/armflash.jpg')"></div>
                                     <div class="unit-name">Flash</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-arm">
@@ -282,8 +290,9 @@
         </div>
 
         <div class="tier-unit-type-divider">
-            <div class="tier-number teko-29"><span class="horizontal-tier-line"></span><span class="tier-number-width">Tier 1</span><span class="horizontal-tier-line"></span></div>
-            <div class="unit-type teko-47">Hovercrafts</div>
+            <div class="tier-number teko-18"><span class="tier-number-width">Tier 1</span></div>
+            <img class="unit-type-bg" src="unit_type_bg.svg" />
+            <div class="unit-type teko-29">Hovercrafts</div>
         </div>
 
         <div class="units-container" onmouseover="takeCoords(event)">
@@ -364,7 +373,7 @@
                                     <div class="unit-name">Scrubber</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-core">
-                                    <div class="unit-box" uname="Salamander" w1="133" w1-rt="1" w1-r="210" side="core" style="background: url('units-images/corfh.jpg')"></div>
+                                    <div class="unit-box" uname="Salamander" w1="133" w1-rt="1" only-dps="1" w1-r="210" side="core" style="background: url('units-images/corfh.jpg')"></div>
                                     <div class="unit-name">Salamander</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-core">
@@ -391,8 +400,9 @@
         </div>
 
         <div class="tier-unit-type-divider">
-            <div class="tier-number teko-29"><span class="horizontal-tier-line"></span><span class="tier-number-width">Tier 1</span><span class="horizontal-tier-line"></span></div>
-            <div class="unit-type teko-47">Ships</div>
+            <div class="tier-number teko-18"><span class="tier-number-width">Tier 1</span></div>
+            <img class="unit-type-bg" src="unit_type_bg.svg" />
+            <div class="unit-type teko-29">Ships</div>
         </div>
 
         <div class="units-container" onmouseover="takeCoords(event)">
@@ -483,8 +493,9 @@
         </div>
 
         <div class="tier-unit-type-divider">
-            <div class="tier-number teko-29"><span class="horizontal-tier-line"></span><span class="tier-number-width">Tier 1</span><span class="horizontal-tier-line"></span></div>
-            <div class="unit-type teko-47">Aircrafts</div>
+            <div class="tier-number teko-18"><span class="tier-number-width">Tier 1</span></div>
+            <img class="unit-type-bg" src="unit_type_bg.svg" />
+            <div class="unit-type teko-29">Aircrafts</div>
         </div>
 
         <div class="units-container" onmouseover="takeCoords(event)">
@@ -511,7 +522,7 @@
                                     <div class="unit-name">Peeper</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-arm">
-                                    <div class="unit-box" uname="Freedom Fighter" w1="600" w1-rt="1.5" w1-r="600" w1-AA="1" side="arm" style="background: url('units-images/armfig.jpg')"></div>
+                                    <div class="unit-box" uname="Freedom Fighter" w1="600" w1-rt="1.5" w1-r="600" w1-AA="1" side="arm" only-dps="1" style="background: url('units-images/armfig.jpg')"></div>
                                     <div class="unit-name">Freedom Fighter</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-arm">
@@ -548,7 +559,7 @@
                                     <div class="unit-name">Fink</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-core">
-                                    <div class="unit-box" uname="Avenger" w1="600" w1-rt="1.5" w1-r="600" w1-AA="1" side="core" style="background: url('units-images/corveng.jpg')"></div>
+                                    <div class="unit-box" uname="Avenger" w1="600" w1-rt="1.5" w1-r="600" w1-AA="1" only-dps="1" side="core" style="background: url('units-images/corveng.jpg')"></div>
                                     <div class="unit-name">Avenger</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-core">
@@ -567,8 +578,9 @@
         </div>
 
         <div class="tier-unit-type-divider">
-            <div class="tier-number teko-29"><span class="horizontal-tier-line"></span><span class="tier-number-width">Tier 1</span><span class="horizontal-tier-line"></span></div>
-            <div class="unit-type teko-47">Seaplanes</div>
+            <div class="tier-number teko-18"><span class="tier-number-width">Tier 1</span></div>
+            <img class="unit-type-bg" src="unit_type_bg.svg" />
+            <div class="unit-type teko-29">Seaplanes</div>
         </div>
 
         <div class="units-container" onmouseover="takeCoords(event)">
@@ -595,7 +607,7 @@
                                     <div class="unit-name">Peeper</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-arm">
-                                    <div class="unit-box" uname="Freedom Fighter" w1="600" w1-rt="1.5" w1-r="600" w1-AA="1" side="arm" style="background: url('units-images/armfig.jpg')"></div>
+                                    <div class="unit-box" uname="Freedom Fighter" w1="600" w1-rt="1.5" w1-r="600" w1-AA="1" only-dps="1" side="arm" style="background: url('units-images/armfig.jpg')"></div>
                                     <div class="unit-name">Freedom Fighter</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-arm">
@@ -632,7 +644,7 @@
                                     <div class="unit-name">Fink</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-core">
-                                    <div class="unit-box" uname="Avenger" w1="600" w1-rt="1.5" w1-r="600" w1-AA="1" side="core" style="background: url('units-images/corveng.jpg')"></div>
+                                    <div class="unit-box" uname="Avenger" w1="600" w1-rt="1.5" w1-r="600" w1-AA="1" only-dps="1" side="core" style="background: url('units-images/corveng.jpg')"></div>
                                     <div class="unit-name">Avenger</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-core">
@@ -651,8 +663,9 @@
         </div>
 
         <div class="tier-unit-type-divider">
-            <div class="tier-number teko-29"><span class="horizontal-tier-line"></span><span class="tier-number-width">Tier 1</span><span class="horizontal-tier-line"></span></div>
-            <div class="unit-type teko-47">Buildings</div>
+            <div class="tier-number teko-18"><span class="tier-number-width">Tier 1</span></div>
+            <img class="unit-type-bg" src="unit_type_bg.svg" />
+            <div class="unit-type teko-29">Buildings</div>
         </div>
 
         <div class="units-container" onmouseover="takeCoords(event)">
@@ -690,7 +703,7 @@
                         </div>
                     </div>
                     <div class="row arm-side buildings-pos-arm">
-                        <div class="exo2-26 buildings-type-label col col-lg-12">Defensive</div>
+                        <div class="exo2-26 buildings-type-label col col-lg-12">Defensive / attacking</div>
                         <div class="col col-lg-2 unit-spacings-arm">
                             <div class="unit-box" uname="L.L.T." w1="72" w1-rt="0.4" w1-r="400" side="arm" style="background: url('units-images/armllt.jpg')"></div>
                             <div class="unit-name">L.L.T.</div>
@@ -878,7 +891,7 @@
                         </div>
                     </div>
                     <div class="row core-side buildings-pos-core">
-                        <div class="exo2-26 buildings-type-label col col-lg-12">Defensive</div>
+                        <div class="exo2-26 buildings-type-label col col-lg-12">Defensive / attacking</div>
                         <div class="col col-lg-2 unit-spacings-core">
                             <div class="unit-box" uname="Light Laser Tower" w1="72" w1-rt="0.4" w1-r="400" side="core" style="background: url('units-images/corllt.jpg')"></div>
                             <div class="unit-name">Light Laser Tower</div>
@@ -888,7 +901,7 @@
                             <div class="unit-name">Gaat</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Immolator" w1="720" w1-rt="1" w1-r="540" side="core" style="background: url('units-images/corplas.jpg')"></div>
+                            <div class="unit-box" uname="Immolator" w1="720" w1-rt="1" w1-r="540" only-dps="1" side="core" style="background: url('units-images/corplas.jpg')"></div>
                             <div class="unit-name">Immolator</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
@@ -1042,8 +1055,9 @@
 
 
         <div class="tier-unit-type-divider">
-            <div class="tier-number teko-29"><span class="horizontal-tier-line"></span><span class="tier-number-width">Tier 2</span><span class="horizontal-tier-line"></span></div>
-            <div class="unit-type teko-47">Kbots</div>
+            <div class="tier-number teko-18"><span class="tier-number-width">Tier 2</span></div>
+            <img class="unit-type-bg" src="unit_type_bg.svg" />
+            <div class="unit-type teko-29">Kbots</div>
         </div>
 
         <div class="units-container" onmouseover="takeCoords(event)">
@@ -1078,7 +1092,7 @@
                                     <div class="unit-name">Shooter</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-arm">
-                                    <div class="unit-box" uname="Zipper" w1="80" w1-rt="1" w1-r="240" side="arm" style="background: url('units-images/armfast.jpg')"></div>
+                                    <div class="unit-box" uname="Zipper" w1="80" w1-rt="1" w1-r="240" only-dps="1" side="arm" style="background: url('units-images/armfast.jpg')"></div>
                                     <div class="unit-name">Zipper</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-arm">
@@ -1139,7 +1153,7 @@
                                     <div class="unit-name">Adv. Construction Kbot</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-core">
-                                    <div class="unit-box" uname="Pyro" w1="328" w1-rt="1" w1-r="180" side="core" style="background: url('units-images/corpyro.jpg')"></div>
+                                    <div class="unit-box" uname="Pyro" w1="328" w1-rt="1" w1-r="180" only-dps="1" side="core" style="background: url('units-images/corpyro.jpg')"></div>
                                     <div class="unit-name">Pyro</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-core">
@@ -1166,6 +1180,14 @@
                                     <div class="unit-box" uname="Gimp" w1="270" w1-rt="1" w1-r="225" w2="480" w2-rt="4.8" w2-r="320" side="core" style="background: url('units-images/coramph.jpg')"></div>
                                     <div class="unit-name">Gimp</div>
                                 </div>
+                                <div class="col col-lg-3 unit-spacings-arm">
+                                    <div class="unit-box" uname="Mantis" w1="600" w1-rt="0.4" w1-r="900" w1-AA="1" side="core" style="background: url('units-images/CORAABOT.jpg')"></div>
+                                    <div class="unit-name">Mantis</div>
+                                </div>
+                                <div class="col col-lg-3 unit-spacings-arm">
+                                    <div class="unit-box" uname="Commander" w1="1" w1-rt="1" w1-r="1" w2="1" w2-rt="1" w2-r="1" side="core" style="background: url('units-images/CORCOM.jpg')"></div>
+                                    <div class="unit-name">Commander</div>
+                                </div>
                                 <div class="col col-lg-3 unit-spacings-core">
                                     <div class="unit-box" uname="Spectre" side="core" style="background: url('units-images/corspec.jpg')"></div>
                                     <div class="unit-name">Spectre</div>
@@ -1190,8 +1212,9 @@
         </div>
 
         <div class="tier-unit-type-divider">
-            <div class="tier-number teko-29"><span class="horizontal-tier-line"></span><span class="tier-number-width">Tier 2</span><span class="horizontal-tier-line"></span></div>
-            <div class="unit-type teko-47">Vehicles</div>
+            <div class="tier-number teko-18"><span class="tier-number-width">Tier 2</span></div>
+            <img class="unit-type-bg" src="unit_type_bg.svg" />
+            <div class="unit-type teko-29">Vehicles</div>
         </div>
 
         <div class="units-container" onmouseover="takeCoords(event)">
@@ -1283,7 +1306,7 @@
                                     <div class="unit-name">Manticore</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-core">
-                                    <div class="unit-box" uname="Reaper" w1="400" w1-rt="1" w1-r="320" side="core" style="background: url('units-images/correap.jpg')"></div>
+                                    <div class="unit-box" uname="Reaper" w1="400" w1-rt="1" w1-r="320" only-dps="1" side="core" style="background: url('units-images/correap.jpg')"></div>
                                     <div class="unit-name">Reaper</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-core">
@@ -1330,8 +1353,9 @@
         </div>
 
         <div class="tier-unit-type-divider">
-            <div class="tier-number teko-29"><span class="horizontal-tier-line"></span><span class="tier-number-width">Tier 2</span><span class="horizontal-tier-line"></span></div>
-            <div class="unit-type teko-47">Hovercrafts</div>
+            <div class="tier-number teko-18"><span class="tier-number-width">Tier 2</span></div>
+            <img class="unit-type-bg" src="unit_type_bg.svg" />
+            <div class="unit-type teko-29">Hovercrafts</div>
         </div>
 
         <div class="units-container" onmouseover="takeCoords(event)">
@@ -1358,7 +1382,7 @@
                                     <div class="unit-name">Adv. Construction Hovercraft</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-arm">
-                                    <div class="unit-box" uname="Cavalier" w1="1152" w1-rt="2" w1-r="320" w2="60" w2-rt="1" w2-r="180" side="arm" style="background: url('units-images/armhtank.jpg')"></div>
+                                    <div class="unit-box" uname="Cavalier" w1="1152" w1-rt="2" w1-r="320" w2="60" w2-rt="1" w2-r="180" only-dps="1" side="arm" style="background: url('units-images/armhtank.jpg')"></div>
                                     <div class="unit-name">Cavalier</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-arm">
@@ -1446,8 +1470,9 @@
         </div>
 
         <div class="tier-unit-type-divider">
-            <div class="tier-number teko-29"><span class="horizontal-tier-line"></span><span class="tier-number-width">Tier 2</span><span class="horizontal-tier-line"></span></div>
-            <div class="unit-type teko-47">Ships</div>
+            <div class="tier-number teko-18"><span class="tier-number-width">Tier 2</span></div>
+            <img class="unit-type-bg" src="unit_type_bg.svg" />
+            <div class="unit-type teko-29">Ships</div>
         </div>
 
         <div class="units-container" onmouseover="takeCoords(event)">
@@ -1554,8 +1579,9 @@
         </div>
 
         <div class="tier-unit-type-divider">
-            <div class="tier-number teko-29"><span class="horizontal-tier-line"></span><span class="tier-number-width">Tier 2</span><span class="horizontal-tier-line"></span></div>
-            <div class="unit-type teko-47">Aircrafts</div>
+            <div class="tier-number teko-18"><span class="tier-number-width">Tier 2</span></div>
+            <img class="unit-type-bg" src="unit_type_bg.svg" />
+            <div class="unit-type teko-29">Aircrafts</div>
         </div>
 
         <div class="units-container" onmouseover="takeCoords(event)">
@@ -1578,7 +1604,7 @@
                                     <div class="unit-name">Adv. Construction Aircraft</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-arm">
-                                    <div class="unit-box" uname="Brawler" w1="135" w1-rt="1" w1-r="480" side="arm" style="background: url('units-images/ARMBRAWL.jpg')"></div>
+                                    <div class="unit-box" uname="Brawler" w1="135" w1-rt="1" w1-r="480" only-dps="1" side="arm" style="background: url('units-images/ARMBRAWL.jpg')"></div>
                                     <div class="unit-name">Brawler</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-arm">
@@ -1623,7 +1649,7 @@
                                     <div class="unit-name">Adv. Construction Aircraft</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-core">
-                                    <div class="unit-box" uname="Rapier" w1="135" w1-rt="1" w1-r="480" side="core" style="background: url('units-images/CORAPE.jpg')"></div>
+                                    <div class="unit-box" uname="Rapier" w1="135" w1-rt="1" w1-r="480" only-dps="1" side="core" style="background: url('units-images/CORAPE.jpg')"></div>
                                     <div class="unit-name">Rapier</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-core">
@@ -1655,8 +1681,9 @@
 
 
         <div class="tier-unit-type-divider">
-            <div class="tier-number teko-29"><span class="horizontal-tier-line"></span><span class="tier-number-width">Tier 2</span><span class="horizontal-tier-line"></span></div>
-            <div class="unit-type teko-47">Seaplanes</div>
+            <div class="tier-number teko-18"><span class="tier-number-width">Tier 2</span></div>
+            <img class="unit-type-bg" src="unit_type_bg.svg" />
+            <div class="unit-type teko-29">Seaplanes</div>
         </div>
 
         <div class="units-container" onmouseover="takeCoords(event)">
@@ -1679,7 +1706,7 @@
                                     <div class="unit-name">Adv. Construction Seaplane</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-arm">
-                                    <div class="unit-box" uname="Brawler" w1="135" w1-rt="1" w1-r="480" side="arm" style="background: url('units-images/ARMBRAWL.jpg')"></div>
+                                    <div class="unit-box" uname="Brawler" w1="135" w1-rt="1" w1-r="480" only-dps="1" side="arm" style="background: url('units-images/ARMBRAWL.jpg')"></div>
                                     <div class="unit-name">Brawler</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-arm">
@@ -1724,7 +1751,7 @@
                                     <div class="unit-name">Adv. Construction Seaplane</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-core">
-                                    <div class="unit-box" uname="Rapier" w1="135" w1-rt="1" w1-r="480" side="core" style="background: url('units-images/CORAPE.jpg')"></div>
+                                    <div class="unit-box" uname="Rapier" w1="135" w1-rt="1" w1-r="480" only-dps="1" side="core" style="background: url('units-images/CORAPE.jpg')"></div>
                                     <div class="unit-name">Rapier</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-core">
@@ -1756,8 +1783,9 @@
 
 
         <div class="tier-unit-type-divider">
-            <div class="tier-number teko-29"><span class="horizontal-tier-line"></span><span class="tier-number-width">Tier 2</span><span class="horizontal-tier-line"></span></div>
-            <div class="unit-type teko-47">Buildings</div>
+            <div class="tier-number teko-18"><span class="tier-number-width">Tier 2</span></div>
+            <img class="unit-type-bg" src="unit_type_bg.svg" />
+            <div class="unit-type teko-29">Buildings</div>
         </div>
 
         <div class="units-container" onmouseover="takeCoords(event)">
@@ -1795,7 +1823,7 @@
                         </div>
                     </div>
                     <div class="row arm-side buildings-pos-arm">
-                        <div class="exo2-26 buildings-type-label col col-lg-12">Defensive</div>
+                        <div class="exo2-26 buildings-type-label col col-lg-12">Defensive / attacking</div>
                         <div class="col col-lg-2 unit-spacings-arm">
                             <div class="unit-box" uname="Orion" w1="288" w1-rt="0.5" w1-r="600" side="arm" style="background: url('units-images/ARMORION.jpg')"></div>
                             <div class="unit-name">Orion</div>
@@ -1829,85 +1857,73 @@
                             <div class="unit-name">Fortification Wall</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
+                            <div class="unit-box" uname="Repulsor" w1="4800" w1-r="320" side="arm" style="background: url('units-images/ARMEMP.jpg')"></div>
+                            <div class="unit-name">Repulsor</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-core">
+                            <div class="unit-box" uname="Protector" side="arm" style="background: url('units-images/ARMAMD.jpg')"></div>
+                            <div class="unit-name">Protector</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-core">
                             <div class="unit-box" uname="Sabotage Mine" side="arm" style="background: url('units-images/ARMMINE4.jpg')"></div>
                             <div class="unit-name">Sabotage Mine</div>
                         </div>
+
 
                     </div>
                     <div class="row arm-side buildings-pos-arm">
                         <div class="exo2-26 buildings-type-label col col-lg-12">Economic</div>
                         <div class="col col-lg-2 unit-spacings-arm">
-                            <div class="unit-box" uname="Solar Collector" side="arm" type="eco" e-min="25" p1="Makes 25 E/s" p2="To make 1000E/s, you need to pay 5800 metal." p3="Solar Collector is 4x harder when is closed." style="background: url('units-images/armsolar.jpg')"></div>
-                            <div class="unit-name">Solar Collector</div>
+                            <div class="unit-box" uname="Fusion Reactor" side="arm" type="eco" e-min="1000" e-max="1500" p1="Adjacency bonus supplies 50% more energy." p2="Shield upgrade increases HP 4x." style="background: url('units-images/armfus.jpg')"></div>
+                            <div class="unit-name">Fusion Reactor</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-arm">
-                            <div class="unit-box" uname="Wind Generator" e-min="10" e-max="30" type="eco" p1="Makes from 0 to 30 E/s (depending on map)." p2="To make 1000 E/s when wind=30E/s, you need to pay 2000 metal."
-                                 p3="(...) when wind=20E/s, you need to pay 3000 metal" p4="(...) when wind=10E/s, you need to pay 6000 metal."
-                                 e-make="0-30" side="arm" style="background: url('units-images/armwin.jpg')"></div>
-                            <div class="unit-name">Wind Generator</div>
+                            <div class="unit-box" uname="Advanced Energy Storage" e-min="150" type="eco" p1="Adjacency bonus supplies 150 E/s" p2="Increase" side="arm" style="background: url('units-images/armses.jpg')"></div>
+                            <div class="unit-name">Advanced Energy Storage</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-arm">
-                            <div class="unit-box" uname="Geothermal Powerplant" e-min="300" type="eco" p1="Makes 300 E/s." p2="To make 1000 E/s, you need to pay ~1733 metal." p3="Upgrade boosts up HP and produces +75 E/s more." side="arm" style="background: url('units-images/armgeo.jpg')"></div>
-                            <div class="unit-name">Geothermal Powerplant</div>
+                            <div class="unit-box" uname="Moho Extractor" side="arm" type="eco" style="background: url('units-images/ARMMOHO.jpg')"></div>
+                            <div class="unit-name">Moho Extractor</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-arm">
-                            <div class="unit-box" uname="Resource Generator" type="eco" e-min="300" side="arm" p1="Makes 300 E/s." p2="To make 1000 E/s, you need to pay ~4983 metal." style="background: url('units-images/armgen.jpg')"></div>
-                            <div class="unit-name">Resource Generator</div>
+                            <div class="unit-box" uname="Moho Metal Maker" side="arm" type="eco" style="background: url('units-images/ARMMMKR.jpg')"></div>
+                            <div class="unit-name">Moho Metal Maker</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-arm">
-                            <div class="unit-box" uname="Energy Storage" type="eco" side="arm" e-min="25" p1="Makes 25 E/s with adjacency bonus." p2="To make 1000 E/s, you need to pay 7680 metal." style="background: url('units-images/armestor.jpg')"></div>
-                            <div class="unit-name">Energy Storage</div>
+                            <div class="unit-box" uname="Advanced Metal Storage" side="arm" type="eco" style="background: url('units-images/ARMSMS.jpg')"></div>
+                            <div class="unit-name">Moho Extractor</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-arm">
-                            <div class="unit-box" uname="Metal Extractor" type="eco" side="arm" max-m-make="2.3" style="background: url('units-images/armmex.jpg')"></div>
-                            <div class="unit-name">Metal Extractor</div>
+                            <div class="unit-box" uname="Underwater Fusion Reactor" side="arm" type="eco" e-min="1000" e-max="1500" p1="Adjacency bonus supplies 50% more energy." style="background: url('units-images/armuwfus.jpg')"></div>
+                            <div class="unit-name">Underwater Fusion Reactor</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-arm">
-                            <div class="unit-box" uname="Metal Maker" type="eco" side="arm" m-make="1" style="background: url('units-images/armmakr.jpg')"></div>
-                            <div class="unit-name">Metal Maker</div>
-                        </div>
-                        <div class="col col-lg-6 unit-spacings-arm">
-                            <div class="unit-box" uname="Metal Storage" type="eco" side="arm" style="background: url('units-images/armmstor.jpg')"></div>
-                            <div class="unit-name">Metal Storage</div>
+                            <div class="unit-box" uname="Underwater Moho Extractor" side="arm" type="eco" style="background: url('units-images/ARMUWMOHO.jpg')"></div>
+                            <div class="unit-name">Underwater Moho Extractor</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-arm">
-                            <div class="unit-box" uname="Tidal Generator" type="eco" e-min="20" e-max="30" p1="Makes from 10 to even 70 E/s (depending on map)." p2="To make 1000 E/s when +30E/s, you need to pay 2733 metal." p2="(...) when +20E/s, you need to pay 4100 metal." side="arm" style="background: url('units-images/armtide.jpg')"></div>
-                            <div class="unit-name">Tidal Generator</div>
+                            <div class="unit-box" uname="Underwater Moho Metal Maker" side="arm" type="eco" style="background: url('units-images/ARMUWMMM.jpg')"></div>
+                            <div class="unit-name">Underwater Moho Metal Maker</div>
                         </div>
-                        <div class="col col-lg-2 unit-spacings-arm">
-                            <div class="unit-box" uname="Underwater Powerplant" e-min="75" e-max="150" p1="Makes 150 E/s with adjacency bonus and 75 E/s without that bonus." p2="To make 1000 E/s (with adj. bonus), you need to pay 5466 metal." type="eco" side="arm" style="background: url('units-images/armuwmfus.jpg')"></div>
-                            <div class="unit-name">Underwater Powerplant</div>
-                        </div>
-                        <div class="col col-lg-2 unit-spacings-arm">
-                            <div class="unit-box" uname="Underwater Energy Storage" e-min="25" p1="Makes 25 E/s with adjacency bonus." p2="To make 1000 E/s, you need to pay 9120 metal." type="eco" side="arm" style="background: url('units-images/armuwes.jpg')"></div>
-                            <div class="unit-name">Underwater Energy Storage</div>
-                        </div>
-                        <div class="col col-lg-2 unit-spacings-arm">
-                            <div class="unit-box" uname="Underwater Metal Extractor" type="eco" side="arm" style="background: url('units-images/armuwmex.jpg')"></div>
-                            <div class="unit-name">Underwater Metal Extractor</div>
-                        </div>
-                        <div class="col col-lg-2 unit-spacings-arm">
-                            <div class="unit-box" uname="Floating Metal Maker" type="eco" side="arm" style="background: url('units-images/armfmkr.jpg')"></div>
-                            <div class="unit-name">Floating Metal Maker</div>
-                        </div>
-                        <div class="col col-lg-2 unit-spacings-arm">
-                            <div class="unit-box" uname="Underwater Metal Storage" type="eco" side="arm" style="background: url('units-images/armuwms.jpg')"></div>
-                            <div class="unit-name">Underwater Metal Storage</div>
-                        </div>
+
                     </div>
                     <div class="row arm-side buildings-pos-arm">
                         <div class="exo2-26 buildings-type-label col col-lg-12">Special</div>
                         <div class="col col-lg-2 unit-spacings-arm">
-                            <div class="unit-box" uname="Radar Tower" side="arm" style="background: url('units-images/armrad.jpg')"></div>
-                            <div class="unit-name">Radar Tower</div>
+                            <div class="unit-box" uname="Advanced Radar Tower" side="arm" style="background: url('units-images/ARMARAD.jpg')"></div>
+                            <div class="unit-name">Advanced Radar Tower</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-arm">
-                            <div class="unit-box" uname="Sonar/Radar Station" side="arm" style="background: url('units-images/armsonar.jpg')"></div>
-                            <div class="unit-name">Sonar/Radar Station</div>
+                            <div class="unit-box" uname="Advanced Sonar/Radar Station" side="arm" style="background: url('units-images/ARMASON.jpg')"></div>
+                            <div class="unit-name">Advanced Sonar/Radar Station</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-arm">
-                            <div class="unit-box" uname="Repair Pad" side="arm" style="background: url('units-images/armasp.jpg')"></div>
-                            <div class="unit-name">Repair Pad</div>
+                            <div class="unit-box" uname="Veil" side="arm" style="background: url('units-images/ARMJAMMER.jpg')"></div>
+                            <div class="unit-name">Veil</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-arm">
+                            <div class="unit-box" uname="Obelisk" side="arm" style="background: url('units-images/ARMFIELD.jpg')"></div>
+                            <div class="unit-name">Obelisk</div>
                         </div>
                     </div>
 
@@ -1917,185 +1933,135 @@
                     <div class="row core-side buildings-pos-core">
                         <div class="exo2-26 buildings-type-label col col-lg-12">Labs</div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Kbot Lab" side="core" style="background: url('units-images/corlab.jpg')"></div>
-                            <div class="unit-name">Kbot Lab</div>
+                            <div class="unit-box" uname="Advanced Kbot Lab" side="core" style="background: url('units-images/coralab.jpg')"></div>
+                            <div class="unit-name">Advanced Kbot Lab</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Vehicle Plant" side="core" style="background: url('units-images/corvp.jpg')"></div>
-                            <div class="unit-name">Vehicle Plant</div>
+                            <div class="unit-box" uname="Advanced Vehicle Plant" side="core" style="background: url('units-images/coravp.jpg')"></div>
+                            <div class="unit-name">Advanced Vehicle Plant</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Hovercraft Platform" side="core" style="background: url('units-images/corhp.jpg')"></div>
-                            <div class="unit-name">Hovercraft Platform</div>
+                            <div class="unit-box" uname="Adv. Hovercraft Platform" side="core" style="background: url('units-images/corahp.jpg')"></div>
+                            <div class="unit-name">Adv. Hovercraft Platform</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Floating Hovercraft Platform" side="core" style="background: url('units-images/corfhp.jpg')"></div>
-                            <div class="unit-name">Floating Hovercraft Platform</div>
+                            <div class="unit-box" uname="Adv. Floating Hover Plant" side="core" style="background: url('units-images/CORFAHP.jpg')"></div>
+                            <div class="unit-name">Adv. Floating Hover Plant</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Shipyard" side="core" style="background: url('units-images/corsy.jpg')"></div>
-                            <div class="unit-name">Shipyard</div>
+                            <div class="unit-box" uname="Advanced Shipyard" side="core" style="background: url('units-images/corasy.jpg')"></div>
+                            <div class="unit-name">Advanced Shipyard</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Aircraft Plant" side="core" style="background: url('units-images/corap.jpg')"></div>
-                            <div class="unit-name">Aircraft Plant</div>
+                            <div class="unit-box" uname="Adv. Aircraft Plant" side="core" style="background: url('units-images/coraap.jpg')"></div>
+                            <div class="unit-name">Adv. Aircraft Plant</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Seaplane Platform" side="core" style="background: url('units-images/corplat.jpg')"></div>
-                            <div class="unit-name">Seaplane Platform</div>
+                            <div class="unit-box" uname="Adv. Seaplane Platform" side="core" style="background: url('units-images/coraplat.jpg')"></div>
+                            <div class="unit-name">Adv. Seaplane Platform</div>
                         </div>
                     </div>
                     <div class="row core-side buildings-pos-core">
-                        <div class="exo2-26 buildings-type-label col col-lg-12">Defensive</div>
+                        <div class="exo2-26 buildings-type-label col col-lg-12">Defensive / attacking</div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Light Laser Tower" w1="72" w1-rt="0.4" w1-r="400" side="core" style="background: url('units-images/corllt.jpg')"></div>
-                            <div class="unit-name">Light Laser Tower</div>
+                            <div class="unit-box" uname="Viper" w1="288" w1-rt="0.5" w1-r="600" side="core" style="background: url('units-images/CORVIPE.jpg')"></div>
+                            <div class="unit-name">Viper</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Gaat" w1="288" w1-rt="1.2" w1-r="600" side="core" style="background: url('units-images/corhlt.jpg')"></div>
+                            <div class="unit-box" uname="Gaat" w1="350" w1-rt="0.4" w1-r="1344" side="core" style="background: url('units-images/CORTOAST.jpg')"></div>
                             <div class="unit-name">Gaat</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Immolator" w1="720" w1-rt="1" w1-r="540" side="core" style="background: url('units-images/corplas.jpg')"></div>
-                            <div class="unit-name">Immolator</div>
+                            <div class="unit-box" uname="Doomsday Machine" w1="72" w1-rt="0.4" w1-r="400" w2="288" w2-rt="0.5" w2-r="600" w3="2400" w3-rt="4" w3-r="1344" side="core" style="background: url('units-images/CORDOOM.jpg')"></div>
+                            <div class="unit-name">Doomsday Machine</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Punisher" w1="350" w1-rt="3" w1-r="1344" side="core" style="background: url('units-images/corpun.jpg')"></div>
-                            <div class="unit-name">Punisher</div>
+                            <div class="unit-box" uname="Bastion" side="core" style="background: url('units-images/CORSPUN.jpg')"></div>
+                            <div class="unit-name">Bastion</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Pulverizer" w1="600" w1-rt="2" w1-r="1344" side="core" style="background: url('units-images/corrl.jpg')"></div>
-                            <div class="unit-name">Pulverizer</div>
+                            <div class="unit-box" uname="Cobra" w1="480" w1-rt="0.25" w1-r="825" w1-aa="1" side="core" style="background: url('units-images/CORFLAK.jpg')"></div>
+                            <div class="unit-name">Cobra</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Floating Light Laser Tower" w1="72" w1-rt="0.4" w1-r="500" side="core" style="background: url('units-images/corfllt.jpg')"></div>
-                            <div class="unit-name">Floating Light Laser Tower</div>
+                            <div class="unit-box" uname="Intimidator" w1="3000" w1-rt="0.01" w1-r="5376" side="core" style="background: url('units-images/CORINT.jpg')"></div>
+                            <div class="unit-name">Intimidator</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Thunderbolt" w1="288" w1-rt="1.2" w1-r="750" side="core" style="background: url('units-images/corfhlt.jpg')"></div>
-                            <div class="unit-name">Thunderbolt</div>
+                            <div class="unit-box" uname="Lamprey" w1="288" w1-rt="1.2" w1-r="750" side="core" style="background: url('units-images/CORATL.jpg')"></div>
+                            <div class="unit-name">Lamprey</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Urchin" w1="320" w1-rt="2" w1-r="480" side="core" style="background: url('units-images/cortl.jpg')"></div>
-                            <div class="unit-name">Urchin</div>
+                            <div class="unit-box" uname="Fortification Wall" side="core" style="background: url('units-images/CORFORT.jpg')"></div>
+                            <div class="unit-name">Fortification Wall</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Lotus" w1="350" w1-rt="3" w1-r="1344" side="core" style="background: url('units-images/corfpun.jpg')"></div>
-                            <div class="unit-name">Lotus</div>
+                            <div class="unit-box" uname="Neutralizer" w1="4800" w1-r="320" side="core" style="background: url('units-images/CORTRON.jpg')"></div>
+                            <div class="unit-name">Neutralizer</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Stinger" w1="600" w1-rt="2" w1-r="900" side="core" style="background: url('units-images/corfrt.jpg')"></div>
-                            <div class="unit-name">Stinger</div>
+                            <div class="unit-box" uname="Fortitude" side="core" style="background: url('units-images/CORFMD.jpg')"></div>
+                            <div class="unit-name">Fortitude</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Dragon's Teeth" side="core" style="background: url('units-images/cordrag.jpg')"></div>
-                            <div class="unit-name">Dragon's Teeth</div>
+                            <div class="unit-box" uname="M-8088" side="core" style="background: url('units-images/CORMINE4.jpg')"></div>
+                            <div class="unit-name">M-8088</div>
                         </div>
-                        <div class="col col-lg-9 unit-spacings-core" style="max-width:75%">
-                            <div class="unit-box" uname="Shark's Teeth" side="core" style="background: url('units-images/corfdrag.jpg')"></div>
-                            <div class="unit-name">Shark's Teeth</div>
-                        </div>
-                        <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="M-104" w1="1200" w1-r="128" side="core" style="background: url('units-images/cormine1.jpg')"></div>
-                            <div class="unit-name">M-104</div>
-                        </div>
-                        <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="M-303" w1="2400" w1-r="256" side="core" style="background: url('units-images/cormine3.jpg')"></div>
-                            <div class="unit-name">M-303</div>
-                        </div>
-                        <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="M-420" w1="4800" w1-r="320" side="core" style="background: url('units-images/cormine2.jpg')"></div>
-                            <div class="unit-name">M-420</div>
-                        </div>
-                        <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="M-666" w1="9600" w1-r="480" side="core" style="background: url('units-images/cormine6.jpg')"></div>
-                            <div class="unit-name">M-666</div>
-                        </div>
-                        <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="U-47" w1="2400" w1-r="256" side="core" style="background: url('units-images/cormine7.jpg')"></div>
-                            <div class="unit-name">U-47</div>
-                        </div>
-                        <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Scanner" side="core" style="background: url('units-images/cormine5.jpg')"></div>
-                            <div class="unit-name">Scanner</div>
-                        </div>
-
-
                     </div>
                     <div class="row core-side buildings-pos-core">
                         <div class="exo2-26 buildings-type-label col col-lg-12">Economic</div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Solar Collector" type="eco" side="core" e-min="25" p1="Makes 25 E/s" p2="To make 1000E/s, you need to pay 5640 metal." p3="Solar Collector is 4x harder when is closed." style="background: url('units-images/corsolar.jpg')"></div>
-                            <div class="unit-name">Solar Collector</div>
+                            <div class="unit-box" uname="Fusion Reactor" side="core" type="eco" e-min="1000" e-max="1500" p1="Adjacency bonus supplies 50% more energy." p2="Shield upgrade increases HP 4x." style="background: url('units-images/corfus.jpg')"></div>
+                            <div class="unit-name">Fusion Reactor</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Wind Generator" e-min="10" e-max="30" type="eco" side="core" p1="Makes from 0 to 30 E/s (depending on map)." p2="To make 1000 E/s when wind=30E/s, you need to pay 2000 metal."
-                                 p3="(...) when wind=20E/s, you need to pay 3000 metal" p4="(...) when wind=10E/s, you need to pay 6000 metal." style="background: url('units-images/corwin.jpg')"></div>
-                            <div class="unit-name">Wind Generator</div>
+                            <div class="unit-box" uname="Advanced Energy Storage" e-min="150" type="eco" p1="Adjacency bonus supplies 150 E/s" p2="Increase" side="core" style="background: url('units-images/corses.jpg')"></div>
+                            <div class="unit-name">Advanced Energy Storage</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Geothermal Powerplant" e-min="300" p1="Makes 300 E/s" p2="To make 1000 E/s, you need to pay ~1733 metal." p3="Upgrade boosts up HP and gives a weapon" type="eco" side="core" style="background: url('units-images/corgeo.jpg')"></div>
-                            <div class="unit-name">Geothermal Powerplant</div>
+                            <div class="unit-box" uname="Moho Extractor" side="core" type="eco" style="background: url('units-images/CORMOHO.jpg')"></div>
+                            <div class="unit-name">Moho Extractor</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Resource Generator" e-min="300" p1="Makes 300 E/s" p2="To make 1000 E/s, you need to pay ~4953 metal." type="eco" side="core" style="background: url('units-images/corgen.jpg')"></div>
-                            <div class="unit-name">Resource Generator</div>
+                            <div class="unit-box" uname="Moho Metal Maker" side="core" type="eco" style="background: url('units-images/CORMMKR.jpg')"></div>
+                            <div class="unit-name">Moho Metal Maker</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Energy Storage" e-min="25" p1="Makes 25 E/s with adjacency bonus." p2="To make 1000 E/s, you need to pay 8000 metal." type="eco" side="core" style="background: url('units-images/corestor.jpg')"></div>
-                            <div class="unit-name">Energy Storage</div>
+                            <div class="unit-box" uname="Advanced Metal Storage" side="core" type="eco" style="background: url('units-images/CORSMS.jpg')"></div>
+                            <div class="unit-name">Moho Extractor</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Metal Extractor" type="eco" side="core" style="background: url('units-images/cormex.jpg')"></div>
-                            <div class="unit-name">Metal Extractor</div>
+                            <div class="unit-box" uname="Underwater Fusion Plant" side="core" type="eco" e-min="1000" e-max="1500" p1="Adjacency bonus supplies 50% more energy." style="background: url('units-images/coruwfus.jpg')"></div>
+                            <div class="unit-name">Underwater Fusion Plant</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Metal Maker" type="eco" side="core" style="background: url('units-images/cormakr.jpg')"></div>
-                            <div class="unit-name">Metal Maker</div>
-                        </div>
-                        <div class="col col-lg-6 unit-spacings-core">
-                            <div class="unit-box" uname="Metal Storage" type="eco" side="core" style="background: url('units-images/cormstor.jpg')"></div>
-                            <div class="unit-name">Metal Storage</div>
+                            <div class="unit-box" uname="Underwater Moho Extractor" side="core" type="eco" style="background: url('units-images/CORUWMOHO.jpg')"></div>
+                            <div class="unit-name">Underwater Moho Extractor</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Tidal Generator" e-min="20" e-max="30" p1="Makes from 10 to even 70 E/s (depending on map)." p2="To make 1000 E/s when +30E/s, you need to pay 2667 metal." p2="(...) when +20E/s, you need to pay 4000 metal." type="eco" side="core" style="background: url('units-images/cortide.jpg')"></div>
-                            <div class="unit-name">Tidal Generator</div>
-                        </div>
-                        <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Underwater Powerplant" e-min="75" e-max="150" p1="Makes 150 E/s with adjacency bonus and 75 E/s without that bonus." p2="To make 1000 E/s (with adj. bonus), you need to pay 5500 metal." type="eco" side="core" style="background: url('units-images/coruwmfus.jpg')"></div>
-                            <div class="unit-name">Underwater Powerplant</div>
-                        </div>
-                        <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Underwater Energy Storage" e-min="25" p1="Makes 25 E/s with adjacency bonus." p2="To make 1000 E/s, you need to pay 8960 metal." type="eco" side="core" style="background: url('units-images/coruwes.jpg')"></div>
-                            <div class="unit-name">Underwater Energy Storage</div>
-                        </div>
-                        <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Underwater Metal Extractor" type="eco" side="core" style="background: url('units-images/coruwmex.jpg')"></div>
-                            <div class="unit-name">Underwater Metal Extractor</div>
-                        </div>
-                        <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Floating Metal Maker" type="eco" side="core" style="background: url('units-images/corfmkr.jpg')"></div>
-                            <div class="unit-name">Floating Metal Maker</div>
-                        </div>
-                        <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Underwater Metal Storage" type="eco" side="core" style="background: url('units-images/coruwms.jpg')"></div>
-                            <div class="unit-name">Underwater Metal Storage</div>
+                            <div class="unit-box" uname="Underwater Moho Metal Maker" side="core" type="eco" style="background: url('units-images/CORUWMMM.jpg')"></div>
+                            <div class="unit-name">Underwater Moho Metal Maker</div>
                         </div>
                     </div>
                     <div class="row core-side buildings-pos-core">
                         <div class="exo2-26 buildings-type-label col col-lg-12">Special</div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Radar Tower" side="core" style="background: url('units-images/corrad.jpg')"></div>
-                            <div class="unit-name">Radar Tower</div>
+                            <div class="unit-box" uname="Advanced Radar Tower" side="core" style="background: url('units-images/CORARAD.jpg')"></div>
+                            <div class="unit-name">Advanced Radar Tower</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Sonar/Radar Station" side="core" style="background: url('units-images/corsonar.jpg')"></div>
-                            <div class="unit-name">Sonar/Radar Station</div>
+                            <div class="unit-box" uname="Advanced Sonar/Radar Station" side="core" style="background: url('units-images/CORASON.jpg')"></div>
+                            <div class="unit-name">Advanced Sonar/Radar Station</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Repair Pad" side="core" style="background: url('units-images/corasp.jpg')"></div>
-                            <div class="unit-name">Repair Pad</div>
+                            <div class="unit-box" uname="Shroud" side="core" style="background: url('units-images/CORJAMMER.jpg')"></div>
+                            <div class="unit-name">Shroud</div>
                         </div>
+                        <div class="col col-lg-2 unit-spacings-core">
+                            <div class="unit-box" uname="Monolith" side="core" style="background: url('units-images/CORFIELD.jpg')"></div>
+                            <div class="unit-name">Monolith</div>
+                        </div>
+
                     </div>
 
                 </div>
@@ -2103,9 +2069,22 @@
             </div>
         </div>
 
+
+        <div class="tier-2-3-4-divider">Tier 3</div>
+        <div class="horizontal-tier-divider-line"></div>
+        <img src="tier-hexagon-bg.svg" class="center-img" style="z-index:10;">
+        <img src="tier-3.svg" class="center-img" style="top: -145px; z-index:11;">
+
+        <div class="tier-quote-box">
+            <img src="t3_quote_1.svg" class="quote-text" />
+        </div>
+
+
+
         <div class="tier-unit-type-divider">
-            <div class="tier-number teko-29"><span class="horizontal-tier-line"></span><span class="tier-number-width">Tier 3</span><span class="horizontal-tier-line"></span></div>
-            <div class="unit-type teko-47">Kbots</div>
+            <div class="tier-number teko-18"><span class="tier-number-width">Tier 3</span></div>
+            <img class="unit-type-bg" src="unit_type_bg.svg" />
+            <div class="unit-type teko-29">Kbots</div>
         </div>
 
         <div class="units-container" onmouseover="takeCoords(event)">
@@ -2124,13 +2103,12 @@
                         <div class="col-lg-9">
                             <div class="row">
                                 <div class="col col-lg-3 unit-spacings-arm">
-                                    <div class=availability-dot2>&#x2714;</div>
                                     <div class="unit-box" uname="Exp. Construction Kbot" side="arm" style="background: url('units-images/ARMECK.jpg')">
                                     </div>
                                     <div class="unit-name">Exp. Construction Kbot</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-arm">
-                                    <div class="unit-box" uname="Cerberus MK2" w1="1750" w1-rt="1.2" w1-r="625" side="arm" style="background: url('units-images/armcerb.jpg')"></div>
+                                    <div class="unit-box" uname="Cerberus MK2" w1="1750" w1-rt="1.2" w1-r="625" only-dps="1" side="arm" style="background: url('units-images/armcerb.jpg')"></div>
                                     <div class="unit-name">Cerberus MK2</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-arm">
@@ -2200,8 +2178,9 @@
 
 
         <div class="tier-unit-type-divider">
-            <div class="tier-number teko-29"><span class="horizontal-tier-line"></span><span class="tier-number-width">Tier 3</span><span class="horizontal-tier-line"></span></div>
-            <div class="unit-type teko-47">Vehicles</div>
+            <div class="tier-number teko-18"><span class="tier-number-width">Tier 3</span></div>
+            <img class="unit-type-bg" src="unit_type_bg.svg" />
+            <div class="unit-type teko-29">Vehicles</div>
         </div>
 
         <div class="units-container" onmouseover="takeCoords(event)">
@@ -2237,7 +2216,7 @@
                                     <div class="unit-name">Chimera</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-arm">
-                                    <div class="unit-box" uname="Empyrrean" w1="384" w1-rt="0.32" w1-r="1344" w2="64" w2-rt="0.16" w2-r="1344" w3="144" w3-rt="0.4" w3-r="320" side="arm" style="background: url('units-images/ARMMCV.jpg')"></div>
+                                    <div class="unit-box" uname="Empyrrean" w1="384" w1-rt="0.32" w1-r="1344" w2="64" w2-rt="0.16" w2-r="1344" w3="144" w3-rt="0.4" w3-r="320" only-dps="1" side="arm" style="background: url('units-images/ARMMCV.jpg')"></div>
                                     <div class="unit-name">Empyrrean</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-arm">
@@ -2270,7 +2249,7 @@
                                     <div class="unit-name">Exp. Construction Vehicle</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-core">
-                                    <div class="unit-box" uname="Blaze" w1="240" w1-rt="0.6" w1-r="320" side="core" style="background: url('units-images/CORAFAV.jpg')"></div>
+                                    <div class="unit-box" uname="Blaze" w1="240" w1-rt="0.6" w1-r="320" only-dps="1" side="core" style="background: url('units-images/CORAFAV.jpg')"></div>
                                     <div class="unit-name">Blaze</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-core">
@@ -2282,7 +2261,7 @@
                                     <div class="unit-name">Mammoth</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-core">
-                                    <div class="unit-box" uname="Overlord" w1="960" w1-rt="1.7" w1-r="3584" side="core" style="background: url('units-images/CORMCV.jpg')"></div>
+                                    <div class="unit-box" uname="Overlord" w1="960" w1-rt="1.7" w1-r="3584" only-dps="1" side="core" style="background: url('units-images/CORMCV.jpg')"></div>
                                     <div class="unit-name">Overlord</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-core">
@@ -2302,8 +2281,9 @@
 
 
         <div class="tier-unit-type-divider">
-            <div class="tier-number teko-29"><span class="horizontal-tier-line"></span><span class="tier-number-width">Tier 3</span><span class="horizontal-tier-line"></span></div>
-            <div class="unit-type teko-47">Hovercrafts</div>
+            <div class="tier-number teko-18"><span class="tier-number-width">Tier 3</span></div>
+            <img class="unit-type-bg" src="unit_type_bg.svg" />
+            <div class="unit-type teko-29">Hovercrafts</div>
         </div>
 
         <div class="units-container" onmouseover="takeCoords(event)">
@@ -2338,7 +2318,7 @@
                                     <div class="unit-name">Paladin</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-arm">
-                                    <div class="unit-box" uname="Aeon" w1="384" w1-rt="0.48" w1-r="1344" w2="64" w2-rt="0.24" w2-r="1344" w3="1152" w3-rt="0.4" w3-r="320" side="arm" style="background: url('units-images/ARMHBATS.jpg')"></div>
+                                    <div class="unit-box" uname="Aeon" w1="384" w1-rt="0.48" w1-r="1344" w2="64" w2-rt="0.24" w2-r="1344" w3="1152" w3-rt="0.4" w3-r="320" only-dps="1" side="arm" style="background: url('units-images/ARMHBATS.jpg')"></div>
                                     <div class="unit-name">Aeon</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-arm">
@@ -2375,28 +2355,265 @@
                                     <div class="unit-name">Nemesis</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-core">
-                                    <div class="unit-box" uname="Ambassador" w1="240" w1-rt="1.5" w1-r="720" side="core" style="background: url('units-images/CORHART.jpg')"></div>
-                                    <div class="unit-name">Ambassador</div>
+                                    <div class="unit-box" uname="Berserker" side="core" style="background: url('units-images/CORHCRUS.jpg')"></div>
+                                    <div class="unit-name">Berserker</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-core">
-                                    <div class="unit-box" uname="Cyclops" w1="180" w1-rt="2" w1-r="1200" side="core" style="background: url('units-images/CORHARL.jpg')"></div>
-                                    <div class="unit-name">Cyclops</div>
+                                    <div class="unit-box" uname="Hegamon" only-dps="1" side="core" style="background: url('units-images/CORHBATS.jpg')"></div>
+                                    <div class="unit-name">Hegamon</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-core">
-                                    <div class="unit-box" uname="Scalpel" w1="120" w1-rt="0.5" w1-r="300" side="core" style="background: url('units-images/CORHLAS.jpg')"></div>
-                                    <div class="unit-name">Scalpel</div>
+                                    <div class="unit-box" uname="Patron" side="core" style="background: url('units-images/CORCHARGER.jpg')"></div>
+                                    <div class="unit-name">Patron</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tier-unit-type-divider">
+            <div class="tier-number teko-18"><span class="tier-number-width">Tier 3</span></div>
+            <img class="unit-type-bg" src="unit_type_bg.svg" />
+            <div class="unit-type teko-29">Ships</div>
+        </div>
+
+        <div class="units-container" onmouseover="takeCoords(event)">
+            <div class="row">
+                <div class="col col-modifier-arm">
+                    <div class="row arm-side">
+                        <div class="col-lg-3 lab-units-space-remover">
+                            <div>
+                                <div class="height-container">
+                                    <div class="unit-box lab-space" uname="Experimental Shipyard" side="arm" style="background: url('units-images/ARMESY.jpg')"></div>
+                                    <div class="unit-name">Experimental Shipyard</div>
+                                </div>
+                                <div class="lab-units-separation-line"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-9">
+                            <div class="row">
+                                <div class="col col-lg-3 unit-spacings-arm">
+                                    <div class="unit-box" uname="Exp. Construction Ship" side="arm" style="background: url('units-images/ARMECS.jpg')"></div>
+                                    <div class="unit-name">Exp. Construction Ship</div>
+                                </div>
+                                <div class="col col-lg-3 unit-spacings-arm">
+                                    <div class="unit-box" uname="Victory" side="arm" style="background: url('units-images/ARMDREAD.jpg')"></div>
+                                    <div class="unit-name">Victory</div>
+                                </div>
+                                <div class="col col-lg-3 unit-spacings-arm">
+                                    <div class="unit-box" uname="Atlantis" side="arm" style="background: url('units-images/ARMSCAR.jpg')"></div>
+                                    <div class="unit-name">Atlantis</div>
+                                </div>
+                                <div class="col col-lg-3 unit-spacings-arm">
+                                    <div class="unit-box" uname="Maelstrom" side="arm" style="background: url('units-images/ARMBSUB.jpg')"></div>
+                                    <div class="unit-name">Maelstrom</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-modifier-core">
+                    <div class="row core-side">
+                        <div class="col-lg-3 lab-units-space-remover">
+                            <div>
+                                <div class="height-container">
+                                    <div class="unit-box lab-space" uname="Experimental Shipyard" side="core" style="background: url('units-images/CORESY.jpg')"></div>
+                                    <div class="unit-name">Experimental Shipyard</div>
+                                </div>
+                                <div class="lab-units-separation-line"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-9">
+                            <div class="row">
+                                <div class="col col-lg-3 unit-spacings-core">
+                                    <div class="unit-box" uname="Exp. Construction Ship" side="core" style="background: url('units-images/CORECS.jpg')"></div>
+                                    <div class="unit-name">Exp. Construction Ship</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-core">
-                                    <div class="unit-box" uname="Broadhead" w1="480" w1-rt="0.3" w1-r="825" w1-aa="1" side="core" style="background: url('units-images/CORHFLAK.jpg')"></div>
-                                    <div class="unit-name">Broadhead</div>
+                                    <div class="unit-box" uname="Tyrant" side="core" style="background: url('units-images/CORDREAD.jpg')"></div>
+                                    <div class="unit-name">Tyrant</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-core">
-                                    <div class="unit-box" uname="Blotter" side="core" style="background: url('units-images/CORHJAM.jpg')"></div>
-                                    <div class="unit-name">Blotter</div>
+                                    <div class="unit-box" uname="Sanctuary" side="core" style="background: url('units-images/CORSCAR.jpg')"></div>
+                                    <div class="unit-name">Sanctuary</div>
                                 </div>
                                 <div class="col col-lg-3 unit-spacings-core">
-                                    <div class="unit-box" uname="Refuge" w1="900" w1-rt="12" w1-r="1344" side="core" style="background: url('units-images/CORHCAR.jpg')"></div>
-                                    <div class="unit-name">Refuge</div>
+                                    <div class="unit-box" uname="Hammerhead" side="core" style="background: url('units-images/CORBSUB.jpg')"></div>
+                                    <div class="unit-name">Hammerhead</div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tier-unit-type-divider">
+            <div class="tier-number teko-18"><span class="tier-number-width">Tier 3</span></div>
+            <img class="unit-type-bg" src="unit_type_bg.svg" />
+            <div class="unit-type teko-29">Aircrafts</div>
+        </div>
+
+        <div class="units-container" onmouseover="takeCoords(event)">
+            <div class="row">
+                <div class="col col-modifier-arm">
+                    <div class="row arm-side">
+                        <div class="col-lg-3 lab-units-space-remover">
+                            <div>
+                                <div class="height-container">
+                                    <div class="unit-box lab-space" uname="Exp. Aircraft Hangar" side="arm" style="background: url('units-images/ARMFAB.jpg')"></div>
+                                    <div class="unit-name">Exp. Aircraft Hangar</div>
+                                </div>
+                                <div class="lab-units-separation-line"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-9">
+                            <div class="row">
+                                <div class="col col-lg-3 unit-spacings-arm">
+                                    <div class="unit-box" uname="Exp. Construction Aircraft" side="arm" style="background: url('units-images/ARMECA.jpg')"></div>
+                                    <div class="unit-name">Exp. Construction Aircraft</div>
+                                </div>
+                                <div class="col col-lg-3 unit-spacings-arm">
+                                    <div class="unit-box" uname="Aurora" side="arm" style="background: url('units-images/ARMSBOMBER.jpg')"></div>
+                                    <div class="unit-name">Aurora</div>
+                                </div>
+                                <div class="col col-lg-3 unit-spacings-arm">
+                                    <div class="unit-box" uname="Stratus" side="arm" style="background: url('units-images/ARMWING.jpg')"></div>
+                                    <div class="unit-name">Stratus</div>
+                                </div>
+                                <div class="col col-lg-3 unit-spacings-arm">
+                                    <div class="unit-box" uname="Vertigo" side="arm" style="background: url('units-images/ARMSFOIL.jpg')"></div>
+                                    <div class="unit-name">Vertigo</div>
+                                </div>
+                                <div class="col col-lg-3 unit-spacings-arm">
+                                    <div class="unit-box" uname="Illusion" side="arm" style="background: url('units-images/ARMSR71.jpg')"></div>
+                                    <div class="unit-name">Illusion</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-modifier-core">
+                    <div class="row core-side">
+                        <div class="col-lg-3 lab-units-space-remover">
+                            <div>
+                                <div class="height-container">
+                                    <div class="unit-box lab-space" uname="Exp. Aircraft Hangar" side="core" style="background: url('units-images/CORFAB.jpg')"></div>
+                                    <div class="unit-name">Exp. Aircraft Hangar</div>
+                                    <!--THERE IS AN ERROR. WOTAN TYPED: 'hangEr'-->
+                                </div>
+                                <div class="lab-units-separation-line"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-9">
+                            <div class="row">
+                                <div class="col col-lg-3 unit-spacings-core">
+                                    <div class="unit-box" uname="Exp. Construction Aircraft" side="core" style="background: url('units-images/CORECA.jpg')"></div>
+                                    <div class="unit-name">Exp. Construction Aircraft</div>
+                                </div>
+                                <div class="col col-lg-3 unit-spacings-core">
+                                    <div class="unit-box" uname="Decimator" side="core" style="background: url('units-images/CORSHOCK.jpg')"></div>
+                                    <div class="unit-name">Decimator</div>
+                                </div>
+                                <div class="col col-lg-3 unit-spacings-core">
+                                    <div class="unit-box" uname="Vindicator" side="core" style="background: url('units-images/CORVIND.jpg')"></div>
+                                    <div class="unit-name">Vindicator</div>
+                                </div>
+                                <div class="col col-lg-3 unit-spacings-core">
+                                    <div class="unit-box" uname="Skynet" side="core" style="background: url('units-images/CORSKYNET.jpg')"></div>
+                                    <div class="unit-name">Skynet</div>
+                                </div>
+                                <div class="col col-lg-3 unit-spacings-core">
+                                    <div class="unit-box" uname="Eclipse" side="core" style="background: url('units-images/CORECLIPSE.jpg')"></div>
+                                    <div class="unit-name">Eclipse</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tier-unit-type-divider">
+            <div class="tier-number teko-18"><span class="tier-number-width">Tier 3</span></div>
+            <img class="unit-type-bg" src="unit_type_bg.svg" />
+            <div class="unit-type teko-29">Seaplanes</div>
+        </div>
+
+        <div class="units-container" onmouseover="takeCoords(event)">
+            <div class="row">
+                <div class="col col-modifier-arm">
+                    <div class="row arm-side">
+                        <div class="col-lg-3 lab-units-space-remover">
+                            <div>
+                                <div class="height-container">
+                                    <div class="unit-box lab-space" uname="Exp. Seaplane Platform" side="arm" style="background: url('units-images/ARMEPLAT.jpg')"></div>
+                                    <div class="unit-name">Exp. Seaplane Platform</div>
+                                </div>
+                                <div class="lab-units-separation-line"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-9">
+                            <div class="row">
+                                <div class="col col-lg-3 unit-spacings-arm">
+                                    <div class="unit-box" uname="Exp. Construction Seaplane" side="arm" style="background: url('units-images/ARMECSA.jpg')"></div>
+                                    <div class="unit-name">Exp. Construction Seaplane</div>
+                                </div>
+                                <div class="col col-lg-3 unit-spacings-arm">
+                                    <div class="unit-box" uname="Aurora" side="arm" style="background: url('units-images/ARMSBOMBER.jpg')"></div>
+                                    <div class="unit-name">Aurora</div>
+                                </div>
+                                <div class="col col-lg-3 unit-spacings-arm">
+                                    <div class="unit-box" uname="Stratus" side="arm" style="background: url('units-images/ARMWING.jpg')"></div>
+                                    <div class="unit-name">Stratus</div>
+                                </div>
+                                <div class="col col-lg-3 unit-spacings-arm">
+                                    <div class="unit-box" uname="Vertigo" side="arm" style="background: url('units-images/ARMSFOIL.jpg')"></div>
+                                    <div class="unit-name">Vertigo</div>
+                                </div>
+                                <div class="col col-lg-3 unit-spacings-arm">
+                                    <div class="unit-box" uname="Illusion" side="arm" style="background: url('units-images/ARMSR71.jpg')"></div>
+                                    <div class="unit-name">Illusion</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-modifier-core">
+                    <div class="row core-side">
+                        <div class="col-lg-3 lab-units-space-remover">
+                            <div>
+                                <div class="height-container">
+                                    <div class="unit-box lab-space" uname="Exp. Seaplane Platform" side="core" style="background: url('units-images/COREPLAT.jpg')"></div>
+                                    <div class="unit-name">Exp. Seaplane Platform</div>
+                                </div>
+                                <div class="lab-units-separation-line"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-9">
+                            <div class="row">
+                                <div class="col col-lg-3 unit-spacings-core">
+                                    <div class="unit-box" uname="Exp. Construction Seaplane" side="core" style="background: url('units-images/CORECSA.jpg')"></div>
+                                    <div class="unit-name">Exp. Construction Seaplane</div>
+                                </div>
+                                <div class="col col-lg-3 unit-spacings-core">
+                                    <div class="unit-box" uname="Decimator" side="core" style="background: url('units-images/CORSHOCK.jpg')"></div>
+                                    <div class="unit-name">Decimator</div>
+                                </div>
+                                <div class="col col-lg-3 unit-spacings-core">
+                                    <div class="unit-box" uname="Vindicator" side="core" style="background: url('units-images/CORVIND.jpg')"></div>
+                                    <div class="unit-name">Vindicator</div>
+                                </div>
+                                <div class="col col-lg-3 unit-spacings-core">
+                                    <div class="unit-box" uname="Skynet" side="core" style="background: url('units-images/CORSKYNET.jpg')"></div>
+                                    <div class="unit-name">Skynet</div>
+                                </div>
+                                <div class="col col-lg-3 unit-spacings-core">
+                                    <div class="unit-box" uname="Eclipse" side="core" style="background: url('units-images/CORECLIPSE.jpg')"></div>
+                                    <div class="unit-name">Eclipse</div>
                                 </div>
                             </div>
                         </div>
@@ -2406,118 +2623,267 @@
         </div>
 
 
-        <div class="unit-preview">
-            <div class="preview-frame">
-                <div class="top-label-unit-name">
-                    <p class="unit-name-text exo2-16">Krogoth <span style="font-weight:normal;">[preview]</span></p>
-                    <p class="unit-description-text exo2-12">Experimental kbot (<span style="color:#65FF4C;">stun resistant, amphibious</span>)</p>
-                </div>
-                <div class="unit-basic-info row">
-                    <div class="col col-lg-4">
-                        <img class="preview-unit-image" src="units-images/corkrog.jpg" />
-                    </div>
+        <div class="tier-unit-type-divider">
+            <div class="tier-number teko-18"><span class="tier-number-width">Tier 3</span></div>
+            <img class="unit-type-bg" src="unit_type_bg.svg" />
+            <div class="unit-type teko-29">Buildings</div>
+        </div>
 
-                    <div class="col col-lg-8" style="padding-left:0;">
-                        <div class="res-cost-row"><div class="energy-cost-bar">Energy cost</div><span class="energy-cost-digit">1&hairsp;000&hairsp;333</span></div>
-                        <div class="res-cost-row" style="margin-bottom:3px;"><div class="metal-cost-bar">Metal cost</div><span class="metal-cost-digit">1 000 333</span></div>
-                        <div class="summoning-code">Summoning code</div><span class="summoning-code-text">+corkrog</span>
-                    </div>
-
-                </div>
-                <hr class="separator-between-info-stats">
-                <div class="unit-basic-stats">
-
-                    <div class="exo2-26 basic-stats">Basic stats</div>
-                    <div class="row">
-                        <div class="col col-lg-6 no-padding">
-                            <div class="parameter-name">Build Speed (assisting):</div>
-                            <div class="parameter-name">Range:</div>
-                            <div class="parameter-name">HP:</div>
-                            <div class="parameter-name">Movement speed:</div>
-                            <div class="parameter-name">Sight distance:</div>
-                            <div class="parameter-name">Damage reduction:</div>
+        <div class="units-container" onmouseover="takeCoords(event)">
+            <div class="row">
+                <div class="col col-modifier-arm">
+                    <div class="row arm-side buildings-pos-arm">
+                        <div class="exo2-26 buildings-type-label col col-lg-12">Labs</div>
+                        <div class="col col-lg-2 unit-spacings-arm">
+                            <div class="unit-box" uname="Experimental Kbot Assembler" side="arm" style="background: url('units-images/armelab.jpg')"></div>
+                            <div class="unit-name">Experimental Kbot Assembler</div>
                         </div>
-
-                        <div class="col col-lg-6 no-padding">
-                            <div class="parameter-bar-and-value shine-effect">
-                                <div class="box-shadow-for-bar" style="box-shadow: 0px 0px 10px #5EE947;"></div>
-                                <img src="parameter-bars/10.svg" class="parameter-bar" alt="">
-                                <div class="parameter-value">10 000</div>
-                            </div>
-                            <div class="parameter-bar-and-value">
-                                <img src="parameter-bars/1.svg" class="parameter-bar" alt="">
-                                <div class="parameter-value">10 000</div>
-                            </div>
-                            <div class="parameter-bar-and-value">
-                                <div class="box-shadow-for-bar" style="box-shadow: 0px 0px 10px #5EE947;"></div>
-                                <img src="parameter-bars/2.5.svg" class="parameter-bar" alt="">
-                                <div class="parameter-value">10 000</div>
-                            </div>
-                            <div class="parameter-bar-and-value">
-                                <img src="parameter-bars/3.svg" class="parameter-bar" alt="">
-                                <div class="parameter-value">10 000</div>
-                            </div>
-                            <div class="parameter-bar-and-value">
-                                <img src="parameter-bars/10.svg" class="parameter-bar" alt="">
-                                <div class="parameter-value">10 000</div>
-                            </div>
-                            <div class="exo2-16" style="color:white; position: relative; top: 12px; margin-left: 10px;">50%</div>
+                        <div class="col col-lg-2 unit-spacings-arm">
+                            <div class="unit-box" uname="Experimental Vehicle Plant" side="arm" style="background: url('units-images/armgant.jpg')"></div>
+                            <div class="unit-name">Experimental Vehicle Plant</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-arm">
+                            <div class="unit-box" uname="Exp. Hovercraft Platform" side="arm" style="background: url('units-images/armehp.jpg')"></div>
+                            <div class="unit-name">Exp. Hovercraft Platform</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-arm">
+                            <div class="unit-box" uname="Exp. Floating Hover Platform" side="arm" style="background: url('units-images/armfehp.jpg')"></div>
+                            <div class="unit-name">Exp. Floating Hover Platform</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-arm">
+                            <div class="unit-box" uname="Experimental Shipyard" side="arm" style="background: url('units-images/armesy.jpg')"></div>
+                            <div class="unit-name">Experimental Shipyard</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-arm">
+                            <div class="unit-box" uname="Exp. Aircraft Hangar" side="arm" style="background: url('units-images/armfab.jpg')"></div>
+                            <div class="unit-name">Exp. Aircraft Hangar</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-arm">
+                            <div class="unit-box" uname="Exp. Seaplane Platform" side="arm" style="background: url('units-images/armeplat.jpg')"></div>
+                            <div class="unit-name">Exp. Seaplane Platform</div>
                         </div>
                     </div>
-                    <p class="preview-info">This is a short preview. Click on unit to see more details.</p>
+                    <div class="row arm-side buildings-pos-arm">
+                        <div class="exo2-26 buildings-type-label col col-lg-12">Defensive / attacking</div>
+                        <div class="col col-lg-2 unit-spacings-arm">
+                            <div class="unit-box" uname="Vulcan" side="arm" style="background: url('units-images/ARMVULC.jpg')"></div>
+                            <div class="unit-name">Vulcan</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-arm">
+                            <div class="unit-box" uname="Armageddon" side="arm" style="background: url('units-images/ARMSBERTHA.jpg')"></div>
+                            <div class="unit-name">Armageddon</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-arm">
+                            <div class="unit-box" uname="Vanguard" side="arm" style="background: url('units-images/ARMSMB.jpg')"></div>
+                            <div class="unit-name">Vanguard</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-arm">
+                            <div class="unit-box" uname="Retaliator" w1="19200" w1-r="720" side="arm" style="background: url('units-images/ARMSILO.jpg')"></div>
+                            <div class="unit-name">Retaliator</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-arm">
+                            <div class="unit-box" uname="Aegis" side="arm" style="background: url('units-images/ARMSHGEN.jpg')"></div>
+                            <div class="unit-name">Aegis</div>
+                        </div>
+                    </div>
+                    <div class="row arm-side buildings-pos-arm">
+                        <div class="exo2-26 buildings-type-label col col-lg-12">Economic</div>
+                        <div class="col col-lg-2 unit-spacings-arm">
+                            <div class="unit-box" uname="Experimental Fusion Reactor" side="arm" type="eco" e-min="5000" e-max="7500" p1="Adjacency bonus supplies 50% more energy." p2="Shield upgrade increases HP 4x and supplies +1250E/s more energy." p3="Can be cloaked. Cloak drains 2500E/s." style="background: url('units-images/ARMSFUS.jpg')"></div>
+                            <div class="unit-name">Experimental Fusion Reactor</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-arm">
+                            <div class="unit-box" uname="Mantle Extractor" type="eco" side="arm" style="background: url('units-images/ARMMAS.jpg')"></div>
+                            <div class="unit-name">Mantle Extractor</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-arm">
+                            <div class="unit-box" uname="Forge" side="arm" type="eco" style="background: url('units-images/ARMFORGE.jpg')"></div>
+                            <div class="unit-name">Forge</div>
+                        </div>
+                    </div>
+                    <div class="row arm-side buildings-pos-arm">
+                        <div class="exo2-26 buildings-type-label col col-lg-12">Special</div>
+                        <div class="col col-lg-2 unit-spacings-arm">
+                            <div class="unit-box" uname="Tantalus" side="arm" style="background: url('units-images/ARMOMNI.jpg')"></div>
+                            <div class="unit-name">Tantalus</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-arm">
+                            <div class="unit-box" uname="Galactic Gate" side="arm" style="background: url('units-images/ARMGATE.jpg')"></div>
+                            <div class="unit-name">Galactic Gate</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-arm">
+                            <div class="unit-box" uname="Research Facility" side="arm" style="background: url('units-images/ARMTECH.jpg')"></div>
+                            <div class="unit-name">Research Facility</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-arm">
+                            <div class="unit-box" uname="Aegis" side="arm" style="background: url('units-images/ARMSHGEN.jpg')"></div>
+                            <div class="unit-name">Aegis</div>
+                        </div>
+                    </div>
+
                 </div>
+
+                <div class="col col-modifier-core">
+                    <div class="row core-side buildings-pos-core">
+                        <div class="exo2-26 buildings-type-label col col-lg-12">Labs</div>
+                        <div class="col col-lg-2 unit-spacings-core">
+                            <div class="unit-box" uname="Experimental Kbot Gantry" side="core" style="background: url('units-images/corgant.jpg')"></div>
+                            <div class="unit-name">Experimental Kbot Gantry</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-core">
+                            <div class="unit-box" uname="Experimental Vehicle Plant" side="core" style="background: url('units-images/corevp.jpg')"></div>
+                            <div class="unit-name">Experimental Vehicle Plant</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-core">
+                            <div class="unit-box" uname="Exp. Hovercraft Platform" side="core" style="background: url('units-images/corehp.jpg')"></div>
+                            <div class="unit-name">Exp. Hovercraft Platform</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-core">
+                            <div class="unit-box" uname="Exp. Floating Hover Platform" side="core" style="background: url('units-images/CORFEHP.jpg')"></div>
+                            <div class="unit-name">Exp. Floating Hover Platform</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-core">
+                            <div class="unit-box" uname="Experimental Shipyard" side="core" style="background: url('units-images/coresy.jpg')"></div>
+                            <div class="unit-name">Experimental Shipyard</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-core">
+                            <div class="unit-box" uname="Exp. Aircraft Hangar" side="core" style="background: url('units-images/corfab.jpg')"></div>
+                            <div class="unit-name">Exp. Aircraft Hangar</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-core">
+                            <div class="unit-box" uname="Exp. Seaplane Platform" side="core" style="background: url('units-images/coreplat.jpg')"></div>
+                            <div class="unit-name">Exp. Seaplane Platform</div>
+                        </div>
+                    </div>
+                    <div class="row core-side buildings-pos-core">
+                        <div class="exo2-26 buildings-type-label col col-lg-12">Defensive / attacking</div>
+                        <div class="col col-lg-2 unit-spacings-core">
+                            <div class="unit-box" uname="Buzzsaw" side="core" style="background: url('units-images/CORBUZZ.jpg')"></div>
+                            <div class="unit-name">Buzzsaw</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-core">
+                            <div class="unit-box" uname="Dictator" side="core" style="background: url('units-images/CORNOVA.jpg')"></div>
+                            <div class="unit-name">Dictator</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-core">
+                            <div class="unit-box" uname="Flail" side="core" style="background: url('units-images/CORSMB.jpg')"></div>
+                            <div class="unit-name">Flail</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-core">
+                            <div class="unit-box" uname="Silencer" w1="19200" w1-r="720"  side="core" style="background: url('units-images/CORSILO.jpg')"></div>
+                            <div class="unit-name">Silencer</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-core">
+                            <div class="unit-box" uname="Corona" side="core" style="background: url('units-images/CORSHGEN.jpg')"></div>
+                            <div class="unit-name">Corona</div>
+                        </div>
+                    </div>
+                    <div class="row core-side buildings-pos-core">
+                        <div class="exo2-26 buildings-type-label col col-lg-12">Economic</div>
+                        <div class="col col-lg-2 unit-spacings-core">
+                            <div class="unit-box" uname="Experimental Fusion Reactor" e-min="5000" e-max="7500" p1="Adjacency bonus supplies 50% more energy." p2="Shield upgrade increases HP 4x and supplies +1250E/s more energy." p3="Can be cloaked. Cloak drains 2500E/s." side="core" type="eco" style="background: url('units-images/CORSFUS.jpg')"></div>
+                            <div class="unit-name">Experimental Fusion Reactor</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-core">
+                            <div class="unit-box" uname="Mantle Extractor" type="eco" side="core" style="background: url('units-images/CORMAS.jpg')"></div>
+                            <div class="unit-name">Mantle Extractor</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-core">
+                            <div class="unit-box" uname="Vault" side="core" type="eco" style="background: url('units-images/CORVAULT.jpg')"></div>
+                            <div class="unit-name">Vault</div>
+                        </div>
+                    </div>
+                    <div class="row core-side buildings-pos-core">
+                        <div class="exo2-26 buildings-type-label col col-lg-12">Special</div>
+                        <div class="col col-lg-2 unit-spacings-core">
+                            <div class="unit-box" uname="Argus" side="core" style="background: url('units-images/COROMNI.jpg')"></div>
+                            <div class="unit-name">Argus</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-core">
+                            <div class="unit-box" uname="Galactic Gate" side="core" style="background: url('units-images/CORGATE.jpg')"></div>
+                            <div class="unit-name">Galactic Gate</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-core">
+                            <div class="unit-box" uname="Upgrade Center" side="core" style="background: url('units-images/CORTECH.jpg')"></div>
+                            <div class="unit-name">Upgrade Center</div>
+                        </div>
+                        <div class="col col-lg-2 unit-spacings-core">
+                            <div class="unit-box" uname="Corona" side="core" style="background: url('units-images/CORSHGEN.jpg')"></div>
+                            <div class="unit-name">Corona</div>
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
         </div>
 
 
-        <div class="unit-preview">
-            <div class="preview-frame">
-                <div class="top-label-unit-name">
-                    <p class="unit-name-text exo2-16">Krogoth <span style="font-weight:normal;">[preview]</span></p>
-                    <p class="unit-description-text exo2-12">Experimental kbot (<span style="color:#65FF4C;">stun resistant, amphibious</span>)</p>
+
+        <!--<div class="unit-preview">
+        <div class="preview-frame" id="preview-frame">
+            <div class="top-label-unit-name">
+                <p class="unit-name-text exo2-16">Krogoth <span style="font-weight:normal;">[preview]</span></p>
+                <p class="unit-description-text exo2-12">Experimental kbot (<span style="color:#65FF4C;">stun resistant, amphibious</span>)</p>
+            </div>
+            <div class="unit-basic-info row">
+                <div class="col col-lg-4">
+                    <img class="preview-unit-image" src="units-images/corkrog.jpg" />
                 </div>
-                <div class="unit-basic-info row">
-                    <div class="col col-lg-4">
-                        <img class="preview-unit-image" src="units-images/corkrog.jpg" />
+
+                <div class="col col-lg-8" style="padding-left:0;">
+                    <div class="res-cost-row"><div class="energy-cost-bar">Energy cost</div><span class="energy-cost-digit">1&hairsp;000&hairsp;333</span></div>
+                    <div class="res-cost-row" style="margin-bottom:3px;"><div class="metal-cost-bar">Metal cost</div><span class="metal-cost-digit">1 000 333</span></div>
+                    <div class="summoning-code">Summoning code</div><span class="summoning-code-text">+corkrog</span>
+                </div>
+
+            </div>
+            <hr class="separator-between-info-stats">
+            <div class="unit-basic-stats">
+
+                <div class="exo2-26 basic-stats">Basic stats</div>
+                <div class="row">
+                    <div class="col col-lg-6 no-padding">
+                        <div class="parameter-name">Build Speed (assisting):</div>
+                        <div class="parameter-name">Range:</div>
+                        <div class="parameter-name">HP:</div>
+                        <div class="parameter-name">Movement speed:</div>
+                        <div class="parameter-name">Sight distance:</div>
+                        <div class="parameter-name">Damage reduction:</div>
                     </div>
 
-                    <div class="col col-lg-8" style="padding-left:0;">
-                        <div class="res-cost-row"><div class="energy-cost-bar">Energy cost</div><span class="energy-cost-digit">1&hairsp;000&hairsp;333</span></div>
-                        <div class="res-cost-row" style="margin-bottom:3px;"><div class="metal-cost-bar">Metal cost</div><span class="metal-cost-digit">1 000 333</span></div>
-                        <div class="summoning-code">Summoning code</div><span class="summoning-code-text">+corkrog</span>
-                    </div>
-
-                </div>
-                <hr class="separator-between-info-stats">
-                <div class="unit-basic-stats">
-
-                    <div class="exo2-26 basic-stats">Basic stats</div>
-                    <div class="row">
-                        <div class="col col-lg-6 no-padding">
-                            <div class="parameter-name"><span style="font-weight:bold; color:#FBFF4C; font-size: 16px;">E income </span> / <span style="font-weight:bold; color:#D2DEFD">M cost</span> ratio<span style="font-weight:bold; color:#dea73c">*</span>:</div>
-                            <div class="parameter-name">HP:</div>
+                    <div class="col col-lg-6 no-padding">
+                        <div class="parameter-bar-and-value shine-effect">
+                            <div class="box-shadow-for-bar" style="box-shadow: 0px 0px 10px #5EE947;"></div>
+                            <img src="parameter-bars/10.svg" class="parameter-bar" alt="">
+                            <div class="parameter-value">10 000</div>
                         </div>
-
-                        <div class="col col-lg-6 no-padding">
-                            <div class="parameter-bar-and-value">
-                                <img src="parameter-bars/1.svg" class="parameter-bar" alt="">
-                                <div class="parameter-value">1 : 6</div>
-                            </div>
-                            <div class="parameter-bar-and-value">
-                                <div class="box-shadow-for-bar" style="box-shadow: 0px 0px 10px #5EE947;"></div>
-                                <img src="parameter-bars/2.5.svg" class="parameter-bar" alt="">
-                                <div class="parameter-value">10 000</div>
-                            </div>
+                        <div class="parameter-bar-and-value">
+                            <img src="parameter-bars/1.svg" class="parameter-bar" alt="">
+                            <div class="parameter-value">10 000</div>
                         </div>
+                        <div class="parameter-bar-and-value">
+                            <div class="box-shadow-for-bar" style="box-shadow: 0px 0px 10px #5EE947;"></div>
+                            <img src="parameter-bars/2.5.svg" class="parameter-bar" alt="">
+                            <div class="parameter-value">10 000</div>
+                        </div>
+                        <div class="parameter-bar-and-value">
+                            <img src="parameter-bars/3.svg" class="parameter-bar" alt="">
+                            <div class="parameter-value">10 000</div>
+                        </div>
+                        <div class="parameter-bar-and-value">
+                            <img src="parameter-bars/10.svg" class="parameter-bar" alt="">
+                            <div class="parameter-value">10 000</div>
+                        </div>
+                        <div class="exo2-16" style="color:white; position: relative; top: 12px; margin-left: 10px;">50%</div>
                     </div>
-                    <ul>
-                        <li style="color:white;"><span style="font-weight:bold; color:#dea73c; font-size: 16px;">*</span> You get 1 E for each 6 metal spend on Solar Collectors. This means, you get 1000 E income if you spend 6000 metal.</li>
-
-                    </ul>
-                    <p class="preview-info">This is a short preview. Click on unit to see more details.</p>
                 </div>
+                <p class="preview-info">This is a short preview. Click on unit to see more details.</p>
             </div>
         </div>
+    </div>-->
+
 
     </div>
 
@@ -2535,10 +2901,6 @@
         function takeCoords(evt) {
             x = evt.clientX;
             y = evt.clientY;
-        }
-
-        function appendText(name) {
-            $("body").append(txt1);
         }
 
         $(document).ready(function () {
@@ -2563,8 +2925,6 @@
                     } else {
                         var obj = $(this);
                     }
-                    $("#x").text(x);
-                    $("#y").text(y);
                     checkDetailedInfoAvailability(this);
                     var unitName = $(this).attr("uname");
                     var unitSide = $(obj).attr("side");
@@ -2602,7 +2962,7 @@
                             unitData.isAntiAir3 = $(obj).attr("w3-AA");
                             unitData.isMineOrClawlingBomb = csvObj[i].kamikaze;
                             unitData.explosionDamage = $(obj).attr("w1");
-
+                            unitData.onlyDps = $(obj).attr("only-dps");
                             if ($(obj).attr("type") == "eco") {
                                 unitData.isEco = true;
 
@@ -2642,17 +3002,20 @@
 
                             setLabelParametersAndValues(checkUnitType());
 
-                            setParameterBars();
-                            setPreviewPosition("500px"); // w zależności od typu jednostki wysokość ramki będzie się różnić. Wcześniej należy sprawdzić co to za typ jednostki.
+                            setParameterBars();                           
+                            
                             fillHTML();
 
+                            
                             delay = setTimeout(function () {
                                 if ($("#search-input-results").is(":hover") && duplicateCounter == 0) {
                                     $("#search-input-results").prepend(htmlOfPreview);
+                                    setPreviewPosition();
                                     duplicateCounter++;
                                 }
                                 else if (duplicateCounter == 0) {
                                     $(obj).append(htmlOfPreview);
+                                    setPreviewPosition();
                                 }
 
                                 findKeywordsAndChangeColor();
@@ -2684,7 +3047,10 @@
                     boxShadowsStyleJammerRange = "";
                     boxShadowsMinMetalCostForE = "";
                     boxShadowsMaxMetalCostForE = "";
+                    boxShadowsStyleDamagePerShot = "";
+                    boxShadowsStyleExplosionDamage = "";
                     ShineEffect = {
+                        ForDamagePerShot: "",
                         ForDPS: "",
                         ForHP: "",
                         ForMS: "",
@@ -2710,7 +3076,7 @@
             });
 
             var typingTimer;                //timer identifier
-            var doneTypingInterval = 200;  //time in ms, 5 second for example
+            var doneTypingInterval = 200;  
             var $searchInput = $("#search-input");
             var html;
 
@@ -2920,89 +3286,94 @@
                 $(".arm-side").each(function () {
                     var numberOfUnits = $(this).children().eq(1).children().eq(0).children().length;
                     var separationLine = $(this).children().eq(0).children().eq(0).children().eq(1);
-                    if (numberOfUnits <= 4) {
+                    if (numberOfUnits <= 3) {
                         $(separationLine).css("height", "96px");
                     }
-                    else if (numberOfUnits <= 8) { $(separationLine).css("height", "256px"); }
-                    else if (numberOfUnits <= 12) { $(separationLine).css("height", "414px"); }
-                    else if (numberOfUnits <= 16) { $(separationLine).css("height", "573px"); }
+                    else if (numberOfUnits <= 6) { $(separationLine).css("height", "256px"); }
+                    else if (numberOfUnits <= 9) { $(separationLine).css("height", "414px"); }
+                    else if (numberOfUnits <= 12) { $(separationLine).css("height", "573px"); }
+                    else if (numberOfUnits <= 15) { $(separationLine).css("height", "732px"); }
                 });
                 $(".core-side").each(function () {
                     var numberOfUnits = $(this).children().eq(1).children().eq(0).children().length;
                     var separationLine = $(this).children().eq(0).children().eq(0).children().eq(1);
-                    if (numberOfUnits <= 4) {
+                    if (numberOfUnits <= 3) {
                         $(separationLine).css("height", "96px");
                     }
-                    else if (numberOfUnits <= 8) { $(separationLine).css("height", "256px"); }
-                    else if (numberOfUnits <= 12) { $(separationLine).css("height", "414px"); }
-                    else if (numberOfUnits <= 16) { $(separationLine).css("height", "573px"); }
+                    else if (numberOfUnits <= 6) { $(separationLine).css("height", "256px"); }
+                    else if (numberOfUnits <= 9) { $(separationLine).css("height", "414px"); }
+                    else if (numberOfUnits <= 12) { $(separationLine).css("height", "573px"); }
+                    else if (numberOfUnits <= 15) { $(separationLine).css("height", "732px"); }
                 });
             }
 
-            function setPreviewPosition(framePreviewHeight, framePreviewWidth) {
-                var istTopLeft = false;
-                var isTopRight = false;
-                var isMidLeft = false;
-                var isMidRight = false;
-                var isBotLeft = false;
-                var isBotRight = false;
-                if ((x > (0.5 * screenWidth)) && ((y > (0.6 * screenHeight)) && (y < (0.8 * screenHeight)))) {
-                    isBotRight = true;
+            function setPreviewPosition() {
+
+                style = "left:${previewPosition.left}; top:${previewPosition.top};"
+                var framePreviewHeight = $('.preview-frame').height();
+                if ((x > (0.5 * screenWidth)) && ((y > (0.62 * screenHeight)) && (y < (0.8 * screenHeight)))) {
+                 //   isBotRight = true;
                     previewPosition.left = '-390px';
-                    previewPosition.top = "-" + framePreviewHeight;
+                    previewPosition.top = "-" + (framePreviewHeight - 96)+"px";
                 }
-                else if ((x > (0.5 * screenWidth)) && (y < (0.4 * screenHeight))) {
-                    isTopRight = true;
+                else if ((x > (0.5 * screenWidth)) && (y < (0.38 * screenHeight))) {
+                 //   isTopRight = true;
                     previewPosition.left = '-390px';
                     previewPosition.top = '0px';
                 }
-                else if ((x > (0.5 * screenWidth)) && ((y > (0.4 * screenHeight)) && (y < (0.6 * screenHeight)))) {
-                    isMidRight = true;
+                else if ((x > (0.5 * screenWidth)) && ((y >= (0.38 * screenHeight)) && (y <= (0.62 * screenHeight)))) {
+                 //   isMidRight = true;
                     previewPosition.left = '-390px';
-                    previewPosition.top = '-200px';
+                    previewPosition.top = "-" + (framePreviewHeight/2 -48) + "px";
                 }
                 else if ((x > (0.5 * screenWidth)) && (y > (0.8 * screenHeight))) {
-                    isBotRight = true;
+                //    isBotRight = true;
                     previewPosition.left = '-390px';
-                    previewPosition.top = '-496px';
+                    previewPosition.top = "-" + (framePreviewHeight - 96) + "px";
                 }
-                else if ((x < (0.5 * screenWidth)) && (y > (0.6 * screenHeight))) {
-                    isBotLeft = true;
+                else if ((x < (0.5 * screenWidth)) && (y > (0.62 * screenHeight))) {
+                //    isBotLeft = true;
                     previewPosition.left = '100px';
-                    previewPosition.top = '-496px';
+                    previewPosition.top = "-" + (framePreviewHeight - 96) + "px";
                 }
-                else if ((x < (0.5 * screenWidth)) && (y < (0.4 * screenHeight))) {
-                    isTopLeft = true;
+                else if ((x < (0.5 * screenWidth)) && (y < (0.38 * screenHeight))) {
+                //    isTopLeft = true;
                     previewPosition.left = '100px';
                     previewPosition.top = '0px';
                 }
-                else if ((x < (0.5 * screenWidth)) && ((y > (0.4 * screenHeight)) && (y < (0.6 * screenHeight)))) {
-                    isMidLeft = true;
+                else if ((x < (0.5 * screenWidth)) && ((y >= (0.38 * screenHeight)) && (y <= (0.62 * screenHeight)))) {
+                //    isMidLeft = true;
                     previewPosition.left = '100px';
-                    previewPosition.top = '-200px';
+                    previewPosition.top = "-" + (framePreviewHeight / 2 - 48) + "px";
                 }
+
+                $('.preview-frame').css({ 'left': previewPosition.left, 'top': previewPosition.top});
             }
 
             function setSpacesInBigNumbers(numberVal) {
-                if (typeof numberVal == 'string') {
-                    var numberLength = numberVal.length;
-                } else {
-                    var numberLength = numberVal.toString().length;
+                if (numberVal == undefined) {
                 }
-                var number = numberVal.toString();
-                if (numberLength == 4) {
-                    number = number.slice(0, 1) + "&thinsp;" + number.slice(1);
-                }
-                else if (numberLength == 5) {
-                    number = number.slice(0, 2) + "&thinsp;" + number.slice(2);
-                }
-                else if (numberLength == 6) {
-                    number = number.slice(0, 3) + "&thinsp;" + number.slice(3);
-                }
-                else if (numberLength == 7) {
-                    number = number.slice(0, 1) + "&thinsp;" + number.slice(1, 4) + "&thinsp;" + number.slice(4);
-                }
-                return number;
+                else {
+                    if (typeof numberVal == 'string') {
+                        var numberLength = numberVal.length;
+                    } else {
+                        var numberLength = numberVal.toString().length;
+                    }
+                    var number = numberVal.toString();
+                    if (numberLength == 4) {
+                        number = number.slice(0, 1) + "&thinsp;" + number.slice(1);
+                    }
+                    else if (numberLength == 5) {
+                        number = number.slice(0, 2) + "&thinsp;" + number.slice(2);
+                    }
+                    else if (numberLength == 6) {
+                        number = number.slice(0, 3) + "&thinsp;" + number.slice(3);
+                    }
+                    else if (numberLength == 7) {
+                        number = number.slice(0, 1) + "&thinsp;" + number.slice(1, 4) + "&thinsp;" + number.slice(4);
+                    }
+                    return number;
+                }    
             }
 
             function checkDetailedInfoAvailability(obj) {
@@ -3015,15 +3386,11 @@
                 }
             }
 
-            function searchUnit() {
-
-            }
-
 
             function fillHTML() {
                 htmlOfPreview = `
-            <div class="unit-preview" style="left:${previewPosition.left}; z-index:2000;">
-                    <div class="preview-frame exo2-16">
+            <div class="unit-preview" >
+                    <div class="preview-frame exo2-16" id="preview-frame">
                         <div class="top-label-unit-name">
                             <p class="unit-name-text exo2-16">${unitData.name} <span style="font-weight:normal;">[preview]</span></p>
                             <p class="unit-description-text exo2-12">${unitData.description}</p>
@@ -3061,7 +3428,7 @@
                                 </div>
 
                                 <div class="col col-lg-6 no-padding">
-                                        ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isAirFigther ? `
+                                        ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuildingDpsOnly   || unitTypeObj.isAirFigther ? `
                                             <div class="parameter-bar-and-value ${ShineEffect.ForDPS}">
                                             <div class="box-shadow-for-bar" style="${boxShadowsStyleDps}"> </div>
                                                 <img src="${dps_SrcImg}" class="parameter-bar" alt="">
@@ -3075,7 +3442,14 @@
                                                 <div class="parameter-value">${unitData.buildSpeed}</div>
                                             </div>
                                         ` : ""}
-                                        ${unitTypeObj.isRadarAndJammerAircraft || unitTypeObj.isRadarAndJammerBuilding || unitTypeObj.isRadarAndJammerUnit || unitTypeObj.isRadarBuilding || unitTypeObj.isRadarUnit ? `
+                                        ${unitTypeObj.isRadarUnit || unitTypeObj.isRadarBuilding ? `
+                                            <div class="parameter-bar-and-value ${ShineEffect.ForRadarRange}">
+                                            <div class="box-shadow-for-bar" style="${boxShadowsStyleRadarRange}"> </div>
+                                                <img src="${radarRange_SrcImg}" class="parameter-bar" alt="">
+                                                <div class="parameter-value">${unitData.radarRange}</div>
+                                            </div>
+                                        ` : ""}
+                                        ${unitTypeObj.isRadarAndJammerAircraft || unitTypeObj.isRadarAndJammerBuilding || unitTypeObj.isRadarAndJammerUnit ? `
                                             <div class="parameter-bar-and-value ${ShineEffect.ForBuildSpeed}">
                                             <div class="box-shadow-for-bar" style="${boxShadowsStyleBuildSpeed}"></div>
                                                 <img src="${buildSpeed_SrcImg}" class="parameter-bar" alt="">
@@ -3089,7 +3463,7 @@
                                                 <div class="parameter-value">${setSpacesInBigNumbers(unitData.jammerRange)}</div>
                                             </div>
                                         ` : ""}
-                                        ${unitTypeObj.isMine || unitTypeObj.isClawlingBomb ? `
+                                        ${unitTypeObj.isMine || unitTypeObj.isClawlingBomb || unitTypeObj.isNuke? `
                                             <div class="parameter-bar-and-value ${ShineEffect.ForExplosionDamage}">
                                             <div class="box-shadow-for-bar" style="${boxShadowsStyleExplosionDamage}"></div>
                                                 <img src="${explosionDamage_SrcImg}" class="parameter-bar" alt="">
@@ -3105,8 +3479,14 @@
                                         ` : ""}
 
 
-
-                                    ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isMine || unitTypeObj.isClawlingBomb ? `
+                                    ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding ? `
+                                            <div class="parameter-bar-and-value ${ShineEffect.ForDamagePerShot}">
+                                            <div class="box-shadow-for-bar" style="${boxShadowsStyleDamagePerShot}"></div>
+                                                <img src="${damagePerShot_SrcImg}" class="parameter-bar" alt="">
+                                                <div class="parameter-value">${setSpacesInBigNumbers(unitData.explosionDamage)}</div>
+                                        </div>
+                                        ` : ""}
+                                    ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isMine || unitTypeObj.isClawlingBomb || unitTypeObj.isNuke ? `
                                             <div class="parameter-bar-and-value ${ShineEffect.ForRange}">
                                             <div class="box-shadow-for-bar" style="${boxShadowsStyleRange}"></div>
                                                 <img src="${range_SrcImg}" class="parameter-bar" alt="">
@@ -3127,7 +3507,7 @@
                                                 <div class="parameter-value">${setSpacesInBigNumbers(unitData.buildRange)}</div>
                                             </div>
                                         ` : ""}
-                                        ${unitTypeObj.isRadarAndJammerAircraft || unitTypeObj.isRadarAndJammerBuilding || unitTypeObj.isRadarAndJammerUnit || unitTypeObj.isRadarBuilding || unitTypeObj.isRadarUnit ? `
+                                        ${unitTypeObj.isRadarAndJammerAircraft || unitTypeObj.isRadarAndJammerBuilding || unitTypeObj.isRadarAndJammerUnit || unitTypeObj.isRadarBuilding ? `
                                             <div class="parameter-bar-and-value ${ShineEffect.ForJammerRange}">
                                             <div class="box-shadow-for-bar" style="${boxShadowsStyleJammerRange}"></div>
                                                 <img src="${jammerRange_SrcImg}" class="parameter-bar" alt="">
@@ -3141,7 +3521,7 @@
                                                 <div class="parameter-value">${setSpacesInBigNumbers(unitData.jammerRange)}</div>
                                             </div>
                                         ` : ""}
-                                        ${unitTypeObj.isAirFigther || unitTypeObj.isLab || unitTypeObj.isUndefined ? `
+                                        ${unitTypeObj.isAirFigther || unitTypeObj.isLab || unitTypeObj.isRadarUnit || unitTypeObj.isUndefined ? `
                                             <div class="parameter-bar-and-value ${ShineEffect.ForHP}">
                                             <div class="box-shadow-for-bar" style="${boxShadowsStyleHP}"></div>
                                                 <img src="${barHP_SrcImg}" class="parameter-bar" alt="">
@@ -3150,7 +3530,7 @@
                                         ` : ""}
 
 
-                                         ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isRadarAndJammerAircraft || unitTypeObj.isRadarAndJammerBuilding || unitTypeObj.isRadarAndJammerUnit || unitTypeObj.isRadarBuilding || unitTypeObj.isRadarUnit || unitTypeObj.isMine || unitTypeObj.isClawlingBomb ? `
+                                         ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isRadarAndJammerAircraft || unitTypeObj.isRadarAndJammerBuilding || unitTypeObj.isRadarAndJammerUnit || unitTypeObj.isRadarBuilding || unitTypeObj.isRadarUnit || unitTypeObj.isMine || unitTypeObj.isClawlingBomb ? `
                                             <div class="parameter-bar-and-value ${ShineEffect.ForHP}">
                                             <div class="box-shadow-for-bar" style="${boxShadowsStyleHP}"></div>
                                                 <img src="${barHP_SrcImg}" class="parameter-bar" alt="">
@@ -3164,14 +3544,14 @@
                                                 <div class="parameter-value">${unitData.ratioMax}</div>
                                         </div>
                                         ` : ""}
-                                        ${unitTypeObj.isCons || unitTypeObj.isAirCons || unitTypeObj.isSemiCon ? `
+                                        ${unitTypeObj.isCons || unitTypeObj.isAirCons || unitTypeObj.isSemiCon || unitTypeObj.isNuke ? `
                                             <div class="parameter-bar-and-value ${ShineEffect.ForHP}">
                                             <div class="box-shadow-for-bar" style="${boxShadowsStyleHP}"></div>
                                                 <img src="${barHP_SrcImg}" class="parameter-bar" alt="">
                                                 <div class="parameter-value">${setSpacesInBigNumbers(unitData.HP)}</div>
                                             </div>
                                         ` : ""}
-                                        ${unitTypeObj.isRadarAndJammerAircraft || unitTypeObj.isRadarAndJammerBuilding || unitTypeObj.isRadarAndJammerUnit || unitTypeObj.isRadarBuilding || unitTypeObj.isRadarUnit ? `
+                                        ${unitTypeObj.isRadarAndJammerAircraft || unitTypeObj.isRadarAndJammerBuilding || unitTypeObj.isRadarAndJammerUnit ? `
                                             <div class="parameter-bar-and-value ${ShineEffect.ForJammerRange}">
                                             <div class="box-shadow-for-bar" style="${boxShadowsStyleJammerRange}"></div>
                                                 <img src="${jammerRange_SrcImg}" class="parameter-bar" alt="">
@@ -3208,7 +3588,8 @@
                                         ` : ""}
 
 
-                                        ${unitTypeObj.isFighter || unitTypeObj.isRadarAndJammerUnit || unitTypeObj.isRadarUnit || unitTypeObj.isJammerUnit || unitTypeObj.isRadarAndJammerUnit || unitTypeObj.isRadarUnit ? `
+
+                                        ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isRadarAndJammerUnit || unitTypeObj.isRadarUnit || unitTypeObj.isJammerUnit || unitTypeObj.isRadarAndJammerUnit ? `
                                             <div class="parameter-bar-and-value ${ShineEffect.ForMS}">
                                             <div class="box-shadow-for-bar" style="${boxShadowsStyleMovementSpeed}"></div>
                                                 <img src="${movementSpeed_SrcImg}" class="parameter-bar" alt="">
@@ -3229,7 +3610,7 @@
                                                 <div class="parameter-value">${setSpacesInBigNumbers(unitData.flyingSpeed)}</div>
                                             </div>
                                         ` : ""}
-                                        ${unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isJammerBuilding || unitTypeObj.isRadarAndJammerBuilding || unitTypeObj.isRadarBuilding ? `
+                                        ${unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isJammerBuilding || unitTypeObj.isRadarAndJammerBuilding || unitTypeObj.isRadarBuilding ? `
                                             <div class="parameter-bar-and-value ${ShineEffect.ForSightD}">
                                             <div class="box-shadow-for-bar" style="${boxShadowsStylesightRange}"></div>
                                                 <img src="${sightRange_SrcImg}" class="parameter-bar" alt="">
@@ -3240,7 +3621,7 @@
                                             ""
                                         ` : ""}
 
-                                        ${unitTypeObj.isFighter || unitTypeObj.isAirCons || unitTypeObj.isCons || unitTypeObj.isSemiCon || unitTypeObj.isRadarAndJammerAircraft || unitTypeObj.isJammerAircraft || unitTypeObj.isRadarAndJammerUnit || unitTypeObj.isRadarUnit || unitTypeObj.isJammerUnit || unitTypeObj.isRadarAndJammerUnit || unitTypeObj.isRadarUnit ? `
+                                        ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isAirCons || unitTypeObj.isCons || unitTypeObj.isSemiCon || unitTypeObj.isRadarAndJammerAircraft || unitTypeObj.isJammerAircraft || unitTypeObj.isRadarAndJammerUnit || unitTypeObj.isRadarUnit || unitTypeObj.isJammerUnit || unitTypeObj.isRadarAndJammerUnit ? `
                                             <div class="parameter-bar-and-value ${ShineEffect.ForSightD}">
                                             <div class="box-shadow-for-bar" style="${boxShadowsStylesightRange}"></div>
                                                 <img src="${sightRange_SrcImg}" class="parameter-bar" alt="">

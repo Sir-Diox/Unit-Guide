@@ -1,11 +1,12 @@
+body{
+    height:100%;
+}
+
 .ug-container {
     width: 100%;
     margin-right: auto;
     margin-left: auto;
     background: #181818;
-}
-body{
-    height:100%;
 }
 
 .teko-47 {
@@ -88,6 +89,10 @@ body{
     text-decoration: none;
 }
 
+.home-page-link{
+    position:absolute;
+}
+
 .unit-guide-logo {
     position: relative;
     top: 13px;
@@ -137,9 +142,10 @@ body{
     display: inline-block;
     color: #FFFFFF;
     text-align: center;
-    line-height: 31px;
+    line-height: 35px;
     font-weight: 600;
     margin-right: 6px;
+    letter-spacing: 0.05em;
     cursor: pointer;
 }
 
@@ -404,7 +410,8 @@ body{
     font-weight: 500;
     line-height: normal;
     text-align: center;
-    top: 15px;
+    top: 11px;
+    letter-spacing: 0.03em;
     position: relative;
     color: #FFFFFF;
 }
@@ -423,7 +430,8 @@ body{
 }
 
 .tier-unit-type-divider {
-    margin-top: 0px;
+    margin-top: 65px;
+    position: relative;
 }
 
 #search-input-results {
@@ -496,7 +504,6 @@ body{
     line-height: normal;
     text-align: center;
     color: #DEA73C;
-    letter-spacing: 1.5px;
 }
 
 .buildings-pos-arm {
@@ -537,13 +544,23 @@ body{
 }
 
 .tier-number-width {
-    width: 85px;
+    width: 74px;
     display: inline-block;
+}
+
+.unit-type-bg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    top: 21px;
 }
 
 .units-container {
     margin-top: 35px;
-    width: 1144px;
+    /*width: 1144px;   older width, 1 column more*/ 
+    width:930px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -564,6 +581,7 @@ body{
     height: 96px;
     border-radius: 7px;
     background: gray;
+    position:relative;
 }
 
 .unit-box-in-preview {
@@ -634,14 +652,13 @@ body{
 .lab-units-separation-line {
     position: relative;
     width: 3px;
-    height: 406px;
     display: inline-block;
-    background-color: gray;
+    background-color: #3b3b3b;
     margin-left: 6px;
+    border-radius: 4px;
 }
 
 .height-container {
-    height: 406px;
     float: left;
 }
 
@@ -654,11 +671,10 @@ body{
 .preview-frame {
     background: #212121;
     position: absolute;
-    right:280px;
     border: 1px solid #FFFFFF;
     border-radius: 3px;
     width: 388px;
-    max-height: 600px;
+    max-height: 660px;
     z-index: 10000;
     line-height: 1.5;
     font-size: 16px;
@@ -866,3 +882,18 @@ body{
     left: -2px;
     top: -4px;
 }
+
+.tier-quote-box {
+    position: relative;
+    bottom: 52px;
+    height: 20px;
+}
+
+.quote-text {
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute;
+}
+
