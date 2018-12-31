@@ -9,49 +9,99 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="perfect-scrollbar.css">
     <script src="jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="jquery.csv.min.js"></script>
 </head>
 <body>
 
     <div class="ug-container">
         <div class="navbar">
-            <a href="" class="home-page-link" title="Back to home page">
-                <div class="unit-guide-logo teko-47">TA: ESC <span style="color: #DEA73C;">Unit Guide</span></div>
-                <div class="by-dioxide">by <span style="font-weight:600">Dioxide</span></div>
-            </a>
-            <div class="tier-buttons">
-                <span class="teko-18 go-to">Go to:</span>
-                <div class="dropdown-submenu">
-                    <span class="teko-18 tier-button dropbtn">Tier 1<img style="margin-left:7px;" src="arrow.svg" /></span>
-                    <div class="dropdown-content">
-                        <a href="#">Link 1</a>
-                        <a href="#">Link 2</a>
-                        <a href="#">Link 3</a>
+            <div class="nav-elements-container">
+                <div class="flex-it">
+                    <a class="home-page-link" href="" title="Back to the top of the page">
+                        <div class="unit-guide-logo teko-47">TA: ESC <span style="color: #DEA73C;">Unit Guide</span></div>
+                        <div class="by-dioxide">by <span style="font-weight:600">Dioxide</span></div>
+                    </a>
+                </div>
+                <div class="tier-buttons">
+                    <span class="teko-18 go-to">Go to:</span>
+                    <div class="dropdown-submenu">
+                        <div class="flex-it">
+                            <a href="#tier-1-start" class="teko-18 ug-button tier-button dropbtn">Tier 1<img style="margin-left:7px;" src="arrow.svg" /></a>
+                            <div class="dropdown-content">
+                                <a href="#tier-1-kbots-start">Kbots</a>
+                                <a href="#tier-1-vehicles-start">Vehicles</a>
+                                <a href="#tier-1-hovercrafts-start">Hovercrafts</a>
+                                <a href="#tier-1-ships-start">Ships</a>
+                                <a href="#tier-1-aircrafts-start">Aircrafts</a>
+                                <a href="#tier-1-seaplanes-start">Seaplanes</a>
+                                <a href="#tier-1-buildings-start">Buildings</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropdown-submenu">
+                        <div class="flex-it">
+                            <a href="#tier-2-start" class="teko-18 ug-button tier-button dropbtn">Tier 2<img style="margin-left:7px;" src="arrow.svg" /></a>
+                            <div class="dropdown-content">
+                                <a href="#tier-2-kbots-start">Kbots</a>
+                                <a href="#tier-2-vehicles-start">Vehicles</a>
+                                <a href="#tier-2-hovercrafts-start">Hovercrafts</a>
+                                <a href="#tier-2-ships-start">Ships</a>
+                                <a href="#tier-2-aircrafts-start">Aircrafts</a>
+                                <a href="#tier-2-seaplanes-start">Seaplanes</a>
+                                <a href="#tier-2-buildings-start">Buildings</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropdown-submenu">
+                        <div class="flex-it">
+                            <a href="#tier-3-start" class="teko-18 ug-button tier-button dropbtn">Tier 3<img style="margin-left:7px;" src="arrow.svg" /></a>
+                            <div class="dropdown-content">
+                                <a href="#tier-3-kbots-start">Kbots</a>
+                                <a href="#tier-3-vehicles-start">Vehicles</a>
+                                <a href="#tier-3-hovercrafts-start">Hovercrafts</a>
+                                <a href="#tier-3-ships-start">Ships</a>
+                                <a href="#tier-3-aircrafts-start">Aircrafts</a>
+                                <a href="#tier-3-seaplanes-start">Seaplanes</a>
+                                <a href="#tier-3-buildings-start">Buildings</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-it">
+                        <a href="#tier-4-start" class="teko-18 ug-button tier-button">Tier 4</a>
                     </div>
                 </div>
-                <div class="dropdown-submenu">
-                    <span class="teko-18 tier-button dropbtn">Tier 2<img style="margin-left:7px;" src="arrow.svg" /></span>
-                    <div class="dropdown-content">
-                        <a href="#">Link 1</a>
-                        <a href="#">Link 2</a>
-                        <a href="#">Link 3</a>
-                    </div>
-                </div>
-                <div class="dropdown-submenu">
-                    <span class="teko-18 tier-button dropbtn">Tier 3<img style="margin-left:7px;" src="arrow.svg" /></span>
-                    <div class="dropdown-content">
-                        <a href="#">Link 1</a>
-                        <a href="#">Link 2</a>
-                        <a href="#">Link 3</a>
-                    </div>
-                </div>
-                <span class="teko-18 tier-button">Tier 4</span>
-                <span class="teko-18 search-bar dropdown-search-results">
-                    <input type="text" id="search-input" class="search-input exo2-16" placeholder="Search..." /><img class="loading-icon" src="loading_icon.gif" /> <img class="search-icon" src="search-icon.svg" />
-                    <div class="input-results-container"><div id="search-input-results" class="search-result-content"></div></div>
-                </span>
-            </div>
+                <div class="flex-it" style="position: relative;">
+                    <div class="teko-18 ug-button compare-button" id="comparison-option-button">Compare units</div>
+                    <div id="compare-container" style="display:none;">
+                        <p class="comparison-text exo2-16 white"> Enter unit names:</p>
+                        <div class="teko-18 search-bar dropdown-search-results unit-comparison-input">
+                            <input type="text" id="search-input-1" class="search-input exo2-16" placeholder="Unit name 1" number="1" /><img class="loading-icon" id="loading-icon-1" src="loading_icon.gif" />
+                            <div class="input-results-container"><div id="search-input-results-1" class="search-result-content"></div></div>
+                        </div>
+                        <div class="teko-18 search-bar dropdown-search-results unit-comparison-input">
+                            <input type="text" id="search-input-2" class="search-input exo2-16" placeholder="Unit name 2" number="2" /><img class="loading-icon" id="loading-icon-2" src="loading_icon.gif" />
+                            <div class="input-results-container"><div id="search-input-results-2" class="search-result-content"></div></div>
+                        </div>
+                        <div class="teko-18 search-bar dropdown-search-results unit-comparison-input">
+                            <input type="text" id="search-input-3" class="search-input exo2-16" placeholder="Unit name 3 (optional)" number="3" /><img class="loading-icon" id="loading-icon-3" src="loading_icon.gif" />
+                            <div class="input-results-container"><div id="search-input-results-3" class="search-result-content"></div></div>
+                        </div>
+                        <div class="teko-18 search-bar dropdown-search-results unit-comparison-input" style="margin-bottom: 30px">
+                            <input type="text" id="search-input-4" class="search-input exo2-16" placeholder="Unit name 4 (optional)" number="4" /><img class="loading-icon" id="loading-icon-4" src="loading_icon.gif" />
+                            <div class="input-results-container"><div id="search-input-results-4" class="search-result-content"></div></div>
+                        </div>
 
+                        <button class="special-button teko-18 ug-button" id="comparison-button" disabled data-toggle="modal" data-target="#comparison-modal"> Compare </button>
+                        <button class="normal-button teko-18 ug-button" id="close-comparison-window"> Close </button>
+                    </div>
+                </div>
+                <div class="teko-18 search-bar dropdown-search-results" id="search-bar" number="0">
+                    <input type="text" id="search-input-0" class="search-input exo2-16" placeholder="Search..." number="0" /><img class="loading-icon" id="loading-icon-0" src="loading_icon.gif" /> <img class="search-icon" src="search-icon.svg" />
+                    <div class="input-results-container"><div id="search-input-results-0" class="search-result-content"></div></div>
+                </div>
+            </div>
         </div>
 
         <div class="main-banner">
@@ -62,11 +112,10 @@
             <img src="ARM.png" class="arm-logo-banner" />
             <img src="CORE.png" class="core-logo-banner" />
             <img src="unit-guide-text.svg" class="main-banner-text">
-            <p class="teko-18 white">Compatible with mod's 9.0 version</p>
-            <p class="teko-18 white">Guide's last update: 20 jan 2019</p>
+            <p class="teko-18 white">Last update: 20 jan 2019</p>
         </div>
 
-
+        <div id="tier-1-start" class="line-to-scroll" style="top:-50px"></div>
         <div class="tier-divider">Tier 1</div>
         <div class="horizontal-tier-divider-line"></div>
         <img src="tier-hexagon-bg.svg" class="center-img" style="z-index:10;">
@@ -76,7 +125,7 @@
             <img src="t1_quote_1.svg" class="quote-text" />
         </div>
 
-
+        <div id="tier-1-kbots-start" class="line-to-scroll-units"></div>
         <div class="tier-unit-type-divider">
             <div class="tier-number teko-18"><span class="tier-number-width">Tier 1</span></div>
             <img class="unit-type-bg" src="unit_type_bg.svg" />
@@ -188,6 +237,7 @@
             </div>
         </div>
 
+        <div id="tier-1-vehicles-start" class="line-to-scroll-units"></div>
         <div class="tier-unit-type-divider">
             <div class="tier-number teko-18"><span class="tier-number-width">Tier 1</span></div>
             <img class="unit-type-bg" src="unit_type_bg.svg" />
@@ -289,6 +339,7 @@
             </div>
         </div>
 
+        <div id="tier-1-hovercrafts-start" class="line-to-scroll-units"></div>
         <div class="tier-unit-type-divider">
             <div class="tier-number teko-18"><span class="tier-number-width">Tier 1</span></div>
             <img class="unit-type-bg" src="unit_type_bg.svg" />
@@ -399,6 +450,7 @@
             </div>
         </div>
 
+        <div id="tier-1-ships-start" class="line-to-scroll-units"></div>
         <div class="tier-unit-type-divider">
             <div class="tier-number teko-18"><span class="tier-number-width">Tier 1</span></div>
             <img class="unit-type-bg" src="unit_type_bg.svg" />
@@ -492,6 +544,7 @@
             </div>
         </div>
 
+        <div id="tier-1-aircrafts-start" class="line-to-scroll-units"></div>
         <div class="tier-unit-type-divider">
             <div class="tier-number teko-18"><span class="tier-number-width">Tier 1</span></div>
             <img class="unit-type-bg" src="unit_type_bg.svg" />
@@ -577,6 +630,7 @@
             </div>
         </div>
 
+        <div id="tier-1-seaplanes-start" class="line-to-scroll-units"></div>
         <div class="tier-unit-type-divider">
             <div class="tier-number teko-18"><span class="tier-number-width">Tier 1</span></div>
             <img class="unit-type-bg" src="unit_type_bg.svg" />
@@ -662,6 +716,7 @@
             </div>
         </div>
 
+        <div id="tier-1-buildings-start" class="line-to-scroll-units"></div>
         <div class="tier-unit-type-divider">
             <div class="tier-number teko-18"><span class="tier-number-width">Tier 1</span></div>
             <img class="unit-type-bg" src="unit_type_bg.svg" />
@@ -1048,12 +1103,14 @@
             </div>
         </div>
 
-        <div class="tier-2-3-4-divider">Tier 2</div>
+        <div id="tier-2-start" class="line-to-scroll"></div>
+        <div class="tier-2-3-4-divider"></div>
         <div class="horizontal-tier-divider-line"></div>
         <img src="tier-hexagon-bg.svg" class="center-img" style="z-index:10;">
         <img src="tier-2.svg" class="center-img" style="top: -145px; z-index:11;">
 
 
+        <div id="tier-2-kbots-start" class="line-to-scroll-units"></div>
         <div class="tier-unit-type-divider">
             <div class="tier-number teko-18"><span class="tier-number-width">Tier 2</span></div>
             <img class="unit-type-bg" src="unit_type_bg.svg" />
@@ -1211,6 +1268,7 @@
             </div>
         </div>
 
+        <div id="tier-2-vehicles-start" class="line-to-scroll-units"></div>
         <div class="tier-unit-type-divider">
             <div class="tier-number teko-18"><span class="tier-number-width">Tier 2</span></div>
             <img class="unit-type-bg" src="unit_type_bg.svg" />
@@ -1352,6 +1410,7 @@
             </div>
         </div>
 
+        <div id="tier-2-hovercrafts-start" class="line-to-scroll-units"></div>
         <div class="tier-unit-type-divider">
             <div class="tier-number teko-18"><span class="tier-number-width">Tier 2</span></div>
             <img class="unit-type-bg" src="unit_type_bg.svg" />
@@ -1469,6 +1528,7 @@
             </div>
         </div>
 
+        <div id="tier-2-ships-start" class="line-to-scroll-units"></div>
         <div class="tier-unit-type-divider">
             <div class="tier-number teko-18"><span class="tier-number-width">Tier 2</span></div>
             <img class="unit-type-bg" src="unit_type_bg.svg" />
@@ -1578,6 +1638,7 @@
             </div>
         </div>
 
+        <div id="tier-2-aircrafts-start" class="line-to-scroll-units"></div>
         <div class="tier-unit-type-divider">
             <div class="tier-number teko-18"><span class="tier-number-width">Tier 2</span></div>
             <img class="unit-type-bg" src="unit_type_bg.svg" />
@@ -1679,7 +1740,7 @@
             </div>
         </div>
 
-
+        <div id="tier-2-seaplanes-start" class="line-to-scroll-units"></div>
         <div class="tier-unit-type-divider">
             <div class="tier-number teko-18"><span class="tier-number-width">Tier 2</span></div>
             <img class="unit-type-bg" src="unit_type_bg.svg" />
@@ -1781,7 +1842,7 @@
             </div>
         </div>
 
-
+        <div id="tier-2-buildings-start" class="line-to-scroll-units"></div>
         <div class="tier-unit-type-divider">
             <div class="tier-number teko-18"><span class="tier-number-width">Tier 2</span></div>
             <img class="unit-type-bg" src="unit_type_bg.svg" />
@@ -2069,8 +2130,8 @@
             </div>
         </div>
 
-
-        <div class="tier-2-3-4-divider">Tier 3</div>
+        <div id="tier-3-start" class="line-to-scroll"></div>
+        <div class="tier-2-3-4-divider"></div>
         <div class="horizontal-tier-divider-line"></div>
         <img src="tier-hexagon-bg.svg" class="center-img" style="z-index:10;">
         <img src="tier-3.svg" class="center-img" style="top: -145px; z-index:11;">
@@ -2080,7 +2141,7 @@
         </div>
 
 
-
+        <div id="tier-3-kbots-start" class="line-to-scroll-units"></div>
         <div class="tier-unit-type-divider">
             <div class="tier-number teko-18"><span class="tier-number-width">Tier 3</span></div>
             <img class="unit-type-bg" src="unit_type_bg.svg" />
@@ -2176,7 +2237,7 @@
             </div>
         </div>
 
-
+        <div id="tier-3-vehicles-start" class="line-to-scroll-units"></div>
         <div class="tier-unit-type-divider">
             <div class="tier-number teko-18"><span class="tier-number-width">Tier 3</span></div>
             <img class="unit-type-bg" src="unit_type_bg.svg" />
@@ -2279,7 +2340,7 @@
             </div>
         </div>
 
-
+        <div id="tier-3-hovercrafts-start" class="line-to-scroll-units"></div>
         <div class="tier-unit-type-divider">
             <div class="tier-number teko-18"><span class="tier-number-width">Tier 3</span></div>
             <img class="unit-type-bg" src="unit_type_bg.svg" />
@@ -2373,6 +2434,7 @@
             </div>
         </div>
 
+        <div id="tier-3-ships-start" class="line-to-scroll-units"></div>
         <div class="tier-unit-type-divider">
             <div class="tier-number teko-18"><span class="tier-number-width">Tier 3</span></div>
             <img class="unit-type-bg" src="unit_type_bg.svg" />
@@ -2451,6 +2513,7 @@
             </div>
         </div>
 
+        <div id="tier-3-aircrafts-start" class="line-to-scroll-units"></div>
         <div class="tier-unit-type-divider">
             <div class="tier-number teko-18"><span class="tier-number-width">Tier 3</span></div>
             <img class="unit-type-bg" src="unit_type_bg.svg" />
@@ -2537,6 +2600,7 @@
             </div>
         </div>
 
+        <div id="tier-3-seaplanes-start" class="line-to-scroll-units"></div>
         <div class="tier-unit-type-divider">
             <div class="tier-number teko-18"><span class="tier-number-width">Tier 3</span></div>
             <img class="unit-type-bg" src="unit_type_bg.svg" />
@@ -2622,7 +2686,7 @@
             </div>
         </div>
 
-
+        <div id="tier-3-buildings-start" class="line-to-scroll-units"></div>
         <div class="tier-unit-type-divider">
             <div class="tier-number teko-18"><span class="tier-number-width">Tier 3</span></div>
             <img class="unit-type-bg" src="unit_type_bg.svg" />
@@ -2770,7 +2834,7 @@
                             <div class="unit-name">Flail</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
-                            <div class="unit-box" uname="Silencer" w1="19200" w1-r="720"  side="core" style="background: url('units-images/CORSILO.jpg')"></div>
+                            <div class="unit-box" uname="Silencer" w1="19200" w1-r="720" side="core" style="background: url('units-images/CORSILO.jpg')"></div>
                             <div class="unit-name">Silencer</div>
                         </div>
                         <div class="col col-lg-2 unit-spacings-core">
@@ -2818,8 +2882,36 @@
 
             </div>
         </div>
+        <div id="tier-4-start" class="line-to-scroll"></div>
+        <div class="tier-2-3-4-divider"></div>
+        <div class="horizontal-tier-divider-line"></div>
+        <img src="tier-hexagon-bg.svg" class="center-img" style="z-index:10;">
+        <img src="tier-4.svg" class="center-img" style="top: -145px; z-index:11;">
+        <h1 class="exo2-26 t4-soon">Soon!</h1>
+        <img src="T4-core.png" class="center-img" style="padding-bottom: 200px;">
 
+        <div class="modal fade" id="comparison-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Units comparison</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="comparison-content">
 
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!--<div class="unit-preview">
         <div class="preview-frame" id="preview-frame">
@@ -2897,14 +2989,18 @@
         var htmlOfPreview;
         var duplicateCounter = 0;
         var detailedInfoAvailability;
+        var inputNumber = 0;
+        var searchInput = "";
         var unitImg = "";
+        var status = 0;
+        var changingColorCounter = 0;
         function takeCoords(evt) {
             x = evt.clientX;
             y = evt.clientY;
         }
 
         $(document).ready(function () {
-
+            $("#compare-container").hide();
             setSeparationLineHeight();
             screenHeight = window.screen.availHeight;
             screenWidth = window.screen.availWidth;
@@ -2918,10 +3014,13 @@
             $(document).on({
                 mouseenter: function () {
                     var displayDelay = 300;
-                    if ($(this).hasClass("unit-box-in-search-result")) {
-                        $(this).append('<img class="loading-icon" src="loading_icon.gif" />');
-                        var obj = $(this).parent().parent();
-                        displayDelay = 0;
+
+                    if ($(this).hasClass("search-input-row")) {
+                        var obj = $(this);
+                        //var obj = $(this).parent().parent();
+                        //displayDelay = 0;
+                        previewPosition.left = '-390px';
+                        previewPosition.top = "0";
                     } else {
                         var obj = $(this);
                     }
@@ -3002,20 +3101,19 @@
 
                             setLabelParametersAndValues(checkUnitType());
 
-                            setParameterBars();                           
-                            
-                            fillHTML();
+                            setParameterBars();
 
+                                fillHTML();
                             
                             delay = setTimeout(function () {
-                                if ($("#search-input-results").is(":hover") && duplicateCounter == 0) {
-                                    $("#search-input-results").prepend(htmlOfPreview);
-                                    setPreviewPosition();
+                                if ($("#search-input-results-" + inputNumber).is(":hover") && duplicateCounter == 0) {
+                                    $("#search-input-results-" + inputNumber).prepend(htmlOfPreview);
+                                    setPreviewPosition(obj);
                                     duplicateCounter++;
                                 }
                                 else if (duplicateCounter == 0) {
                                     $(obj).append(htmlOfPreview);
-                                    setPreviewPosition();
+                                    setPreviewPosition(obj);
                                 }
 
                                 findKeywordsAndChangeColor();
@@ -3064,48 +3162,69 @@
                 }
             }, ".search-input-row, .unit-box");
 
+            $(".search-input").click(function () {
+                inputNumber = $(this).attr('number');               
+                searchInput = $("#search-input-" + inputNumber);
+            });
+            // scroll from nav
+            $("a[href^='#']").click(function (e) {
+                e.preventDefault();
+
+                var position = $($(this).attr("href")).offset().top;
+
+                $("body, html").animate({
+                    scrollTop: position
+                } /* speed */);
+            });
 
 
             $(document).click(function (event) {
                 if (!$(event.target).closest('.search-bar').length) {
-                    if ($('#search-input-results').is(":visible")) {
-                        $('#search-input-results').hide();
-                        $("#search-input-results").removeClass("border-white");
+                    if ($('#search-input-results-'+ inputNumber).is(":visible")) {
+                        $('#search-input-results-' + inputNumber).hide();
+                        $('#search-input-results-' + inputNumber).removeClass("border-white");
                     }
                 }
             });
 
             var typingTimer;                //timer identifier
-            var doneTypingInterval = 200;  
-            var $searchInput = $("#search-input");
+            var doneTypingInterval = 200;
             var html;
 
             $(".search-bar").on('click', function () {
-                if ($("#search-input-results").html() == "" || $("#search-input-results").html() == undefined) {
+                if ($(this).attr("number") == 0) {
+                    $("#compare-container").hide();
+                    status = 0;
+                }
+                if ($('#search-input-results-' + inputNumber).html() == "" || $('#search-input-results-' + inputNumber).html() == undefined) {
                 }
                 else {
-                    $("#search-input-results").show();
-                    $("#search-input-results").addClass("border-white");
+                    $('#search-input-results-' + inputNumber).show();
+                    $('#search-input-results-' + inputNumber).addClass("border-white");
                 }
             });
 
 
             //on keyup, start the countdown
-            $searchInput.on('keyup', function () {
-                $(".loading-icon").show();
-                //$(".search-icon").hide();
-                $("#search-input-results").show();
+            $(".search-input").on('keyup', function () {
+                if (!($(this).attr("number") > 0)) {
+                    $(".search-icon").hide();                  
+                }
+                $('#search-input-results-' + inputNumber).show();
                 clearTimeout(typingTimer);
                 typingTimer = setTimeout(doneTyping, doneTypingInterval);
             });
 
+
             //on keydown, clear the countdown
-            $searchInput.on('keydown', function () {
-                $("#search-input-results").removeClass("border-white");
-                $(".loading-icon").show();
-                $(".search-icon").hide();
-                $("#search-input-results").show();
-                $("#search-input-results").html("");
+            $(".search-input").on('keydown', function () {
+                $("#loading-icon-" + $(this).attr("number")).show();
+                $('#search-input-results-' + inputNumber).removeClass("border-white");
+                if (!($(this).attr("number") > 0)) {
+                    $(".search-icon").hide();
+                }
+                $('#search-input-results-' + inputNumber).show();
+                $('#search-input-results-' + inputNumber).html("");
                 clearTimeout(typingTimer);
             });
 
@@ -3116,7 +3235,7 @@
                 var allNamesContainingStringFromSearch = [];
                 var unitsThatAlreadyAreInList = [];
 
-                var textFromSearchInput = $("#search-input").val().toLowerCase();
+                var textFromSearchInput = $("#search-input-" + inputNumber).val().toLowerCase();
                 if (textFromSearchInput.length >= 1) {
 
 
@@ -3134,9 +3253,9 @@
                         }
                     }
                     for (i = 0; i < allNamesContainingStringFromSearch.length; i++) {
-                        $(".unit-box").each(function () {
-                            var attributes = $(this).prop("attributes");
+                        $(".unit-box").each(function () {                           
                             if ($(this).attr("uname") == allNamesContainingStringFromSearch[i].name && $(this).attr("side") == allNamesContainingStringFromSearch[i].side) {
+                                var attributes = $(this).prop("attributes");
                                 var obj = $(this).clone().addClass("unit-box-in-search-result");
                                 html = $('<div />').append($(obj).removeClass("unit-box").clone()).html();
                                 var unitNameLower = $(this).attr("uname").toLowerCase();
@@ -3158,28 +3277,237 @@
                         });
                     }
                     if (unitsThatAlreadyAreInList.length == 0) {
-                        $("#search-input-results").append('<div class="no-results-info exo2-16"> Unit was not found.</div>').addClass("border-white");
+                        $('#search-input-results-' + inputNumber).append('<div class="no-results-info exo2-16"> Unit was not found.</div>').addClass("border-white");
                     }
                     else {
                         var uniqueUnitNamesList = removeDuplicates(unitsThatAlreadyAreInList, "nameSide");
-
-                        for (i = 0; i < uniqueUnitNamesList.length; i++) {
-                            $("#search-input-results").append('<div class="search-input-row" img="' + uniqueUnitNamesList[i].unitImg + '">' + uniqueUnitNamesList[i].html + uniqueUnitNamesList[i].unitNameHTML + ' </div>').addClass("border-white");
-                            for (j = 1; j < uniqueUnitNamesList[i].attributes.length; j++) {
-                                $(".search-input-row:last-child").attr(uniqueUnitNamesList[i].attributes[j].name, uniqueUnitNamesList[i].attributes[j].value);
+                        if (inputNumber > 0) {
+                            for (i = 0; i < uniqueUnitNamesList.length; i++) {
+                                $("#search-input-results-" + inputNumber).append('<div class="row-result" img="' + uniqueUnitNamesList[i].unitImg + '">' + uniqueUnitNamesList[i].html + uniqueUnitNamesList[i].unitNameHTML + ' </div>').addClass("border-white");
+                                for (j = 1; j < uniqueUnitNamesList[i].attributes.length; j++) {
+                                    $(".row-result:last-child").attr(uniqueUnitNamesList[i].attributes[j].name, uniqueUnitNamesList[i].attributes[j].value);
+                                }
+                                $(".row-result:last-child").removeAttr("style");
                             }
-                            $(".search-input-row:last-child").removeAttr("style");
                         }
+                        else {
+                            for (i = 0; i < uniqueUnitNamesList.length; i++) {
+                                $("#search-input-results-" + inputNumber).append('<div class="search-input-row" img="' + uniqueUnitNamesList[i].unitImg + '">' + uniqueUnitNamesList[i].html + uniqueUnitNamesList[i].unitNameHTML + ' </div>').addClass("border-white");
+                                for (j = 1; j < uniqueUnitNamesList[i].attributes.length; j++) {
+                                    $(".search-input-row:last-child").attr(uniqueUnitNamesList[i].attributes[j].name, uniqueUnitNamesList[i].attributes[j].value);
+                                }
+                                $(".search-input-row:last-child").removeAttr("style");
+                            }
+                        }
+
                     }
                     
-                    $('#search-input-results').show();
-                    const ps = new PerfectScrollbar('#search-input-results', {
+                    $("#search-input-results-" + inputNumber).show();
+                    const ps = new PerfectScrollbar("#search-input-results-" + inputNumber, {
                         wheelSpeed: 0.6,
                         wheelPropagation: true,
                         minScrollbarLength: 20
                     });
                 }
             }
+
+            $('#compare-container').on('click', '.row-result', function () {
+                var attributes = $(this).prop("attributes");
+                $("#search-input-" + inputNumber).parent().append("<div class='chosen-unit exo2-16' id='chosen-unit-id-" + inputNumber + "' side='" + $(this).attr("side") + "'>" + $(this).attr("uname") + "<div class='close-btn'>&#10006;</div></div>");
+                
+                for (i = 0; i < attributes.length; i++) {
+                    $("#chosen-unit-id-" + inputNumber).attr(attributes[i].name, attributes[i].value);
+                }
+                $("#chosen-unit-id-" + inputNumber).removeClass("row-result");
+                $("#chosen-unit-id-" + inputNumber).addClass("chosen-unit exo2-16");
+                $("#search-input-results-" + inputNumber).html("");
+
+                checkIfButtonDisabled();
+            });
+
+            function checkIfButtonDisabled() {
+                if ($('.chosen-unit').length < 2) {
+                    document.getElementById("comparison-button").disabled = true;
+                }
+                else {
+                    document.getElementById("comparison-button").disabled = false;
+                }
+            }
+            
+            $('#compare-container').on('click', '.close-btn', function () {
+                $(this).parent().parent().children().eq(0).val("");
+                $(this).parent().remove();
+                if ($('.chosen-unit').length < 2) {
+                    document.getElementById("comparison-button").disabled = true;
+                }
+                else {
+                    document.getElementById("comparison-button").disabled = false;
+                }
+            });
+
+            $('#compare-container').on('click', '#comparison-button', function () {
+                generateUnitComparison();
+                $('#compare-container').hide();
+                status = 0;
+                $(".navbar").css("opacity", "0.15");
+            });
+
+            $('#comparison-modal').on('hidden.bs.modal', function () {
+                $(".navbar").css("opacity", "1");
+                $('#comparison-modal .modal-body .comparison-content').html("");
+            });
+
+            $('#comparison-modal').on('show.bs.modal', function () {
+                $(this).find('.modal-body').css({
+                    width: 'auto', //probably not needed
+                    height: 'auto', //probably not needed 
+                    'max-height': '100%'
+                });
+            });
+
+            function generateUnitComparison() {
+                changingColorCounter = 0;
+                $(".chosen-unit").each(function () {
+                    var obj = $(this);
+                    var unitName = $(this).attr("uname");
+                    var unitSide = $(this).attr("side");
+                    unitData.imgSrc = $(this).attr("img");
+
+                    for (i = 0; i < csvObj.length; i++) {
+                        if (csvObj[i].Name === unitName && csvObj[i].SIDE.toLowerCase() === unitSide) {
+                            unitData.energyCost = csvObj[i].BuildCostEnergy;
+                            unitData.metalCost = csvObj[i].BuildCostMetal;
+                            unitData.name = csvObj[i].Name;
+                            unitData.HP = csvObj[i].MaxDamage;
+                            unitData.movementSpeed = csvObj[i].MaxVelocity;
+                            unitData.flyingSpeed = unitData.movementSpeed;
+                            unitData.description = csvObj[i].Description;
+                            unitData.canMove = csvObj[i].canmove;
+                            unitData.canAttack = csvObj[i].canattack;
+                            unitData.energyStorage = csvObj[i].energystorage;
+                            unitData.side = $(obj).attr("side");
+                            unitData.acceleration = csvObj[i].Acceleration;
+                            unitData.summoningCode = csvObj[i].Objectname.toLowerCase();
+                            unitData.sightRange = csvObj[i].sightRange;
+                            unitData.buildSpeed = csvObj[i].WorkerTime;
+                            unitData.canBuild = csvObj[i].CanBuild;
+                            unitData.radarRange = csvObj[i].radarRange;
+                            unitData.jammerRange = csvObj[i].radarRangeJam;
+                            unitData.builder = csvObj[i].Builder;
+                            unitData.buildRange = csvObj[i].Builddistance;
+                            unitData.minMetalCostForE = "";
+                            unitData.maxMetalCostForE = "";
+                            unitData.isAntiAir1 = $(obj).attr("w1-AA");
+                            unitData.isAntiAir2 = $(obj).attr("w2-AA");
+                            unitData.isAntiAir3 = $(obj).attr("w3-AA");
+                            unitData.isMineOrClawlingBomb = csvObj[i].kamikaze;
+                            unitData.explosionDamage = $(obj).attr("w1");
+                            unitData.onlyDps = $(obj).attr("only-dps");
+                            if ($(obj).attr("type") == "eco") {
+                                unitData.isEco = true;
+
+                                if ($(obj).attr("e-min") != undefined) {
+                                    unitData.minEnergyIncome = $(obj).attr("e-min");
+                                    unitData.maxEnergyIncome = $(obj).attr("e-max");
+                                    unitData.minMetalCostForE = parseFloat((unitData.metalCost / unitData.minEnergyIncome).toFixed(2));
+                                    unitData.ratioMin = "1 &thinsp; : &thinsp; " + unitData.minMetalCostForE;
+                                    secondParameter = "E income / M cost ratio*:"
+
+                                    if (unitData.maxEnergyIncome != undefined) {
+                                        unitData.maxMetalCostForE = parseFloat((unitData.metalCost / unitData.maxEnergyIncome).toFixed(2));
+                                        unitData.ratioMax = "1 &thinsp; : &thinsp; " + unitData.maxMetalCostForE;
+                                        thirdParameter = "E income / M cost ratio*:"
+                                    }
+                                }
+                                unitData.p1 = $(obj).attr("p1");
+                                unitData.p2 = $(obj).attr("p2");
+                                unitData.p3 = $(obj).attr("p3");
+                                unitData.p4 = $(obj).attr("p4");
+                                unitData.p1 = (unitData.p1 != undefined) ? unitData.p1 : "";
+                                unitData.p2 = (unitData.p2 != undefined) ? unitData.p2 : "";
+                                unitData.p3 = (unitData.p3 != undefined) ? unitData.p3 : "";
+                                unitData.p4 = (unitData.p4 != undefined) ? unitData.p4 : "";
+                            }
+
+                            unitTypeObj = checkUnitType();
+
+                            if (unitTypeObj.isBuilding) {
+                            }
+                            else if (!isNaN(csvObj[i].DamageModifier)) {
+                                unitData.HP = csvObj[i].MaxDamage / csvObj[i].DamageModifier;
+                            }
+
+                            countDpsAndRange(obj);
+
+                            setLabelParametersAndValues(checkUnitType());
+
+                            setParameterBars();
+
+                            fillHTML();
+                        }
+                    }
+                    $(".comparison-content").append(htmlOfPreview);
+                    findKeywordsAndChangeColor();
+
+                    duplicateCounter = 0;
+                    firstParameter = "";
+                    secondParameter = "";
+                    thirdParameter = "";
+                    fourthParameter = "";
+                    fifthParameter = "";
+                    sixthParameter = "";
+                    boxShadowsStyleDps = ""; //only for bars with 10/10
+                    boxShadowsStyleRange = "";
+                    boxShadowsStyleMovementSpeed = "";
+                    boxShadowsStyleFlyingSpeed = "";
+                    boxShadowsStyleHP = "";
+                    boxShadowsStylesightRange = "";
+                    boxShadowsStyleBuildSpeed = "";
+                    boxShadowsStyleBuildRange = "";
+                    boxShadowsStyleRadarRange = "";
+                    boxShadowsStyleJammerRange = "";
+                    boxShadowsStyleJammerRange = "";
+                    boxShadowsMinMetalCostForE = "";
+                    boxShadowsMaxMetalCostForE = "";
+                    boxShadowsStyleDamagePerShot = "";
+                    boxShadowsStyleExplosionDamage = "";
+                    ShineEffect = {
+                        ForDamagePerShot: "",
+                        ForDPS: "",
+                        ForHP: "",
+                        ForMS: "",
+                        ForRange: "",
+                        ForSightD: "",
+                        ForBuildSpeed: "",
+                        ForMinMetalCostForE: "",
+                        ForMaxMetalCostForE: ""
+                    }
+                    $(".unit-preview").addClass("unit-preview-comparison");
+                    $(".unit-preview-comparison").removeClass("unit-preview");
+                });
+            }
+
+            $("#comparison-option-button").click(function () {
+                if (status == 0) {
+                    $("#compare-container").show();
+                    status = 1;
+                }
+                else {
+                    $("#compare-container").hide();
+                    status = 0;
+                }
+                $("#comparison-modal").hide();
+            });
+            $("#close-comparison-window").click(function () {
+                if (status == 0) {
+                    $("#compare-container").show();
+                    status = 1;
+                }
+                else {
+                    $("#compare-container").hide();
+                    status = 0;
+                }
+            });
 
             function highlightThePhrase(str, start, end) {
                 str = str.substr(0, start) +
@@ -3279,7 +3607,7 @@
                     $(".unit-description-text").changeKeywordsColor(keywords[i], "yellow-bold");
                 }
                 var overallDpsInBrackets = "=" + unitData.overallDps;
-                $(".unit-preview .parameter-bar-and-value:first-child .parameter-value").changeKeywordsColor(overallDpsInBrackets, "yellow-bold");
+                $(".preview-frame .parameter-bar-and-value:first-child .parameter-value").changeKeywordsColor(overallDpsInBrackets, "yellow-bold");
             }
 
             function setSeparationLineHeight() {
@@ -3307,46 +3635,47 @@
                 });
             }
 
-            function setPreviewPosition() {
+            function setPreviewPosition(obj) {
 
-                style = "left:${previewPosition.left}; top:${previewPosition.top};"
-                var framePreviewHeight = $('.preview-frame').height();
-                if ((x > (0.5 * screenWidth)) && ((y > (0.62 * screenHeight)) && (y < (0.8 * screenHeight)))) {
-                 //   isBotRight = true;
-                    previewPosition.left = '-390px';
-                    previewPosition.top = "-" + (framePreviewHeight - 96)+"px";
-                }
-                else if ((x > (0.5 * screenWidth)) && (y < (0.38 * screenHeight))) {
-                 //   isTopRight = true;
-                    previewPosition.left = '-390px';
-                    previewPosition.top = '0px';
-                }
-                else if ((x > (0.5 * screenWidth)) && ((y >= (0.38 * screenHeight)) && (y <= (0.62 * screenHeight)))) {
-                 //   isMidRight = true;
-                    previewPosition.left = '-390px';
-                    previewPosition.top = "-" + (framePreviewHeight/2 -48) + "px";
-                }
-                else if ((x > (0.5 * screenWidth)) && (y > (0.8 * screenHeight))) {
+            if (!($(obj).hasClass("search-input-row"))) {
+
+            var framePreviewHeight = $('.preview-frame').height();
+            if ((x > (0.5 * screenWidth)) && ((y > (0.62 * screenHeight)) && (y < (0.8 * screenHeight)))) {
+                //   isBotRight = true;
+                previewPosition.left = '-390px';
+                previewPosition.top = "-" + (framePreviewHeight - 96) + "px";
+            }
+            else if ((x > (0.5 * screenWidth)) && (y < (0.38 * screenHeight))) {
+                //   isTopRight = true;
+                previewPosition.left = '-390px';
+                previewPosition.top = '0px';
+            }
+            else if ((x > (0.5 * screenWidth)) && ((y >= (0.38 * screenHeight)) && (y <= (0.62 * screenHeight)))) {
+                //   isMidRight = true;
+                previewPosition.left = '-390px';
+                previewPosition.top = "-" + (framePreviewHeight / 2 - 48) + "px";
+            }
+            else if ((x > (0.5 * screenWidth)) && (y > (0.8 * screenHeight))) {
                 //    isBotRight = true;
-                    previewPosition.left = '-390px';
-                    previewPosition.top = "-" + (framePreviewHeight - 96) + "px";
-                }
-                else if ((x < (0.5 * screenWidth)) && (y > (0.62 * screenHeight))) {
+                previewPosition.left = '-390px';
+                previewPosition.top = "-" + (framePreviewHeight - 96) + "px";
+            }
+            else if ((x < (0.5 * screenWidth)) && (y > (0.62 * screenHeight))) {
                 //    isBotLeft = true;
-                    previewPosition.left = '100px';
-                    previewPosition.top = "-" + (framePreviewHeight - 96) + "px";
-                }
-                else if ((x < (0.5 * screenWidth)) && (y < (0.38 * screenHeight))) {
+                previewPosition.left = '100px';
+                previewPosition.top = "-" + (framePreviewHeight - 96) + "px";
+            }
+            else if ((x < (0.5 * screenWidth)) && (y < (0.38 * screenHeight))) {
                 //    isTopLeft = true;
-                    previewPosition.left = '100px';
-                    previewPosition.top = '0px';
-                }
-                else if ((x < (0.5 * screenWidth)) && ((y >= (0.38 * screenHeight)) && (y <= (0.62 * screenHeight)))) {
+                previewPosition.left = '100px';
+                previewPosition.top = '0px';
+            }
+            else if ((x < (0.5 * screenWidth)) && ((y >= (0.38 * screenHeight)) && (y <= (0.62 * screenHeight)))) {
                 //    isMidLeft = true;
-                    previewPosition.left = '100px';
-                    previewPosition.top = "-" + (framePreviewHeight / 2 - 48) + "px";
-                }
-
+                previewPosition.left = '100px';
+                previewPosition.top = "-" + (framePreviewHeight / 2 - 48) + "px";
+            }
+        }
                 $('.preview-frame').css({ 'left': previewPosition.left, 'top': previewPosition.top});
             }
 
