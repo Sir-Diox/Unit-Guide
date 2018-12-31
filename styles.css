@@ -70,7 +70,7 @@ body {
     top: 0px;
     background: #2B2B2B;
     height: 68px;
-    z-index: 2000;
+    z-index: 1040;
     position: fixed;
     padding: 0;
 }
@@ -172,7 +172,7 @@ body {
 
 #search-bar {
     margin-top: 1px;
-    margin-left:0;
+    margin-left: 0;
 }
 
 .compare-button {
@@ -185,7 +185,7 @@ body {
 .normal-button {
     width: 131px;
     background: #2b2b2b;
-    margin:0;
+    margin: 0;
 }
 
 .ug-button:hover, .dropdown-submenu:hover {
@@ -1029,27 +1029,6 @@ body {
     z-index: 15000;
 }
 
-/*.modal-body {
-    height: 600px;
-}
-
-.modal-dialog {
-    width: 1920px;
-    overflow: scroll;
-    max-width: 1750px;
-    margin: 30px auto;
-}*/
-
-/*.modal-dialog {
-    position: relative;
-    display: table; 
-    overflow-y: auto;
-    overflow-x: auto;
-    width: auto;
-    min-width: 300px;
-}*/
-
-
 .unit-preview-comparison {
     display: inline-block;
     position: relative;
@@ -1061,8 +1040,8 @@ body {
         vertical-align: top;
     }
 
-.compare-container{
-    display:none;
+.compare-container {
+    display: none;
 }
 
 .comparison-content {
@@ -1094,8 +1073,88 @@ body {
 
 .special-button {
     border: 2px solid #dea73c;
-    color: #dea73c;
+    color: white;
     width: 131px;
     background: #2b2b2b;
     margin: 0;
+    margin-left: 5px;
+}
+
+    .special-button:hover {
+        color: #dea73c;
+    }
+
+    .modal-content {
+        width: auto;
+        position: relative;
+        left: 50%;
+        transform: translate(-50%, 0);
+    }
+
+.transparent-no-border {
+    background: transparent;
+    border: 0;
+}
+
+.transparent-no-border-content {
+    background: transparent;
+    border: 0;
+    padding: 0;
+}
+
+#close-comparison-button {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    color: white;
+    letter-spacing: 0.05em;
+    border: 2px solid white;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 40px;
+    height: 36px;
+    border-radius: 4px;
+    line-height: 35px;
+}
+
+    #close-comparison-button:hover {
+        color: #DEA73C;
+    }
+
+#close-comparison-x {
+    color: white;
+    font-size: 50px;
+    font-weight: 300;
+    opacity: 0.9 !important;
+    padding-right: 0;
+}
+
+button:focus{
+    outline:none;
+}
+#close-comparison-x:hover {
+    color: #DEA73C;
+}
+
+    #close-comparison-x:active {
+        outline: none;
+    }
+    #close-comparison-x:focus {
+        outline: none;
+    }
+
+.modal-backdrop {
+    opacity: 0.82 !important;
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1570px) {
+    .comparison-content {
+        min-width: 1173px !important;
+    }
+}
+
+@media screen and (max-width: 1199px) {
+    .comparison-content {
+        min-width: 781px !important;
+    }
 }
