@@ -37,6 +37,9 @@ var unitData = {
     minMetalCostForE:"",
     ratioMin:"",
     ratioMax: "",
+    reloadTime_w1: "",
+    reloadTime_w2: "",
+    reloadTime_w3: "",
     p1:"",
     p2:"",
     p3:"",
@@ -57,7 +60,9 @@ var ShineEffect = { //only for bars with 10/10
     ForBuildSpeed :"",
     ForExplosionDamage: "",
     ForMaxMetalCostForE: "",
-    ForMinMetalCostForE: ""
+    ForMinMetalCostForE: "",
+    ForRadarRange: "",
+    ForJammerRange:""
 }
 
 var boxShadowsStyleDps = ""; //only for bars with 10/10
@@ -154,16 +159,16 @@ var rangeOfParameters ={
         h10: 100000
     },
     range : {
-        h0: 20,
-        h05: 50,
-        h1: 70,
-        h15: 90,
-        h2: 120,
-        h25: 170,
-        h3: 250,
-        h35: 310,
-        h4: 420,
-        h45: 530,
+        h0: 120,
+        h05: 160,
+        h1: 180,
+        h15: 220,
+        h2: 250,
+        h25: 280,
+        h3: 310,
+        h35: 420,
+        h4: 500,
+        h45: 570,
         h5: 650,
         h55: 750,
         h6: 850,
@@ -172,8 +177,8 @@ var rangeOfParameters ={
         h75: 1200,
         h8: 1320,
         h85: 1500,
-        h9: 1650,
-        h95: 1800,
+        h9: 1800,
+        h95: 6000,
         h10: 20000
     },
     HP : {
@@ -188,15 +193,15 @@ var rangeOfParameters ={
         h4: 4060,
         h45: 4900,
         h5: 5985,
-        h55: 7000,
-        h6: 6000,
-        h65: 7500,
-        h7: 9000,
-        h75: 11380,
-        h8: 13680,
-        h85: 15780,
-        h9: 22000,
-        h95: 23625,
+        h55: 10000,
+        h6: 15000,
+        h65: 20000,
+        h7: 34000,
+        h75: 80000,
+        h8: 120000,
+        h85: 150000,
+        h9: 181000,
+        h95: 200000,
         h10: 2000000
     },
     movementSpeed : {
@@ -323,7 +328,53 @@ var rangeOfParameters ={
     h8: 2.3,
     h9: 1.9,
     h10: 1.6
-    }
+    },
+    radarRange: {
+        h0: 400,
+        h05: 700,
+        h1: 1000,
+        h15: 1350,
+        h2: 1600,
+        h25: 1760,
+        h3: 2000,
+        h35: 2500,
+        h4: 2800,
+        h45: 3200,
+        h5: 4000,
+        h55: 4500,
+        h6: 5000,
+        h65: 5500,
+        h7: 6000,
+        h75: 6400,
+        h8: 6600,
+        h85: 6800,
+        h9: 6990,
+        h95: 7100,
+        h10: 10000
+    },
+    jammerRange: {      
+            h0: 200,
+            h05: 250,
+            h1: 300,
+            h15: 400,
+            h2: 450,
+            h25: 500,
+            h3: 600,
+            h35: 650,
+            h4: 700,
+            h45: 750,
+            h5: 800,
+            h55: 850,
+            h6: 900,
+            h65: 1000,
+            h7: 1100,
+            h75: 1150,
+            h8: 1200,
+            h85: 1300,
+            h9: 1400,
+            h95: 1600,
+            h10: 10000
+        }
 }
 
 function setParameterBars(){
@@ -992,5 +1043,140 @@ function setParameterBars(){
         damagePerShot_SrcImg = "parameter-bars/10.svg";
         boxShadowsStyleDamagePerShot = "box-shadow: 0px 0px 12px #5EE947;";
         ShineEffect.ForDamagePerShot = "shine-effect";
+    }
+
+
+    //radar range
+    if (unitData.radarRange <= rangeOfParameters.radarRange.h0) {
+        radarRange_SrcImg = "parameter-bars/0.svg";
+    }
+    else if (unitData.radarRange <= rangeOfParameters.radarRange.h05) {
+        radarRange_SrcImg = "parameter-bars/0.5.svg";
+    }
+    else if (unitData.radarRange <= rangeOfParameters.radarRange.h1) {
+        radarRange_SrcImg = "parameter-bars/1.svg";
+    }
+    else if (unitData.radarRange <= rangeOfParameters.radarRange.h15) {
+        radarRange_SrcImg = "parameter-bars/1.5.svg";
+    }
+    else if (unitData.radarRange <= rangeOfParameters.radarRange.h2) {
+        radarRange_SrcImg = "parameter-bars/2.svg";
+    }
+    else if (unitData.radarRange <= rangeOfParameters.radarRange.h25) {
+        radarRange_SrcImg = "parameter-bars/2.5.svg";
+    }
+    else if (unitData.radarRange <= rangeOfParameters.radarRange.h3) {
+        radarRange_SrcImg = "parameter-bars/3.svg";
+    }
+    else if (unitData.radarRange <= rangeOfParameters.radarRange.h35) {
+        radarRange_SrcImg = "parameter-bars/3.5.svg";
+    }
+    else if (unitData.radarRange <= rangeOfParameters.radarRange.h4) {
+        radarRange_SrcImg = "parameter-bars/4.svg";
+    }
+    else if (unitData.radarRange <= rangeOfParameters.radarRange.h45) {
+        radarRange_SrcImg = "parameter-bars/4.5.svg";
+    }
+    else if (unitData.radarRange <= rangeOfParameters.radarRange.h5) {
+        radarRange_SrcImg = "parameter-bars/5.svg";
+    }
+    else if (unitData.radarRange <= rangeOfParameters.radarRange.h55) {
+        radarRange_SrcImg = "parameter-bars/5.5.svg";
+    }
+    else if (unitData.radarRange <= rangeOfParameters.radarRange.h6) {
+        radarRange_SrcImg = "parameter-bars/6.svg";
+    }
+    else if (unitData.radarRange <= rangeOfParameters.radarRange.h65) {
+        radarRange_SrcImg = "parameter-bars/6.5.svg";
+    }
+    else if (unitData.radarRange <= rangeOfParameters.radarRange.h7) {
+        radarRange_SrcImg = "parameter-bars/7.svg";
+    }
+    else if (unitData.radarRange <= rangeOfParameters.radarRange.h75) {
+        radarRange_SrcImg = "parameter-bars/7.5.svg";
+    }
+    else if (unitData.radarRange <= rangeOfParameters.radarRange.h8) {
+        radarRange_SrcImg = "parameter-bars/8.svg";
+    }
+    else if (unitData.radarRange <= rangeOfParameters.radarRange.h85) {
+        radarRange_SrcImg = "parameter-bars/8.5.svg";
+    }
+    else if (unitData.radarRange <= rangeOfParameters.radarRange.h9) {
+        radarRange_SrcImg = "parameter-bars/9.svg";
+    }
+    else if (unitData.radarRange <= rangeOfParameters.radarRange.h95) {
+        radarRange_SrcImg = "parameter-bars/9.5.svg";
+    }
+    else if (unitData.radarRange <= rangeOfParameters.radarRange.h10) {
+        radarRange_SrcImg = "parameter-bars/10.svg";
+        boxShadowsStyleRadarRange = "box-shadow: 0px 0px 12px #5EE947;";
+        ShineEffect.ForRadarRange = "shine-effect";
+    }
+
+    //jammer range
+    if (unitData.jammerRange <= rangeOfParameters.jammerRange.h0) {
+        jammerRange_SrcImg = "parameter-bars/0.svg";
+    }
+    else if (unitData.jammerRange <= rangeOfParameters.jammerRange.h05) {
+        jammerRange_SrcImg = "parameter-bars/0.5.svg";
+    }
+    else if (unitData.jammerRange <= rangeOfParameters.jammerRange.h1) {
+        jammerRange_SrcImg = "parameter-bars/1.svg";
+    }
+    else if (unitData.jammerRange <= rangeOfParameters.jammerRange.h15) {
+        jammerRange_SrcImg = "parameter-bars/1.5.svg";
+    }
+    else if (unitData.jammerRange <= rangeOfParameters.jammerRange.h2) {
+        jammerRange_SrcImg = "parameter-bars/2.svg";
+    }
+    else if (unitData.jammerRange <= rangeOfParameters.jammerRange.h25) {
+        jammerRange_SrcImg = "parameter-bars/2.5.svg";
+    }
+    else if (unitData.jammerRange <= rangeOfParameters.jammerRange.h3) {
+        jammerRange_SrcImg = "parameter-bars/3.svg";
+    }
+    else if (unitData.jammerRange <= rangeOfParameters.jammerRange.h35) {
+        jammerRange_SrcImg = "parameter-bars/3.5.svg";
+    }
+    else if (unitData.jammerRange <= rangeOfParameters.jammerRange.h4) {
+        jammerRange_SrcImg = "parameter-bars/4.svg";
+    }
+    else if (unitData.jammerRange <= rangeOfParameters.jammerRange.h45) {
+        jammerRange_SrcImg = "parameter-bars/4.5.svg";
+    }
+    else if (unitData.jammerRange <= rangeOfParameters.jammerRange.h5) {
+        jammerRange_SrcImg = "parameter-bars/5.svg";
+    }
+    else if (unitData.jammerRange <= rangeOfParameters.jammerRange.h55) {
+        jammerRange_SrcImg = "parameter-bars/5.5.svg";
+    }
+    else if (unitData.jammerRange <= rangeOfParameters.jammerRange.h6) {
+        jammerRange_SrcImg = "parameter-bars/6.svg";
+    }
+    else if (unitData.jammerRange <= rangeOfParameters.jammerRange.h65) {
+        jammerRange_SrcImg = "parameter-bars/6.5.svg";
+    }
+    else if (unitData.jammerRange <= rangeOfParameters.jammerRange.h7) {
+        jammerRange_SrcImg = "parameter-bars/7.svg";
+    }
+    else if (unitData.jammerRange <= rangeOfParameters.jammerRange.h75) {
+        jammerRange_SrcImg = "parameter-bars/7.5.svg";
+    }
+    else if (unitData.jammerRange <= rangeOfParameters.jammerRange.h8) {
+        jammerRange_SrcImg = "parameter-bars/8.svg";
+    }
+    else if (unitData.jammerRange <= rangeOfParameters.jammerRange.h85) {
+        jammerRange_SrcImg = "parameter-bars/8.5.svg";
+    }
+    else if (unitData.jammerRange <= rangeOfParameters.jammerRange.h9) {
+        jammerRange_SrcImg = "parameter-bars/9.svg";
+    }
+    else if (unitData.jammerRange <= rangeOfParameters.jammerRange.h95) {
+        jammerRange_SrcImg = "parameter-bars/9.5.svg";
+    }
+    else if (unitData.jammerRange <= rangeOfParameters.jammerRange.h10) {
+        jammerRange_SrcImg = "parameter-bars/10.svg";
+        boxShadowsStyleJammerRange = "box-shadow: 0px 0px 12px #5EE947;";
+        ShineEffect.ForJammerRange = "shine-effect";
     }
 }

@@ -583,7 +583,6 @@ body {
     font-style: normal;
     font-weight: 300;
     line-height: normal;
-    letter-spacing: -0.03em;
     max-width: 96px;
 }
 
@@ -921,6 +920,8 @@ body {
 
 .useful-info-padding {
     padding-right: 20px;
+    padding-top: 10px;
+    margin-left: 10px;
 }
 
 .ps--active-y > .ps__rail-y {
@@ -1052,11 +1053,27 @@ body {
 }
 
 .modal-title {
-    color: white;
     position: relative;
     left: 50%;
     transform: translate(-50%, 0);
-    font-size: 26px;
+    font-family: Teko;
+    font-style: normal;
+    font-weight: bold;
+    line-height: normal;
+    font-size: 47px;
+    text-align: center;
+    color: #DEA73C;
+    top: -7px;
+}
+
+.unit-desc {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    top: 64px;
+    font-family: 'Exo 2';
+    font-size: 16px;
+    color: white;
 }
 
 #comparison-button:disabled {
@@ -1147,6 +1164,28 @@ button:focus{
     opacity: 0.82 !important;
 }
 
+.detailed-info-wrapper{
+    width:800px;
+}
+
+.name-image-box {
+    display: inline-block;
+    margin: 0 3px;
+    vertical-align: top;
+}
+
+.can-build, .built-by{
+    margin:25px 0;
+}
+
+    .can-build > p, .built-by > p {
+        font-size: 42px;
+        color: #DEA73C;
+        text-align:center;
+        font-weight:500;
+        font-family:'Exo 2';
+    }
+
 @media screen and (min-width: 1200px) and (max-width: 1570px) {
     .comparison-content {
         min-width: 1173px !important;
@@ -1158,3 +1197,4 @@ button:focus{
         min-width: 781px !important;
     }
 }
+

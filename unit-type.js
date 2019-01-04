@@ -26,6 +26,12 @@ function setLabelParametersAndValues(unitType) {
         thirdParameter = "Flying speed:";
         fourthParameter = "Sight range:";
     }
+    else if (unitType.isBomber) {
+        firstParameter = "Damage per bomb:";
+        secondParameter = "HP:";
+        thirdParameter = "Flying speed:";
+        fourthParameter = "Sight range:";
+    }
     else if (unitType.isAntiAirBuilding) {
         firstParameter = "AA damage per second:";
         secondParameter = "Range:";
@@ -115,52 +121,54 @@ function setLabelParametersAndValues(unitType) {
     else if (unitType.isRadarAndJammerUnit) {
         firstParameter = "Radar range:";
         secondParameter = "Jammer range:";
-        thirdParameter = "Energy drain per second:";
-        fourthParameter = "HP:";
+        thirdParameter = "HP:";
+        fourthParameter = "Movement speed:";
+        fifthParameter = "Sight range:";
     }
     else if (unitType.isRadarAndJammerAircraft) {
         firstParameter = "Radar range:";
         secondParameter = "Jammer range:";
-        thirdParameter = "Energy drain per second:";
-        fourthParameter = "HP:";
+        thirdParameter = "HP:";
+        fourthParameter = "Flying speed:";
+        fifthParameter = "Sight range:";
     }
     else if (unitType.isRadarAndJammerBuilding) {
         firstParameter = "Radar range";
         secondParameter = "Jammer range:";
-        thirdParameter = "Energy drain per second:";
-        fourthParameter = "HP:";
+        thirdParameter = "HP:";
+        fourthParameter = "Sight range:";
     }
     else if (unitType.isRadarBuilding) {
         firstParameter = "Radar range:";
-        secondParameter = "Energy drain per second:";
-        thirdParameter = "HP:";
+        secondParameter = "HP:";
+        thirdParameter = "Sight range:";
     }
     else if (unitType.isRadarUnit) {
         firstParameter = "Radar range:";
         secondParameter = "HP:";
         thirdParameter = "Movement Speed:";
-        fourthParameter = "Sight Distance:";
-    }
-    else if (unitType.isJammerUnit) {
-        firstParameter = "Jammer range:";
-        secondParameter = "Energy drain per second:";
-        thirdParameter = "HP:";
-        fourthParameter = "Movement Speed:";
-        fifthParameter = "Sight Distance:";
-    }
-    else if (unitType.isJammerAircraft) {
-        firstParameter = "Jammer range:";
-        secondParameter = "Energy drain per second:";
-        thirdParameter = "HP:";
+        fourthParameter = "Sight range:";
     }
     else if (unitType.isJammerBuilding) {
         firstParameter = "Jammer range:";
-        secondParameter = "Energy drain per second:";
-        thirdParameter = "HP:";
+        secondParameter = "HP:";
+        thirdParameter = "Sight range:";
+    }
+    else if (unitType.isJammerUnit) {
+        firstParameter = "Jammer range:";
+        secondParameter = "HP:";
+        thirdParameter = "Movement Speed:";
+        fourthParameter = "Sight range:";
+    }
+    else if (unitType.isJammerAircraft) {
+        firstParameter = "Jammer range:";
+        secondParameter = "HP:";
+        thirdParameter = "Flying speed:";
+        fourthParameter = "Sight range:";
     }
     else { // undefined
         firstParameter = "HP:";
-        secondParameter = "Sight distance:";
+        secondParameter = "Sight range:";
         thirdParameter = "Damage reduction:"
     }
 }
@@ -171,6 +179,7 @@ function checkUnitType() {
         isFighterDpsOnly: false,
         isBuilding: false,
         isAirFigther: false,
+        isBomber: false,
         isAntiAir: false,
         isCons: false,
         isAirCons: false,
@@ -198,7 +207,7 @@ function checkUnitType() {
     }
 
 
-    if (unitData.builder != 1 && (unitData.jammerRange == "n/a" || unitData.jammerRange == "0") && unitData.canAttack == 1 && unitData.isMineOrClawlingBomb != 1 && unitData.canMove == 1) { // is fighting unit/building?
+    if (unitData.builder != 1 && (unitData.jammerRange == "n/a" || unitData.jammerRange == "0") && unitData.canAttack == 1 && unitData.isMineOrClawlingBomb != 1 && unitData.canMove == 1 && unitData.movementSpeed <4) { // is fighting unit/building?
         if (unitData.name == "Voyeur" || unitData.name == "Marky" || unitData.name == "Seer" || unitData.name == "Informer") {
             unitTypeObj.isRadarUnit = true;
         }
@@ -222,9 +231,11 @@ function checkUnitType() {
             unitTypeObj.isSemiCon = true;
         }
     }
-    else if (unitData.flyingSpeed > 4) // is air unit?
-    {
-        if (unitData.dps > 1) {
+    else if (unitData.movementSpeed > 4 && unitData.jammerRange == "n/a") { // is air figthing unit?
+        if (unitData.reloadTime_w1 == "") {
+            unitTypeObj.isBomber = true;
+        }
+        else {
             unitTypeObj.isAirFigther = true;
         }
     }
@@ -287,12 +298,17 @@ function checkUnitType() {
 
     else if (unitData.radarRange != 0 && unitData.radarRange != "n/a") { // is radar unit or radar+jammer unit?
         if (unitData.jammerRange != "n/a" && unitData.movementSpeed > 4) {
-            unitTypeObj.isRadarAndJammerAircraft = true;
+            if (unitData.radarRange > 200) {
+                unitTypeObj.isRadarAndJammerAircraft = true;
+            }
+            else {
+                unitTypeObj.isJammerAircraft = true;
+            }
         }
         else if (unitData.jammerRange != "n/a" && unitData.movementSpeed < 3) {
             unitTypeObj.isRadarAndJammerUnit = true;
         }
-        else if (unitData.radarRange > 200 && unitData.canMove == 1) {
+        else if (unitData.radarRange > 400 && unitData.canMove == 1) {
             unitTypeObj.isRadarUnit = true;
         }
     }
