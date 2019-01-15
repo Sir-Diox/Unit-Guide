@@ -56,28 +56,28 @@ function setLabelParametersAndValues(unitType) {
         thirdParameter = "HP:";
     }
     else if (unitType.isCons) {
-        firstParameter = "Build Speed:";
+        firstParameter = "Build speed:";
         secondParameter = "Build range:";
         thirdParameter = "HP:";
         fourthParameter = "Movement speed:";
         fifthParameter = "Sight range:";
     }
     else if (unitType.isAirCons) {
-        firstParameter = "Build Speed:";
+        firstParameter = "Build speed:";
         secondParameter = "Build range:";
         thirdParameter = "HP:";
         fourthParameter = "Flying speed:";
         fifthParameter = "Sight range:";
     }
     else if (unitType.isSemiCon) {
-        firstParameter = "Build Speed (assisting):";
+        firstParameter = "Build speed (assisting):";
         secondParameter = "Build range:";
         thirdParameter = "HP:";
         fourthParameter = "Movement speed:";
         fifthParameter = "Sight range:";
     }
     else if (unitType.isLab) {
-        firstParameter = "Build Speed:";
+        firstParameter = "Build speed:";
         secondParameter = "HP:";
         thirdParameter = "Sight Range:";
     }

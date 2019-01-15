@@ -687,7 +687,9 @@ body {
     cursor: pointer;
 }
 
-
+.u-name:hover {
+    cursor: pointer;
+}
 
 .unit-spacings-core {
     padding: 0;
@@ -722,16 +724,18 @@ body {
 
 .preview-frame {
     background: #212121;
-    position: absolute;
+    /*position: absolute;*/
     border: 1px solid #FFFFFF;
     border-radius: 3px;
     width: 388px;
     max-height: 660px;
-    z-index: 10000;
+    z-index: 1600000;
     line-height: 1.5;
     font-size: 16px;
 }
-
+.unit-preview {
+    z-index: 1600000;
+}
 .top-label-unit-name {
     max-height: 100px;
     background: #333333;
@@ -765,6 +769,10 @@ body {
 
 .unit-basic-info {
     padding: 13px 13px 9px 13px;
+    padding: 13px 13px 9px 13px;
+    max-width: 416px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .res-cost-row {
@@ -1074,6 +1082,9 @@ body {
     font-family: 'Exo 2';
     font-size: 16px;
     color: white;
+    max-width: 600px;
+    text-align: center;
+    width: 500px;
 }
 
 #comparison-button:disabled {
@@ -1174,8 +1185,9 @@ button:focus{
     vertical-align: top;
 }
 
-.can-build, .built-by{
-    margin:25px 0;
+.can-build, .built-by {
+    margin: 25px 0;
+    text-align: center;
 }
 
     .can-build > p, .built-by > p {
@@ -1196,5 +1208,49 @@ button:focus{
     .comparison-content {
         min-width: 781px !important;
     }
+}
+
+.popover-body {
+    padding:0;
+    width:388px;
+}
+
+.popover{
+    max-width:100%;
+    z-index:20000;
+}
+
+
+.bs-popover-auto[x-placement^=left] .arrow::after, .bs-popover-left .arrow::after {
+    right: 2px;
+    border-left-color: #212121;
+}
+
+.bs-popover-auto[x-placement^=left] .arrow::before, .bs-popover-left .arrow::before {
+    right: 0;
+    border-left-color: rgb(255, 255, 255);
+}
+
+.bs-popover-auto[x-placement^=left] .arrow, .bs-popover-left .arrow {
+    right: calc((.5rem + 0px) * -1);
+    width: .5rem;
+    height: 1rem;
+    margin: .3rem 0;
+}
+
+    .bs-popover-auto[x-placement^=right] .arrow::after, .bs-popover-right .arrow::after {
+    left: 2px;
+    border-right-color: #212121;
+}
+
+.bs-popover-auto[x-placement^=right] .arrow::before, .bs-popover-right .arrow::before {
+    left: 0px;
+    border-right-color: rgb(255, 255, 255);
+}
+.bs-popover-auto[x-placement^=right] .arrow, .bs-popover-right .arrow {
+    left: calc((.5rem + 0px) * -1);
+    width: .5rem;
+    height: 1rem;
+    margin: .3rem 0;
 }
 

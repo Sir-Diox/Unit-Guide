@@ -7,8 +7,10 @@
 //    //$(".detailed-info-wrapper").html("");
 //    $('#detailed-unit-info-1').modal('show');
 //});
-
-$('body').on('click', '.unit-box', function () {
+var previousUnitsListHTML = [];
+var previousUnitsListNames = [];
+var template = "";
+$('body').on('click', '.unit-box, .u-name', function () {
     //if ($('#detailed-unit-info-1').hasClass('show')) {
     //    $('#detailed-unit-info-1').modal('toggle');
     //    setTimeout(function () {
@@ -21,18 +23,30 @@ $('body').on('click', '.unit-box', function () {
     //        $('#detailed-unit-info-1').modal('toggle');
     //    }, 500);
     //}
+    if ($(this).hasClass("u-name")) {
+        var obj = $(this).parent().parent().children().eq(0)
+    }
+    else {
+        var obj = $(this);
+    }
+    if (previousUnitsListHTML.length == 0) {
+        $("#prev-unit").parent().hide();
+    }
+    else {
+        $("#prev-unit").text("Back to " + previousUnitsListNames[previousUnitsListNames.length-1]);
+        $("#prev-unit").parent().show();
+    }
+        $('[data-toggle="popover"]').popover('hide');
+    template = "";
     $('#detailed-unit-info-1').modal('show');
-
-    //$(".detailed-info-wrapper").html("");
-    var obj = $(this);
-    var attributes = $(this).prop("attributes");
+    var attributes = $(obj).prop("attributes");
     var ctr = 0;
 
-    var unitName = $(this).attr("uname");
+    var unitName = $(obj).attr("uname");
     
     var unitSide = $(obj).attr("side");
-    unitData.imgSrc = $(this).attr("style");
-    unitImg = $(this).attr("img");
+    unitData.imgSrc = $(obj).attr("style");
+    unitImg = $(obj).attr("img");
     if (unitImg != undefined) {
         unitData.imgSrc = unitImg;
     }
@@ -63,14 +77,6 @@ $('body').on('click', '.unit-box', function () {
             $(".modal-title").text(unitName);
             $(".unit-desc").text(unitData.description);
             $(".detailed-info-wrapper").html("");
-
-            if (unitData.canBuild != "") { // what can build
-                generateCanBuildList();
-            }
-
-            if (unitData.builtBy != "") { // built by
-                generateBuiltByList();
-            }
 
             unitData.radarRange = csvObj[i].radarRange;
             unitData.jammerRange = csvObj[i].radarRangeJam;
@@ -130,11 +136,67 @@ $('body').on('click', '.unit-box', function () {
             //fillHTML();
 
             ChangeColorOfKeywords();
+
+            fillHtmlTemplate();
+            $(".detailed-info-wrapper").append(template);
+            if (unitData.canBuild != "") { // what can build
+                generateCanBuildList();
+            }
+
+            if (unitData.builtBy != "") { // built by
+                generateBuiltByList();
+            }
+
+            if (previousUnitsListHTML.length >= 10) {
+            }
+            else {
+                previousUnitsListNames.push($(obj).attr("uname"));
+                previousUnitsListHTML.push($("#detailed-unit-info-1").html());
+            }
         }
     }
     }
 });
 
+
+
+
+
+function fillHtmlTemplate() {
+    template =
+        `
+    <div class="unit-basic-info row">
+        <div class="col col-lg-3 unit-image-box">
+            <div class="unit-box-in-preview" style="${unitData.imgSrc}"></div>
+        </div>
+
+        <div class="col col-lg-4" style="padding-left:0;">
+            <div class="res-cost-row"><div class="energy-cost-bar exo2-16">Energy cost</div><span class="energy-cost-digit exo2-16">${setSpacesInBigNumbers(unitData.energyCost)}</span></div>
+            <div class="res-cost-row" style="margin-bottom:3px;"><div class="metal-cost-bar exo2-16">Metal cost</div><span class="metal-cost-digit exo2-16">${setSpacesInBigNumbers(unitData.metalCost)} </span></div>
+            <div class="summoning-code exo2-16">Summoning code</div><span class="summoning-code-text exo2-16">+${unitData.summoningCode}</span>
+        </div>
+
+    </div>
+`
+}
+
+$('body').on('click', '#prev-unit', function () {
+    if (previousUnitsListHTML.length == 0) {
+        $("#prev-unit").parent().hide();
+    }
+    else {
+        $("#prev-unit").parent().show();
+        previousUnitsListHTML.pop();
+        $("#detailed-unit-info-1").html(previousUnitsListHTML[previousUnitsListHTML.length-1]);
+        previousUnitsListNames.pop();
+    }
+
+
+});
+
+$('#detailed-unit-info-1').on('hidden.bs.modal', function () {
+    previousUnitsListHTML = [];
+})
 
 function generateCanBuildList() {
     buildingsCodes = [];
@@ -144,7 +206,7 @@ function generateCanBuildList() {
 
     for (i = 0; i < buildings.length; i++) {
         $(".unit-box").each(function () {
-            var unitCode = $(this).attr("style");
+            var unitCode = $(this).attr("style").toLowerCase();
 
             unitCode = unitCode.substring(
                 unitCode.lastIndexOf("/") + 1,
@@ -220,4 +282,8 @@ function ChangeColorOfKeywords() {
     }
     var overallDpsInBrackets = "=" + unitData.overallDps;
     $(".preview-frame .parameter-bar-and-value:first-child .parameter-value").changeKeywordsColor(overallDpsInBrackets, "yellow-bold");
+}
+
+function GoBack() {
+
 }
