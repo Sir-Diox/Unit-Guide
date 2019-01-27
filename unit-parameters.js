@@ -44,7 +44,15 @@ var unitData = {
     p2:"",
     p3:"",
     p4: "",
-    onlyDps: ""
+    onlyDps: "",
+    buildTime: "",
+    //maxSlope :"",
+    energyMake: "",
+    energyUse: "",
+    turnRate: "",
+    cloakCost: "",
+    energyStorage: "",
+    metalStorage: ""
 }
 
 var keywords = ["Cloakable", "Stealth", "Amphibious", "Stun Immunity", "Upgradable", "Adjacency Bonus", "Stun Resistance", "Guided", "Radar Jammed", "Targeting", "Upgrades to Chaingun", "AA missiles", "Adj. Bonus"]
