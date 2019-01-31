@@ -11,7 +11,7 @@ var popoverAsTooltipSettings = {
     boundary: 'viewport',
     fallbackPlacement: 'flip'
 }
-$('body').on('mouseover', '.parameter-name', function () {
+$('body').on('mouseover', '.parameter-name, .summoning-code', function () {
     $('.tooltip-dotted').popover(popoverAsTooltipSettings);
 });
 var weapons = {
@@ -26,7 +26,7 @@ var weapons = {
     w3_rt: "",
 };
 
-$('body').on('click', '.unit-box, .u-name, .unit-box-in-search-result', function () {
+$('body').on('click', '.unit-box, .u-name, .unit-box-in-search-result, .search-input-row', function () {
 
     if ($(this).hasClass("u-name")) {
         var obj = $(this).parent().parent().children().eq(0)
@@ -203,7 +203,7 @@ function fillHtmlTemplate() {
         <div class="col col-lg-8" style="padding-left: 12px;">
             <div class="res-cost-row"><div class="energy-cost-bar exo2-16">Energy cost</div><span class="energy-cost-digit exo2-16">${setSpacesInBigNumbers(unitData.energyCost)}</span></div>
             <div class="res-cost-row" style="margin-bottom:3px;"><div class="metal-cost-bar exo2-16">Metal cost</div><span class="metal-cost-digit exo2-16">${setSpacesInBigNumbers(unitData.metalCost)} </span></div>
-            <div class="summoning-code exo2-16">Summoning code</div><span class="summoning-code-text exo2-16">+${unitData.summoningCode}</span>
+            <div class="summoning-code exo2-16" data-toggle="popover" data-placement="bottom" data-content="<div class='tooltip-content'><span class='tooltip-title'>Summoning code</span>You can type this code in game to summon <span style='font-weight:600'>${unitData.name}</span>. Just press Enter and type: <span style='color: #DEA73C; font-weight:500'>+${unitData.summoningCode}</span>. You can press Insert key to summon more.</br> It always works in single player. If you want to summon a unit in multiplayer, you have to switch <b>Cheat codes</b> (in game's lobby) to <b>Allowed</b> before starting a game. This is very handy when you want to test units. </br></br><p style='font-weight:600'>Useful codes:</p><ul><li><span style='color: #DEA73C; font-weight:500'>+los</span> - gives you infinite view.</li><li><span style='color: #DEA73C; font-weight:500'>+corcheat</span> - almost infinite resources.</li> <li><span style='color: #DEA73C; font-weight:500'>+corkrog 1</span> - summons a Krogoth for another player (numbers from 1 to 9 are other players).</li><li><span style='color: #DEA73C; font-weight:500'>+showranges</span> - type it, then select a unit and hold Shift key to see many types of ranges.</li></ul> </div>"><span class="tooltip-dotted">Summoning</span> <span class="tooltip-dotted">code</span></div><span class="summoning-code-text exo2-16">+${unitData.summoningCode}</span>
         </div>
 
     </div>
@@ -217,23 +217,18 @@ function fillHtmlTemplate() {
             <a class="nav-item nav-link active" id="nav-statistics-tab" data-toggle="tab" href="#nav-statistics" role="tab" aria-controls="nav-statistics" aria-selected="true">Statistics</a>
           </li>
           <li class="nav-item">
+                <a class="nav-item nav-link" id="general-info-tab" data-toggle="tab" href="#nav-general-info" role="tab" aria-controls="nav-general-info" aria-selected="false">General info</a>
+          </li>
+          <li class="nav-item">
                 <a class="nav-item nav-link" id="nav-strategy-tab" data-toggle="tab" href="#nav-strategy" role="tab" aria-controls="nav-strategy" aria-selected="false">Strategy</a>
           </li>
           <li class="nav-item">
-                <a class="nav-item nav-link" id="nav-pros-cons-tab" data-toggle="tab" href="#nav-pros-cons" role="tab" aria-controls="nav-pros-cons" aria-selected="false">Pros & cons</a>
-          </li>
-          <li class="nav-item">
                 <a class="nav-item nav-link" id="nav-what-can-build-tab" data-toggle="tab" href="#nav-what-can-build" role="tab" aria-controls="nav-what-can-build" aria-selected="false">What can build</a>
-          </li>
-          <li class="nav-item">
-                <a class="nav-item nav-link" id="nav-built-by-tab" data-toggle="tab" href="#nav-built-by" role="tab" aria-controls="nav-built-by" aria-selected="false">Built by</a>
           </li>
         </ul>
 
         <div class="tab-content" id="tab-content">
             <div class="tab-pane fade show active" id="nav-statistics" role="tabpanel" aria-labelledby="nav-statistics-tab"><div class="unit-statistics">
-
-
 
 
                             <div class="unit-basic-stats">
@@ -310,10 +305,17 @@ function fillHtmlTemplate() {
                                                     <div class="parameter-value">${setSpacesInBigNumbers(unitData.explosionDamage)}</div>
                                             </div>
                                             ` : ""}
-                                        ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isMine || unitTypeObj.isClawlingBomb || unitTypeObj.isNuke ? `
+                                        ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuildingDpsOnly ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForRange}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStyleRange}"></div>
                                                     <img src="${range_SrcImg}" class="parameter-bar" alt="">
+                                                    <div class="parameter-value">${setSpacesInBigNumbers(unitData.range)}</div>
+                                            </div>
+                                            ` : ""}
+                                        ${unitTypeObj.isMine || unitTypeObj.isClawlingBomb || unitTypeObj.isNuke ? `
+                                                <div class="parameter-bar-and-value ${ShineEffect.ForExplosionRange}">
+                                                <div class="box-shadow-for-bar" style="${boxShadowsStyleExplosionRange}"></div>
+                                                    <img src="${explosionRange_SrcImg}" class="parameter-bar" alt="">
                                                     <div class="parameter-value">${setSpacesInBigNumbers(unitData.range)}</div>
                                             </div>
                                             ` : ""}
@@ -499,31 +501,7 @@ function fillHtmlTemplate() {
                                                     <p style="text-align:center; color:#DEA73C; padding:7px 30px" >${unitData.p1}</p>
 
                                             ` : ""}
-                                               ${unitTypeObj.isEco && unitData.p4 != "" ? `
-                                                    <hr class="separator-between-info-stats">
-                                                <ul class="exo2-16 white useful-info-padding">
-                                                    <li>You get 1 E for each ${unitData.minMetalCostForE} metal spent on ${unitData.name}s. This means, you get 1000 E income if you spend ${unitData.minMetalCostForE * 1000} metal.</li>
-                                                    <li>${unitData.p1}</li>
-                                                    <li>${unitData.p2}</li>
-                                                    <li>${unitData.p3}</li>
-                                                    <li>${unitData.p4}</li>
-                                                    </ul>
-                                                ` : ""}
-                                                ${unitTypeObj.isEco && unitData.p3 != "" && unitData.p4 == "" ? `
-                                                    <hr class="separator-between-info-stats">
-                                                <ul class="exo2-16 white useful-info-padding">
-                                                    <li>You get 1 E for each ${unitData.minMetalCostForE} metal spent on ${unitData.name}s. This means, you get 1000 E income if you spend ${unitData.minMetalCostForE * 1000} metal.</li>
-                                                    <li>${unitData.p1}</li>
-                                                    <li>${unitData.p2}</li>
-                                                    <li>${unitData.p3}</li>
-                                                    </ul>`: ""}
-                                                ${unitTypeObj.isEco && unitData.p2 != "" && unitData.p3 == "" && unitData.p4 == "" ? `
-                                                    <hr class="separator-between-info-stats">
-                                                <ul class="exo2-16 white useful-info-padding">
-                                                <li>You get 1 E for each ${unitData.minMetalCostForE} metal spent on ${unitData.name}s. This means, you get 1000 E income if you spend ${unitData.minMetalCostForE * 1000} metal.</li>
-                                                    <li>${unitData.p1}</li>
-                                                    <li>${unitData.p2}</li>
-                                                    </ul>`: ""}
+
 
                                 </div>
 
@@ -593,9 +571,34 @@ function fillHtmlTemplate() {
 
 </div></div>
             <div class="tab-pane fade" id="nav-strategy" role="tabpanel" aria-labelledby="nav-strategy-tab"></div>
-            <div class="tab-pane fade" id="nav-pros-cons" role="tabpanel" aria-labelledby="nav-pros-cons-tab"></div>
+            <div class="tab-pane fade" id="nav-general-info" role="tabpanel" aria-labelledby="general-info-tab"><div class="exo2-26 detailed-info-header built-by"><p>${unitData.name} <span style="font-weight:normal;">is built by:</span></p></div>
+                                               ${unitTypeObj.isEco && unitData.p4 != "" ? `
+                                                    <hr class="separator-between-info-stats">
+                                                <ul class="exo2-16 white useful-info-padding">
+                                                    <li>You get 1 E for each ${unitData.minMetalCostForE} metal spent on ${unitData.name}s. This means, you get 1000 E income if you spend ${unitData.minMetalCostForE * 1000} metal.</li>
+                                                    <li>${unitData.p1}</li>
+                                                    <li>${unitData.p2}</li>
+                                                    <li>${unitData.p3}</li>
+                                                    <li>${unitData.p4}</li>
+                                                    </ul>
+                                                ` : ""}
+                                                ${unitTypeObj.isEco && unitData.p3 != "" && unitData.p4 == "" ? `
+                                                    <hr class="separator-between-info-stats">
+                                                <ul class="exo2-16 white useful-info-padding">
+                                                    <li>You get 1 E for each ${unitData.minMetalCostForE} metal spent on ${unitData.name}s. This means, you get 1000 E income if you spend ${unitData.minMetalCostForE * 1000} metal.</li>
+                                                    <li>${unitData.p1}</li>
+                                                    <li>${unitData.p2}</li>
+                                                    <li>${unitData.p3}</li>
+                                                    </ul>`: ""}
+                                                ${unitTypeObj.isEco && unitData.p2 != "" && unitData.p3 == "" && unitData.p4 == "" ? `
+                                                    <hr class="separator-between-info-stats">
+                                                <ul class="exo2-16 white useful-info-padding">
+                                                <li>You get 1 E for each ${unitData.minMetalCostForE} metal spent on ${unitData.name}s. This means, you get 1000 E income if you spend ${unitData.minMetalCostForE * 1000} metal.</li>
+                                                    <li>${unitData.p1}</li>
+                                                    <li>${unitData.p2}</li>
+                                                    </ul>`: ""}
+</div>
             <div class="tab-pane fade" id="nav-what-can-build" role="tabpanel" aria-labelledby="nav-what-can-build-tab"><div class="can-build"></div></div>
-            <div class="tab-pane fade" id="nav-built-by" role="tabpanel" aria-labelledby="nav-built-by"><div class="built-by"><p>Built by:</p></div></div>
         </div>
 `
 }

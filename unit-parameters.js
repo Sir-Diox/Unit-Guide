@@ -67,6 +67,7 @@ var ShineEffect = { //only for bars with 10/10
     ForSightD :"",
     ForBuildSpeed :"",
     ForExplosionDamage: "",
+    ForExplosionRange: "",
     ForMaxMetalCostForE: "",
     ForMinMetalCostForE: "",
     ForRadarRange: "",
@@ -86,7 +87,8 @@ var boxShadowsStyleRadarRange = "";
 var boxShadowsStyleJammerRange = "";
 var boxShadowsStyleExplosionDamage = "";
 var boxShadowsMinMetalCostForE = "";
-var boxShadowsMaxMetalCostForE ="";
+var boxShadowsMaxMetalCostForE = "";
+var boxShadowsStyleExplosionRange = "";
 var x;
 var y;
 var screenWidth; //available user's screen width
@@ -111,6 +113,7 @@ var buildRange_SrcImg;
 var sightRange_SrcImg;
 var jammerRange_SrcImg;
 var radarRange_SrcImg;
+var explosionRange_SrcImg;
 var maxMetalCostForE_SrcImg;
 var minMetalCostForE_SrcImg;
 var firstParameter = "";
@@ -188,6 +191,14 @@ var rangeOfParameters ={
         h9: 1800,
         h95: 6000,
         h10: 20000
+    },
+    explosionRange: {
+        h0: 20,
+        h2: 128,
+        h4: 256,
+        h6: 320,
+        h8: 480,
+        h10: 720
     },
     HP : {
         h0: 8,
@@ -589,6 +600,30 @@ function setParameterBars(){
         boxShadowsStyleRange = "box-shadow: 0px 0px 12px #5EE947;";
         ShineEffect.ForRange = "shine-effect";
     }
+
+    // for explosion range
+    if (unitData.biggestRange <= rangeOfParameters.explosionRange.h0) {
+        explosionRange_SrcImg = "parameter-bars/0.svg";
+    }
+    else if (unitData.biggestRange <= rangeOfParameters.explosionRange.h2) {
+        explosionRange_SrcImg = "parameter-bars/2.svg";
+    }
+    else if (unitData.biggestRange <= rangeOfParameters.explosionRange.h4) {
+        explosionRange_SrcImg = "parameter-bars/4.svg";
+    }
+    else if (unitData.biggestRange <= rangeOfParameters.explosionRange.h6) {
+        explosionRange_SrcImg = "parameter-bars/6.svg";
+    }
+    else if (unitData.biggestRange <= rangeOfParameters.explosionRange.h8) {
+        explosionRange_SrcImg = "parameter-bars/8.svg";
+    }
+    else if (unitData.biggestRange <= rangeOfParameters.explosionRange.h10) {
+        explosionRange_SrcImg = "parameter-bars/10.svg";
+        boxShadowsStyleExplosionRange = "box-shadow: 0px 0px 12px #5EE947;";
+        ShineEffect.ForExplosionRange = "shine-effect";
+    }
+
+
 
     // for movement speed        
     if(unitData.movementSpeed <= rangeOfParameters.movementSpeed.h0){

@@ -215,6 +215,9 @@ function checkUnitType() {
             if (unitData.onlyDps == 1)
                 unitTypeObj.isFighterDpsOnly = true;
             else {
+                if (unitData.name == "Croc" || unitData.name == "Gimp" || unitData.name == "Triton" || unitData.name == "Commander" || unitData.name == "Defiler" || unitData.name == "Podger") {
+                    unitData.HP = unitData.HP / 4;
+                }
                 unitTypeObj.isFighter = true;
             }
         }
@@ -239,7 +242,7 @@ function checkUnitType() {
             unitTypeObj.isAirFigther = true;
         }
     }
-    else if (unitData.movementSpeed < 0.5 || unitData.movementSpeed == "n/a") { // is building?
+    else if (unitData.movementSpeed < 0.5 || unitData.movementSpeed == "n/a" && unitData.isMineOrClawlingBomb != 1) { // is building?
         unitTypeObj.isBuilding = true;
         if (unitData.canMove == 1) {
             unitTypeObj.isLab = true;
@@ -268,7 +271,7 @@ function checkUnitType() {
                 unitTypeObj.isRadarBuilding = true;
             }
         }
-        else if (unitData.jammerRange != "n/a") { // is jammer building?
+        else if (unitData.jammerRange != "n/a" && (!unitData.name == "Surveyor" || !unitData.name == "Scanner")) { // is jammer building?
             unitTypeObj.isJammerBuilding = true;
         }
         else if (unitData.isEco) {
