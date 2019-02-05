@@ -2,7 +2,7 @@ var previousUnitsListHTML = [];
 var previousUnitsListNames = [];
 var template = "";
 var popoverAsTooltipSettings = {
-    placement: 'top',
+    placement: 'right',
     html: true,
     container: 'body',
     trigger: 'hover',
@@ -26,7 +26,7 @@ var weapons = {
     w3_rt: "",
 };
 
-$('body').on('click', '.unit-box, .u-name, .unit-box-in-search-result, .search-input-row', function () {
+$('body').on('click', '.unit-box, .u-name, .search-input-row', function () {
 
     if ($(this).hasClass("u-name")) {
         var obj = $(this).parent().parent().children().eq(0)
@@ -92,7 +92,7 @@ $('body').on('click', '.unit-box, .u-name, .unit-box-in-search-result, .search-i
                 unitData.isAntiAir2 = $(obj).attr("w2-AA");
                 unitData.isAntiAir3 = $(obj).attr("w3-AA");
                 unitData.isMineOrClawlingBomb = csvObj[i].kamikaze;
-                unitData.explosionDamage = $(obj).attr("w1");
+                //unitData.explosionDamage = $(obj).attr("w1");
                 unitData.onlyDps = $(obj).attr("only-dps");
                 unitData.p1 = $(obj).attr("p1");
 
@@ -115,12 +115,12 @@ $('body').on('click', '.unit-box, .u-name, .unit-box-in-search-result, .search-i
                         unitData.maxEnergyIncome = $(obj).attr("e-max");
                         unitData.minMetalCostForE = parseFloat((unitData.metalCost / unitData.minEnergyIncome).toFixed(2));
                         unitData.ratioMin = "1 &thinsp; : &thinsp; " + unitData.minMetalCostForE;
-                        secondParameter = "E income / M cost ratio*:"
+                        secondParameter = "E income / M cost ratio<sup>1</sup>:"
 
                         if (unitData.maxEnergyIncome != undefined) {
                             unitData.maxMetalCostForE = parseFloat((unitData.metalCost / unitData.maxEnergyIncome).toFixed(2));
                             unitData.ratioMax = "1 &thinsp; : &thinsp; " + unitData.maxMetalCostForE;
-                            thirdParameter = "E income / M cost ratio*:"
+                            thirdParameter = "E income / M cost ratio<sup>1</sup>:"
                         }
                     }
                     unitData.p1 = $(obj).attr("p1");
@@ -153,7 +153,7 @@ $('body').on('click', '.unit-box, .u-name, .unit-box-in-search-result, .search-i
                 }
 
 
-                //countDpsAndRange(obj);
+                //countDpsAndRangeAndShotDmg(obj);
 
                 setLabelParametersAndValues(checkUnitType());
 
@@ -203,13 +203,10 @@ function fillHtmlTemplate() {
         <div class="col col-lg-8" style="padding-left: 12px;">
             <div class="res-cost-row"><div class="energy-cost-bar exo2-16">Energy cost</div><span class="energy-cost-digit exo2-16">${setSpacesInBigNumbers(unitData.energyCost)}</span></div>
             <div class="res-cost-row" style="margin-bottom:3px;"><div class="metal-cost-bar exo2-16">Metal cost</div><span class="metal-cost-digit exo2-16">${setSpacesInBigNumbers(unitData.metalCost)} </span></div>
-            <div class="summoning-code exo2-16" data-toggle="popover" data-placement="bottom" data-content="<div class='tooltip-content'><span class='tooltip-title'>Summoning code</span>You can type this code in game to summon <span style='font-weight:600'>${unitData.name}</span>. Just press Enter and type: <span style='color: #DEA73C; font-weight:500'>+${unitData.summoningCode}</span>. You can press Insert key to summon more.</br> It always works in single player. If you want to summon a unit in multiplayer, you have to switch <b>Cheat codes</b> (in game's lobby) to <b>Allowed</b> before starting a game. This is very handy when you want to test units. </br></br><p style='font-weight:600'>Useful codes:</p><ul><li><span style='color: #DEA73C; font-weight:500'>+los</span> - gives you infinite view.</li><li><span style='color: #DEA73C; font-weight:500'>+corcheat</span> - almost infinite resources.</li> <li><span style='color: #DEA73C; font-weight:500'>+corkrog 1</span> - summons a Krogoth for another player (numbers from 1 to 9 are other players).</li><li><span style='color: #DEA73C; font-weight:500'>+showranges</span> - type it, then select a unit and hold Shift key to see many types of ranges.</li></ul> </div>"><span class="tooltip-dotted">Summoning</span> <span class="tooltip-dotted">code</span></div><span class="summoning-code-text exo2-16">+${unitData.summoningCode}</span>
+            <div class="summoning-code exo2-16" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Summoning code</span>You can type this code in game to summon <span style='font-weight:600'>${unitData.name}</span>. Just press Enter and type: <span style='color: #DEA73C; font-weight:500'>+${unitData.summoningCode}</span>. Then you can press Insert key to summon more.</br> It always works in single player. If you want to summon a unit in multiplayer, you have to switch <b>Cheat codes</b> (in game's lobby) to <b>Allowed</b> before starting a game. This is very handy when you want to test units. </br></br><p style='font-weight:600'>Useful codes:</p><ul><li><span style='color: #DEA73C; font-weight:500'>+los</span> - infinite view.</li><li><span style='color: #DEA73C; font-weight:500'>+corcheat</span> - almost infinite resources.</li> <li><span style='color: #DEA73C; font-weight:500'>+corkrog 1</span> - summons a Krogoth for another player (numbers from 1 to 9 are other players).</li><li><span style='color: #DEA73C; font-weight:500'>+showranges</span> - type it, then select a unit and hold Shift key to see many types of ranges.</li></ul> </div>"><span class="tooltip-dotted">Summoning</span> <span class="tooltip-dotted">code</span></div><span class="summoning-code-text exo2-16">+${unitData.summoningCode}</span>
         </div>
 
     </div>
-
-
-
 
 
         <ul class="nav nav-tabs justify-content-center" id="unit-tabs" role="tablist">
@@ -363,7 +360,7 @@ function fillHtmlTemplate() {
                                                     <div class="parameter-value">${setSpacesInBigNumbers(unitData.HP)}</div>
                                                 </div>
                                             ` : ""}
-                                            ${unitTypeObj.isEco && unitData.maxMetalCostForE != undefined ? `
+                                            ${unitTypeObj.isEco && unitData.maxEnergyIncome != undefined ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForMaxMetalCostForE}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsMaxMetalCostForE}"></div>
                                                     <img src="${maxMetalCostForE_SrcImg}" class="parameter-bar" alt="">
@@ -502,16 +499,35 @@ function fillHtmlTemplate() {
 
                                             ` : ""}
 
+                                                    ${unitTypeObj.isEco && unitData.sup1 != undefined && unitData.sup2 != undefined ? `
+                                                    <hr class="separator-between-info-stats">
+                                                    <i class="exo2-16 white useful-info-padding-dt">
+                                                        <sup class="sup">1</sup><span class="sup-info">${unitData.sup1}</span>
+                                                    </i>
+                                                    <i class="exo2-16 white useful-info-padding-dt">
+                                                        <sup class="sup">2</sup><span class="sup-info">${unitData.sup2}</span>
+                                                    </i>
+                                                ` : ""
+                                               }
+                                               ${unitTypeObj.isEco && unitData.sup1 != undefined && unitData.sup2 == undefined ? `
+                                                    <hr class="separator-between-info-stats">
+                                                    <i class="exo2-16 white useful-info-padding-dt">
+                                                        <sup class="sup">1</sup><span class="sup-info">${unitData.sup1}</span>
+                                                    </i>
+                                                ` : ""
+                                                }
 
                                 </div>
 
-                                      <div class="exo2-26 basic-stats">Other</div>
+                                      <div class="exo2-26 basic-stats" style="margin-top:30px;">Other</div>
                                       <div class="exo2-26 other-stats">
                                         <div class="row">
                                             <div class="col col-lg-6 no-padding">
-                                                    ${unitData.buildTime != undefined ? `
+                                                    ${unitData.buildTime != undefined && (unitData.movementSpeed != 'n/a' || unitData.flyingSpeed != 'n/a') ? `
+                                                <div class="parameter-name"><span class="tooltip-dotted" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Build time</span>This parameter shows how much time you need to build a unit or a building. </br><span style='color: #DEA73C;'>Build time / Build speed = time in seconds </span> </br> <b>Example:</b></br> Commander with build speed at 360, who wants to build one <b>${unitData.name}</b> with build time ${setSpacesInBigNumbers(unitData.buildTime)} needs: </br><span style='color: #DEA73C;'> ${setSpacesInBigNumbers(unitData.buildTime)} / 360 = <b>${(unitData.buildTime / 360).toFixed(2)} seconds </b></span> </br> Remember to add lab's building speed to it, to be exact. </div>">Build time:</span></div>
+                                                    `: `
                                                 <div class="parameter-name"><span class="tooltip-dotted" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Build time</span>This parameter shows how much time you need to build a unit or a building. </br><span style='color: #DEA73C;'>Build time / Build speed = time in seconds </span> </br> <b>Example:</b></br> Commander with build speed at 360, who wants to build one <b>${unitData.name}</b> with build time ${setSpacesInBigNumbers(unitData.buildTime)} needs: </br><span style='color: #DEA73C;'> ${setSpacesInBigNumbers(unitData.buildTime)} / 360 = <b>${(unitData.buildTime / 360).toFixed(2)} seconds </b></span> </div>">Build time:</span></div>
-                                                    `: "" }
+                                                    ` }
                                                     ${unitData.turnRate != "n/a" && unitData.turnRate != undefined ? `
                                                 <div class="parameter-name"><span class="tooltip-dotted" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Turning speed</span>This parameter shows how fast a unit turns to change its direction. The lower a value, the slower a unit turns around. Turning speed may be important when you want to change direction to espace from an incoming threat or when you want to avoid an obstacle.</br> </br><span style='color: #DEA73C;'><b>Turning speed ranges:</b> </span> </br> <ul><li>Above 900: very fast</li><li>700 - 900: fast</li> <li>600 - 699: decent</li><li>400 - 599: average</li><li>200 - 399: slow</li> <li>Below 200: sluggish</li> </ul>   </div>">Turning speed:</span></div>
 
@@ -521,7 +537,7 @@ function fillHtmlTemplate() {
 
                                                     `: "" }
                                                     ${unitData.energyUse != undefined && unitData.energyUse != 0 ? `
-                                                <div class="parameter-name"><span class="tooltip-dotted" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Energy drain</span>This parameter shows how much energy a unit drains. This includes only: <ul><li>Cloaking</li><li>Turned on units/buildings (jammers, radars, metal makers, galactic gates and more)</li><li>Moving (e.g. Spy kbot drains 450 E/s while moving with cloaking)</li></ul> </br> <b style='color: #DEA73C;'> Warning! </b> This parameter doesn't show energy drain while shooting (e.g. green lasers from Gaat).</div">Energy drain:</span></div>
+                                                <div class="parameter-name"><span class="tooltip-dotted" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Energy drain</span>This parameter shows how much energy a unit drains. This includes only: <ul><li>Cloaking</li><li>Turned on units/buildings (jammers, radars, metal makers, galactic gates and more)</li><li>Moving (most units drain up to 1E/s while moving)</li></ul> </br> <b style='color: #DEA73C;'> Warning! </b> This parameter doesn't show energy drain while shooting (e.g. green lasers from Gaat).</div">Energy drain:</span></div>
 
                                                     `: "" }
                                                     ${unitData.energyStorage != undefined && unitData.energyStorage != 0 ? `
@@ -722,8 +738,4 @@ function ChangeColorOfKeywords() {
     }
     var overallDpsInBrackets = "=" + unitData.overallDps;
     $(".preview-frame .parameter-bar-and-value:first-child .parameter-value").changeKeywordsColor(overallDpsInBrackets, "yellow-bold");
-}
-
-function GoBack() {
-
 }

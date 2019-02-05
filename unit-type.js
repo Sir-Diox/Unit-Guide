@@ -215,7 +215,7 @@ function checkUnitType() {
             if (unitData.onlyDps == 1)
                 unitTypeObj.isFighterDpsOnly = true;
             else {
-                if (unitData.name == "Croc" || unitData.name == "Gimp" || unitData.name == "Triton" || unitData.name == "Commander" || unitData.name == "Defiler" || unitData.name == "Podger") {
+                if (unitData.name == "Croc" || unitData.name == "Gimp" || unitData.name == "Triton" || unitData.name == "Defiler" || unitData.name == "Podger") {
                     unitData.HP = unitData.HP / 4;
                 }
                 unitTypeObj.isFighter = true;
@@ -225,6 +225,9 @@ function checkUnitType() {
     else if (unitData.builder != 0 && (unitData.jammerRange == "n/a" || unitData.jammerRange == "0") && unitData.movementSpeed != "n/a") // is cons, semi-con
     {
         if (unitData.builder != 0 && unitData.canMove == 1 && unitData.canBuild != "" && unitData.movementSpeed < 4) {
+            if (unitData.name == "Commander") {
+                unitData.HP = unitData.HP / 4;
+            }
             unitTypeObj.isCons = true;
         }
         else if (unitData.movementSpeed > 4) {

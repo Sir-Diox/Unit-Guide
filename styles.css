@@ -889,7 +889,7 @@ a{
 
 .separator-between-info-stats {
     width: 363px;
-    margin: 7px auto 0 auto;
+    margin: 10px auto 0 auto;
     border: 1px solid #757575;
     background: #757575;
 }
@@ -1036,14 +1036,41 @@ a{
     font-weight: 300;
     font-size: 12px;
     position: relative;
+    margin-top:10px;
     color: rgba(255, 255, 255, 0.6);
     text-align: center;
 }
 
 .useful-info-padding {
     padding-right: 20px;
-    padding-top: 10px;
-    margin-left: 10px;
+    margin: 10px 0 10px 30px;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.useful-info-padding-dt {
+    padding-right: 20px;
+    max-width: 361px;
+    margin:15px auto 0 auto;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+sup {
+    margin-left: 2px;
+    color: #DEA73C;
+}
+.sup {
+    top: 4px;
+    display: block;
+    margin-right: 9px;
+}
+
+.sup-info {
+    flex: 0 0 91.666667%;
+    display: block;
+
 }
 
 .ps--active-y > .ps__rail-y {

@@ -25,7 +25,8 @@ var unitData = {
     radarRange: "",
     jammerRange: "",
     isMineOrClawlingBomb: 0,
-    explosionDamage:"",
+    explosionDamage: "",
+    maxDamagePerShot: "", // biggest of few weapons
     builder:"",
     isAntiAir1:"",
     isAntiAir2:"",
@@ -40,6 +41,8 @@ var unitData = {
     reloadTime_w1: "",
     reloadTime_w2: "",
     reloadTime_w3: "",
+    sup1: "",
+    sup2: "",
     p1:"",
     p2:"",
     p3:"",
@@ -1022,67 +1025,67 @@ function setParameterBars(){
     }
 
     //damage per shot
-    if (unitData.explosionDamage <= rangeOfParameters.damagePerShot.h0) {
+    if (unitData.maxDamagePerShot <= rangeOfParameters.damagePerShot.h0) {
         damagePerShot_SrcImg = "parameter-bars/0.svg";
     }
-    else if (unitData.explosionDamage <= rangeOfParameters.damagePerShot.h05) {
+    else if (unitData.maxDamagePerShot <= rangeOfParameters.damagePerShot.h05) {
         damagePerShot_SrcImg = "parameter-bars/0.5.svg";
     }
-    else if (unitData.explosionDamage <= rangeOfParameters.damagePerShot.h1) {
+    else if (unitData.maxDamagePerShot <= rangeOfParameters.damagePerShot.h1) {
         damagePerShot_SrcImg = "parameter-bars/1.svg";
     }
-    else if (unitData.explosionDamage <= rangeOfParameters.damagePerShot.h15) {
+    else if (unitData.maxDamagePerShot <= rangeOfParameters.damagePerShot.h15) {
         damagePerShot_SrcImg = "parameter-bars/1.5.svg";
     }
-    else if (unitData.explosionDamage <= rangeOfParameters.damagePerShot.h2) {
+    else if (unitData.maxDamagePerShot <= rangeOfParameters.damagePerShot.h2) {
         damagePerShot_SrcImg = "parameter-bars/2.svg";
     }
-    else if (unitData.explosionDamage <= rangeOfParameters.damagePerShot.h25) {
+    else if (unitData.maxDamagePerShot <= rangeOfParameters.damagePerShot.h25) {
         damagePerShot_SrcImg = "parameter-bars/2.5.svg";
     }
-    else if (unitData.explosionDamage <= rangeOfParameters.damagePerShot.h3) {
+    else if (unitData.maxDamagePerShot <= rangeOfParameters.damagePerShot.h3) {
         damagePerShot_SrcImg = "parameter-bars/3.svg";
     }
-    else if (unitData.explosionDamage <= rangeOfParameters.damagePerShot.h35) {
+    else if (unitData.maxDamagePerShot <= rangeOfParameters.damagePerShot.h35) {
         damagePerShot_SrcImg = "parameter-bars/3.5.svg";
     }
-    else if (unitData.explosionDamage <= rangeOfParameters.damagePerShot.h4) {
+    else if (unitData.maxDamagePerShot <= rangeOfParameters.damagePerShot.h4) {
         damagePerShot_SrcImg = "parameter-bars/4.svg";
     }
-    else if (unitData.explosionDamage <= rangeOfParameters.damagePerShot.h45) {
+    else if (unitData.maxDamagePerShot <= rangeOfParameters.damagePerShot.h45) {
         damagePerShot_SrcImg = "parameter-bars/4.5.svg";
     }
-    else if (unitData.explosionDamage <= rangeOfParameters.damagePerShot.h5) {
+    else if (unitData.maxDamagePerShot <= rangeOfParameters.damagePerShot.h5) {
         damagePerShot_SrcImg = "parameter-bars/5.svg";
     }
-    else if (unitData.explosionDamage <= rangeOfParameters.damagePerShot.h55) {
+    else if (unitData.maxDamagePerShot <= rangeOfParameters.damagePerShot.h55) {
         damagePerShot_SrcImg = "parameter-bars/5.5.svg";
     }
-    else if (unitData.explosionDamage <= rangeOfParameters.damagePerShot.h6) {
+    else if (unitData.maxDamagePerShot <= rangeOfParameters.damagePerShot.h6) {
         damagePerShot_SrcImg = "parameter-bars/6.svg";
     }
-    else if (unitData.explosionDamage <= rangeOfParameters.damagePerShot.h65) {
+    else if (unitData.maxDamagePerShot <= rangeOfParameters.damagePerShot.h65) {
         damagePerShot_SrcImg = "parameter-bars/6.5.svg";
     }
-    else if (unitData.explosionDamage <= rangeOfParameters.damagePerShot.h7) {
+    else if (unitData.maxDamagePerShot <= rangeOfParameters.damagePerShot.h7) {
         damagePerShot_SrcImg = "parameter-bars/7.svg";
     }
-    else if (unitData.explosionDamage <= rangeOfParameters.damagePerShot.h75) {
+    else if (unitData.maxDamagePerShot <= rangeOfParameters.damagePerShot.h75) {
         damagePerShot_SrcImg = "parameter-bars/7.5.svg";
     }
-    else if (unitData.explosionDamage <= rangeOfParameters.damagePerShot.h8) {
+    else if (unitData.maxDamagePerShot <= rangeOfParameters.damagePerShot.h8) {
         damagePerShot_SrcImg = "parameter-bars/8.svg";
     }
-    else if (unitData.explosionDamage <= rangeOfParameters.damagePerShot.h85) {
+    else if (unitData.maxDamagePerShot <= rangeOfParameters.damagePerShot.h85) {
         damagePerShot_SrcImg = "parameter-bars/8.5.svg";
     }
-    else if (unitData.explosionDamage <= rangeOfParameters.damagePerShot.h9) {
+    else if (unitData.maxDamagePerShot <= rangeOfParameters.damagePerShot.h9) {
         damagePerShot_SrcImg = "parameter-bars/9.svg";
     }
-    else if (unitData.explosionDamage <= rangeOfParameters.damagePerShot.h95) {
+    else if (unitData.maxDamagePerShot <= rangeOfParameters.damagePerShot.h95) {
         damagePerShot_SrcImg = "parameter-bars/9.5.svg";
     }
-    else if (unitData.explosionDamage <= rangeOfParameters.damagePerShot.h10) {
+    else if (unitData.maxDamagePerShot <= rangeOfParameters.damagePerShot.h10) {
         damagePerShot_SrcImg = "parameter-bars/10.svg";
         boxShadowsStyleDamagePerShot = "box-shadow: 0px 0px 12px #5EE947;";
         ShineEffect.ForDamagePerShot = "shine-effect";
