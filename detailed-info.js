@@ -26,6 +26,15 @@ var weapons = {
     w3_rt: "",
 };
 
+var upgradeName;
+var upgradeData = {
+    name: "",
+    metalCost: "",
+    energyCost: "",
+    description: ""
+}
+var upgradeTemplate="";
+
 $('body').on('click', '.unit-box, .u-name, .search-input-row', function () {
 
     if ($(this).hasClass("u-name")) {
@@ -154,19 +163,39 @@ $('body').on('click', '.unit-box, .u-name, .search-input-row', function () {
 
 
                 //countDpsAndRangeAndShotDmg(obj);
-
+                if (obj.attr("upgrade") != undefined) {
+                    upgradeData.name = "r";
+                }
                 setLabelParametersAndValues(checkUnitType());
 
                 setParameterBars();
 
-
-                //fillHTML();
-
                 ChangeColorOfKeywords();
 
                 fillHtmlTemplate();
+
+
                 $(".detailed-info-wrapper").append(template);
-                if (unitData.canBuild != "") { // what can build
+
+                //has upgrade?
+                if (obj.attr("upgrade") != undefined) {
+                    upgradeName = obj.attr("upgrade");
+
+                    for (i = 0; i < csvObj.length; i++) {
+                        if (csvObj[i].Objectname === upgradeName) {
+                            upgradeData.name = csvObj[i].Name;
+                            upgradeData.metalCost = csvObj[i].BuildCostMetal;
+                            upgradeData.energyCost = csvObj[i].BuildCostEnergy;
+                            upgradeData.description = csvObj[i].Description;
+                            upgradeData.imgSrc = csvObj[i].Objectname.replace("_", "-");
+                        }
+                    }
+                    fillUpgradeTemplate();               
+                    $("#detailed-unit-info-1 .unit-basic-info-upgr").append(upgradeTemplate);
+                    upgradeData.name = "";
+                }
+
+                if (unitData.canBuild != "" && obj.attr("upgrade") == undefined) { // what can build
                     generateCanBuildList();
                 }
                 else {
@@ -177,12 +206,15 @@ $('body').on('click', '.unit-box, .u-name, .search-input-row', function () {
                     generateBuiltByList();
                 }
 
+
+
                 if (previousUnitsListHTML.length >= 10) {
                 }
                 else {
                     previousUnitsListNames.push($(obj).attr("uname"));
                     previousUnitsListHTML.push($("#detailed-unit-info-1").html());
                 }
+
             }
         }
     }
@@ -195,12 +227,23 @@ $('body').on('click', '.unit-box, .u-name, .search-input-row', function () {
 function fillHtmlTemplate() {
     template =
         `
+${upgradeData.name != "" ? `
+        <div class="row unit-basic-info-upgr" style="padding: 13px 13px 9px 13px; margin:0 0 0 0;">
+        <div class="col col-lg-2 unit-image-box" style="">
+`: `
     <div class="unit-basic-info row">
-        <div class="col col-lg-4 unit-image-box">
+    <div class="col col-lg-4 unit-image-box">`
+        }
             <div class="unit-box-in-preview" style="${unitData.imgSrc}"></div>
         </div>
 
-        <div class="col col-lg-8" style="padding-left: 12px;">
+
+${upgradeData.name != "" ? `
+<div class="col col-lg-4" style="padding-left: 12px;">
+`: `
+<div class="col col-lg-8" style="padding-left: 12px;">
+        `}
+
             <div class="res-cost-row"><div class="energy-cost-bar exo2-16">Energy cost</div><span class="energy-cost-digit exo2-16">${setSpacesInBigNumbers(unitData.energyCost)}</span></div>
             <div class="res-cost-row" style="margin-bottom:3px;"><div class="metal-cost-bar exo2-16">Metal cost</div><span class="metal-cost-digit exo2-16">${setSpacesInBigNumbers(unitData.metalCost)} </span></div>
             <div class="summoning-code exo2-16" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Summoning code</span>You can type this code in game to summon <span style='font-weight:600'>${unitData.name}</span>. Just press Enter and type: <span style='color: #DEA73C; font-weight:500'>+${unitData.summoningCode}</span>. Then you can press Insert key to summon more.</br> It always works in single player. If you want to summon a unit in multiplayer, you have to switch <b>Cheat codes</b> (in game's lobby) to <b>Allowed</b> before starting a game. This is very handy when you want to test units. </br></br><p style='font-weight:600'>Useful codes:</p><ul><li><span style='color: #DEA73C; font-weight:500'>+los</span> - infinite view.</li><li><span style='color: #DEA73C; font-weight:500'>+corcheat</span> - almost infinite resources.</li> <li><span style='color: #DEA73C; font-weight:500'>+corkrog 1</span> - summons a Krogoth for another player (numbers from 1 to 9 are other players).</li><li><span style='color: #DEA73C; font-weight:500'>+showranges</span> - type it, then select a unit and hold Shift key to see many types of ranges.</li></ul> </div>"><span class="tooltip-dotted">Summoning</span> <span class="tooltip-dotted">code</span></div><span class="summoning-code-text exo2-16">+${unitData.summoningCode}</span>
@@ -231,7 +274,7 @@ function fillHtmlTemplate() {
                             <div class="unit-basic-stats">
 
                                 <div class="exo2-26 detailed-info-header" >Basic stats</div>
-                                <div class="row">
+                                <div class="row" style="margin:0;">
                                     <div class="col col-lg-6 no-padding">
                                         <div class="parameter-name">${firstParameter}</div>
                                         <div class="parameter-name">${secondParameter}</div>
@@ -286,7 +329,7 @@ function fillHtmlTemplate() {
                                                     <div class="parameter-value">${setSpacesInBigNumbers(unitData.explosionDamage)}</div>
                                                 </div>
                                             ` : ""}
-                                            ${unitTypeObj.isUndefined || unitTypeObj.isEco ? `
+                                            ${unitTypeObj.isEco || unitTypeObj.isBuilding? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForHP}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStyleHP}"></div>
                                                     <img src="${barHP_SrcImg}" class="parameter-bar" alt="">
@@ -295,14 +338,14 @@ function fillHtmlTemplate() {
                                             ` : ""}
 
 
-                                        ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isBomber ? `
+                                        ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isBomber || unitTypeObj.isAirFigther ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForDamagePerShot}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStyleDamagePerShot}"></div>
                                                     <img src="${damagePerShot_SrcImg}" class="parameter-bar" alt="">
                                                     <div class="parameter-value">${setSpacesInBigNumbers(unitData.explosionDamage)}</div>
                                             </div>
                                             ` : ""}
-                                        ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuildingDpsOnly ? `
+                                        ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForRange}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStyleRange}"></div>
                                                     <img src="${range_SrcImg}" class="parameter-bar" alt="">
@@ -344,7 +387,7 @@ function fillHtmlTemplate() {
                                                     <div class="parameter-value">${setSpacesInBigNumbers(unitData.jammerRange)}</div>
                                                 </div>
                                             ` : ""}
-                                            ${unitTypeObj.isJammerAircraft || unitTypeObj.isJammerBuilding || unitTypeObj.isJammerUnit || unitTypeObj.isAirFigther || unitTypeObj.isLab || unitTypeObj.isUndefined ? `
+                                            ${unitTypeObj.isJammerAircraft || unitTypeObj.isJammerBuilding || unitTypeObj.isJammerUnit || unitTypeObj.isAirFigther || unitTypeObj.isLab ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForHP}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStyleHP}"></div>
                                                     <img src="${barHP_SrcImg}" class="parameter-bar" alt="">
@@ -374,7 +417,7 @@ function fillHtmlTemplate() {
                                                     <div class="parameter-value">${setSpacesInBigNumbers(unitData.HP)}</div>
                                                 </div>
                                             ` : ""}
-                                            ${unitTypeObj.isRadarBuilding || unitTypeObj.isJammerBuilding ? `
+                                            ${unitTypeObj.isRadarBuilding || unitTypeObj.isJammerBuilding || unitTypeObj.isBuilding ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForSightD}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStylesightRange}"></div>
                                                     <img src="${sightRange_SrcImg}" class="parameter-bar" alt="">
@@ -395,21 +438,21 @@ function fillHtmlTemplate() {
                                                     <div class="parameter-value">${setSpacesInBigNumbers(unitData.HP)}</div>
                                                 </div>
                                             ` : ""}
-                                            ${unitTypeObj.isJammerAircraft || unitTypeObj.isBomber ? `
+                                            ${unitTypeObj.isJammerAircraft || unitTypeObj.isBomber || unitTypeObj.isAirFigther ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForFS}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStyleFlyingSpeed}"></div>
                                                     <img src="${flyingSpeed_SrcImg}" class="parameter-bar" alt="">
                                                     <div class="parameter-value">${setSpacesInBigNumbers(unitData.flyingSpeed)}</div>
                                                 </div>
                                             ` : ""}
-                                             ${unitTypeObj.isLab ? `
+                                             ${unitTypeObj.isLab || unitTypeObj.isAirFigther ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForSightD}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStylesightRange}"></div>
                                                     <img src="${sightRange_SrcImg}" class="parameter-bar" alt="">
                                                     <div class="parameter-value">${setSpacesInBigNumbers(unitData.sightRange)}</div>
                                                 </div>
                                             ` : ""}
-                                            ${unitTypeObj.isUndefined ? `
+                                            ${unitTypeObj.isUndefined || unitTypeObj.isUndefinedAircraft || unitTypeObj.isUndefinedUnit ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForHP}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStyleHP}"></div>
                                                     <img src="${barHP_SrcImg}" class="parameter-bar" alt="">
@@ -447,14 +490,14 @@ function fillHtmlTemplate() {
                                                     <div class="parameter-value">${unitData.movementSpeed}</div>
                                                 </div>
                                             ` : ""}
-                                            ${unitTypeObj.isCons || unitTypeObj.isSemiCon ? `
+                                            ${unitTypeObj.isCons || unitTypeObj.isSemiCon || unitTypeObj.isUndefinedUnit ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForMS}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStyleMovementSpeed}"></div>
                                                     <img src="${movementSpeed_SrcImg}" class="parameter-bar" alt="">
                                                     <div class="parameter-value">${setSpacesInBigNumbers(unitData.movementSpeed)}</div>
                                                 </div>
                                             ` : ""}
-                                             ${unitTypeObj.isAirCons ? `
+                                             ${unitTypeObj.isAirCons || unitTypeObj.isUndefinedAircraft ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForFS}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStyleFlyingSpeed}"></div>
                                                     <img src="${flyingSpeed_SrcImg}" class="parameter-bar" alt="">
@@ -468,8 +511,12 @@ function fillHtmlTemplate() {
                                                     <div class="parameter-value">${setSpacesInBigNumbers(unitData.sightRange)}</div>
                                                 </div>
                                             ` : ""}
-                                            ${unitTypeObj.isUndefined ? `
-                                                ""
+                                            ${unitTypeObj.isUndefined || unitTypeObj.isUndefinedAircraft || unitTypeObj.isUndefinedUnit ? `
+                                                <div class="parameter-bar-and-value ${ShineEffect.ForSightD}">
+                                                <div class="box-shadow-for-bar" style="${boxShadowsStylesightRange}"></div>
+                                                    <img src="${sightRange_SrcImg}" class="parameter-bar" alt="">
+                                                    <div class="parameter-value">${setSpacesInBigNumbers(unitData.sightRange)}</div>
+                                                </div>
                                             ` : ""}
 
 
@@ -487,17 +534,10 @@ function fillHtmlTemplate() {
                                                     <div class="parameter-value">${setSpacesInBigNumbers(unitData.sightRange)}</div>
                                                 </div>
                                             ` : ""}
-                                            ${unitTypeObj.isUndefined ? `
-                                                ""
-                                            ` : ""}
                                     </div>
 
                                 </div>
-                                            ${unitTypeObj.isRadarAndJammerAircraft || unitTypeObj.isRadarAndJammerBuilding || unitTypeObj.isRadarAndJammerUnit || unitTypeObj.isJammerAircraft || unitTypeObj.isJammerBuilding || unitTypeObj.isJammerUnit ? `
 
-                                                    <p style="text-align:center; color:#DEA73C; padding:7px 30px" >${unitData.p1}</p>
-
-                                            ` : ""}
 
                                                     ${unitTypeObj.isEco && unitData.sup1 != undefined && unitData.sup2 != undefined ? `
                                                     <hr class="separator-between-info-stats">
@@ -618,6 +658,26 @@ function fillHtmlTemplate() {
         </div>
 `
 }
+
+function fillUpgradeTemplate() {
+    upgradeTemplate =
+        `<img src="upgrade-icon.svg" class="plus-upgrade"/>
+        <div class="upgrade-info-container">
+        <p class="optional-upgrade-info">${upgradeData.name} (optional) </p>
+        <div class="row" style="max-width: 270px; margin:0;">
+        <div class="col col-lg-2 unit-image-box">
+            <img src="units-images/${upgradeData.imgSrc}.jpg" class="upgrade-img"/>
+        </div>
+        <div class="col col-lg-8" style="padding-left: 12px;">
+            <div class="res-cost-row"><div class="energy-cost-bar exo2-16">Energy cost</div><span class="energy-cost-digit exo2-16">${setSpacesInBigNumbers(upgradeData.energyCost)}</span></div>
+            <div class="res-cost-row" style="margin-bottom:3px;"><div class="metal-cost-bar exo2-16">Metal cost</div><span class="metal-cost-digit exo2-16">${setSpacesInBigNumbers(upgradeData.metalCost)} </span></div>
+        </div>
+        <div style="color:white; font-size:14px; color: rgba(255, 255, 255, 0.8);">- ${upgradeData.description}<div>
+    </div></div>
+
+`
+}
+
 
 $('body').on('click', '#prev-unit', function () {
     if (previousUnitsListHTML.length == 0) {
