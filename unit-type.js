@@ -223,7 +223,7 @@ function checkUnitType() {
     }
 
 
-    if (unitData.builder != 1 && (unitData.jammerRange == "n/a" || unitData.jammerRange == "0") && unitData.canAttack == 1 && unitData.isMineOrClawlingBomb != 1 && unitData.canMove == 1 && unitData.movementSpeed <4) { // is fighting unit/building?
+    if (unitData.builder != 1 && (unitData.jammerRange == "n/a" || unitData.jammerRange == "0") && unitData.canAttack == 1 && unitData.isMineOrClawlingBomb != 1 && unitData.canMove == 1 && unitData.movementSpeed < 4 && unitData.name!="Decimator") { // is fighting unit/building?
         if (unitData.name == "Voyeur" || unitData.name == "Marky" || unitData.name == "Seer" || unitData.name == "Informer") {
             unitTypeObj.isRadarUnit = true;
         }
@@ -253,7 +253,7 @@ function checkUnitType() {
             unitTypeObj.isSemiCon = true;
         }
     }
-    else if (unitData.movementSpeed > 4 && unitData.jammerRange == "n/a") { // is air figthing unit?
+    else if (unitData.movementSpeed >= 3.15 && unitData.jammerRange == "n/a") { // is air figthing unit?
         if (unitData.name == "Peeper" || unitData.name == "Fink" || unitData.name == "Sky Crane" || unitData.name == "Emissary" || unitData.name == "Valkyrie" || unitData.name == "Atlas") {
             unitTypeObj.isUndefinedAircraft = true;
         }
