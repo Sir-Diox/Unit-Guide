@@ -62,11 +62,17 @@ var keywords = ["Cloakable", "Stealth", "Amphibious", "Stun Immunity", "Upgradab
 
 var ShineEffect = { //only for bars with 10/10
     ForDPS: "",
+    ForDPS2: "",
+    ForDPS3: "",
     ForDamagePerShot: "",
+    ForDamagePerShot1: "",
+    ForDamagePerShot2: "",
     ForHP :"",
     ForMS :"",
     ForFS :"", // flying speed
-    ForRange :"",
+    ForRange: "",
+    ForRange2: "",
+    ForRange3: "",
     ForSightD :"",
     ForBuildSpeed :"",
     ForExplosionDamage: "",
@@ -78,8 +84,14 @@ var ShineEffect = { //only for bars with 10/10
 }
 
 var boxShadowsStyleDps = ""; //only for bars with 10/10
+var boxShadowsStyleDps2 = "";
+var boxShadowsStyleDps3 = "";
 var boxShadowsStyleDamagePerShot = "";
+var boxShadowsStyleDamagePerShot2 = "";
+var boxShadowsStyleDamagePerShot3 = "";
 var boxShadowsStyleRange = "";
+var boxShadowsStyleRange2 = "";
+var boxShadowsStyleRange3 = "";
 var boxShadowsStyleMovementSpeed = "";
 var boxShadowsStyleFlyingSpeed = "";
 var boxShadowsStyleHP = "";
@@ -104,12 +116,20 @@ var previewPosition = {
 
 var unitTypeObj;
 
+var pulsingStyle = "animation: pulsing 2s infinite; animation-timing-function: linear;";
+
 var barHP_SrcImg;
 var movementSpeed_SrcImg;
 var flyingSpeed_SrcImg;
 var dps_SrcImg;
+var dps2_SrcImg;// for 2nd weapon in detailed info
+var dps3_SrcImg;// for 3rd weapon 
 var damagePerShot_SrcImg;
+var damagePerShot2_SrcImg; 
+var damagePerShot3_SrcImg; 
 var range_SrcImg;
+var range2_SrcImg;
+var range3_SrcImg;
 var buildSpeed_SrcImg;
 var explosionDamage_SrcImg;
 var buildRange_SrcImg;
@@ -463,7 +483,7 @@ function setParameterBars(){
     }
     else if(unitData.HP <= rangeOfParameters.HP.h10){
         barHP_SrcImg="parameter-bars/10.svg";
-        boxShadowsStyleHP = "box-shadow: 0px 0px 12px #5EE947;";
+        boxShadowsStyleHP = pulsingStyle;
         ShineEffect.ForHP = "shine-effect";
     }
     
@@ -533,7 +553,7 @@ function setParameterBars(){
     }
     else if(unitData.overallDps <= rangeOfParameters.dps.h10){
         dps_SrcImg="parameter-bars/10.svg";
-        boxShadowsStyleDps = "box-shadow: 0px 0px 12px #5EE947;";
+        boxShadowsStyleDps = pulsingStyle;
         ShineEffect.ForDPS = "shine-effect";
     }
 
@@ -600,7 +620,7 @@ function setParameterBars(){
     }
     else if(unitData.biggestRange <= rangeOfParameters.range.h10){
         range_SrcImg="parameter-bars/10.svg";
-        boxShadowsStyleRange = "box-shadow: 0px 0px 12px #5EE947;";
+        boxShadowsStyleRange = pulsingStyle;
         ShineEffect.ForRange = "shine-effect";
     }
 
@@ -622,7 +642,7 @@ function setParameterBars(){
     }
     else if (unitData.biggestRange <= rangeOfParameters.explosionRange.h10) {
         explosionRange_SrcImg = "parameter-bars/10.svg";
-        boxShadowsStyleExplosionRange = "box-shadow: 0px 0px 12px #5EE947;";
+        boxShadowsStyleExplosionRange = pulsingStyle;
         ShineEffect.ForExplosionRange = "shine-effect";
     }
 
@@ -691,7 +711,7 @@ function setParameterBars(){
     }
     else if(unitData.movementSpeed <= rangeOfParameters.movementSpeed.h10){
         movementSpeed_SrcImg="parameter-bars/10.svg";
-        boxShadowsStyleMovementSpeed = "box-shadow: 0px 0px 12px #5EE947;";
+        boxShadowsStyleMovementSpeed = pulsingStyle;
         ShineEffect.ForMS = "shine-effect";
     }
 
@@ -758,7 +778,7 @@ function setParameterBars(){
     }
     else if(unitData.flyingSpeed <= rangeOfParameters.flyingSpeed.h10){
         flyingSpeed_SrcImg="parameter-bars/10.svg";
-        boxShadowsStyleFlyingSpeed = "box-shadow: 0px 0px 12px #5EE947;";
+        boxShadowsStyleFlyingSpeed = pulsingStyle;
         ShineEffect.ForFS = "shine-effect";
     }
 
@@ -825,7 +845,7 @@ function setParameterBars(){
     }
     else if(unitData.sightRange <= rangeOfParameters.sightRange.h10){
         sightRange_SrcImg="parameter-bars/10.svg";
-        boxShadowsStylesightRange = "box-shadow: 0px 0px 12px #5EE947;";
+        boxShadowsStylesightRange = pulsingStyle;
         ShineEffect.ForSightD = "shine-effect";
     }
 
@@ -892,7 +912,7 @@ function setParameterBars(){
     }
     else if(unitData.buildSpeed <= rangeOfParameters.buildSpeed.h10){
         buildSpeed_SrcImg="parameter-bars/10.svg";
-        boxShadowsStylesightRange = "box-shadow: 0px 0px 12px #5EE947;";
+        boxShadowsStylesightRange = pulsingStyle;
         ShineEffect.ForBuildSpeed = "shine-effect";
     }
 
@@ -932,7 +952,7 @@ function setParameterBars(){
     }
     else if(unitData.buildRange <= rangeOfParameters.buildRange.h10){
         buildRange_SrcImg="parameter-bars/10.svg";
-        boxShadowsStyleBuildRange = "box-shadow: 0px 0px 12px #5EE947;";
+        boxShadowsStyleBuildRange = pulsingStyle;
         ShineEffect.ForBuildRange = "shine-effect";
     }
 
@@ -951,7 +971,7 @@ function setParameterBars(){
     }
     else if(unitData.explosionDamage <= rangeOfParameters.damageExplosion.h10){
         explosionDamage_SrcImg="parameter-bars/10.svg";
-        boxShadowsStyleExplosionDamage = "box-shadow: 0px 0px 12px #5EE947;";
+        boxShadowsStyleExplosionDamage = pulsingStyle;
         ShineEffect.ForExplosionDamage = "shine-effect";
     }
 
@@ -985,7 +1005,7 @@ function setParameterBars(){
         }
         else if(unitData.minMetalCostForE >= rangeOfParameters.energyMetalCostRatio.h10){
             minMetalCostForE_SrcImg="parameter-bars/10.svg";
-            boxShadowsMinMetalCostForE = "box-shadow: 0px 0px 12px #5EE947;";
+            boxShadowsMinMetalCostForE = pulsingStyle;
             ShineEffect.ForMinMetalCostForE = "shine-effect";
         }
 
@@ -1020,7 +1040,7 @@ function setParameterBars(){
         }
         else if(unitData.maxMetalCostForE >= rangeOfParameters.energyMetalCostRatio.h10){
             maxMetalCostForE_SrcImg="parameter-bars/10.svg";
-            boxShadowsMaxMetalCostForE = "box-shadow: 0px 0px 12px #5EE947;";
+            boxShadowsMaxMetalCostForE = pulsingStyle;
             ShineEffect.ForMaxMetalCostForE = "shine-effect";
     }
 
@@ -1087,7 +1107,7 @@ function setParameterBars(){
     }
     else if (unitData.maxDamagePerShot <= rangeOfParameters.damagePerShot.h10) {
         damagePerShot_SrcImg = "parameter-bars/10.svg";
-        boxShadowsStyleDamagePerShot = "box-shadow: 0px 0px 12px #5EE947;";
+        boxShadowsStyleDamagePerShot = pulsingStyle;
         ShineEffect.ForDamagePerShot = "shine-effect";
     }
 
@@ -1155,7 +1175,7 @@ function setParameterBars(){
     }
     else if (unitData.radarRange <= rangeOfParameters.radarRange.h10) {
         radarRange_SrcImg = "parameter-bars/10.svg";
-        boxShadowsStyleRadarRange = "box-shadow: 0px 0px 12px #5EE947;";
+        boxShadowsStyleRadarRange = pulsingStyle;
         ShineEffect.ForRadarRange = "shine-effect";
     }
 
@@ -1222,7 +1242,627 @@ function setParameterBars(){
     }
     else if (unitData.jammerRange <= rangeOfParameters.jammerRange.h10) {
         jammerRange_SrcImg = "parameter-bars/10.svg";
-        boxShadowsStyleJammerRange = "box-shadow: 0px 0px 12px #5EE947;";
+        boxShadowsStyleJammerRange = pulsingStyle;
         ShineEffect.ForJammerRange = "shine-effect";
     }
+}
+
+
+
+
+function setParameterBarsForManyWeapons() {
+    //damage per shot 1
+    if (weapons.w1 <= rangeOfParameters.damagePerShot.h0) {
+        damagePerShot_SrcImg = "parameter-bars/0.svg";
+    }
+    else if (weapons.w1 <= rangeOfParameters.damagePerShot.h05) {
+        damagePerShot_SrcImg = "parameter-bars/0.5.svg";
+    }
+    else if (weapons.w1 <= rangeOfParameters.damagePerShot.h1) {
+        damagePerShot_SrcImg = "parameter-bars/1.svg";
+    }
+    else if (weapons.w1 <= rangeOfParameters.damagePerShot.h15) {
+        damagePerShot_SrcImg = "parameter-bars/1.5.svg";
+    }
+    else if (weapons.w1 <= rangeOfParameters.damagePerShot.h2) {
+        damagePerShot_SrcImg = "parameter-bars/2.svg";
+    }
+    else if (weapons.w1 <= rangeOfParameters.damagePerShot.h25) {
+        damagePerShot_SrcImg = "parameter-bars/2.5.svg";
+    }
+    else if (weapons.w1 <= rangeOfParameters.damagePerShot.h3) {
+        damagePerShot_SrcImg = "parameter-bars/3.svg";
+    }
+    else if (weapons.w1 <= rangeOfParameters.damagePerShot.h35) {
+        damagePerShot_SrcImg = "parameter-bars/3.5.svg";
+    }
+    else if (weapons.w1 <= rangeOfParameters.damagePerShot.h4) {
+        damagePerShot_SrcImg = "parameter-bars/4.svg";
+    }
+    else if (weapons.w1 <= rangeOfParameters.damagePerShot.h45) {
+        damagePerShot_SrcImg = "parameter-bars/4.5.svg";
+    }
+    else if (weapons.w1 <= rangeOfParameters.damagePerShot.h5) {
+        damagePerShot_SrcImg = "parameter-bars/5.svg";
+    }
+    else if (weapons.w1 <= rangeOfParameters.damagePerShot.h55) {
+        damagePerShot_SrcImg = "parameter-bars/5.5.svg";
+    }
+    else if (weapons.w1 <= rangeOfParameters.damagePerShot.h6) {
+        damagePerShot_SrcImg = "parameter-bars/6.svg";
+    }
+    else if (weapons.w1 <= rangeOfParameters.damagePerShot.h65) {
+        damagePerShot_SrcImg = "parameter-bars/6.5.svg";
+    }
+    else if (weapons.w1 <= rangeOfParameters.damagePerShot.h7) {
+        damagePerShot_SrcImg = "parameter-bars/7.svg";
+    }
+    else if (weapons.w1 <= rangeOfParameters.damagePerShot.h75) {
+        damagePerShot_SrcImg = "parameter-bars/7.5.svg";
+    }
+    else if (weapons.w1 <= rangeOfParameters.damagePerShot.h8) {
+        damagePerShot_SrcImg = "parameter-bars/8.svg";
+    }
+    else if (weapons.w1 <= rangeOfParameters.damagePerShot.h85) {
+        damagePerShot_SrcImg = "parameter-bars/8.5.svg";
+    }
+    else if (weapons.w1 <= rangeOfParameters.damagePerShot.h9) {
+        damagePerShot_SrcImg = "parameter-bars/9.svg";
+    }
+    else if (weapons.w1 <= rangeOfParameters.damagePerShot.h95) {
+        damagePerShot_SrcImg = "parameter-bars/9.5.svg";
+    }
+    else if (weapons.w1 <= rangeOfParameters.damagePerShot.h10) {
+        damagePerShot_SrcImg = "parameter-bars/10.svg";
+        boxShadowsStyleDamagePerShot = pulsingStyle;
+        ShineEffect.ForDamagePerShot = "shine-effect";
+    }
+
+    //damage per shot 2
+    if (weapons.w2 <= rangeOfParameters.damagePerShot.h0) {
+        damagePerShot2_SrcImg = "parameter-bars/0.svg";
+    }
+    else if (weapons.w2 <= rangeOfParameters.damagePerShot.h05) {
+        damagePerShot2_SrcImg = "parameter-bars/0.5.svg";
+    }
+    else if (weapons.w2 <= rangeOfParameters.damagePerShot.h1) {
+        damagePerShot2_SrcImg = "parameter-bars/1.svg";
+    }
+    else if (weapons.w2 <= rangeOfParameters.damagePerShot.h15) {
+        damagePerShot2_SrcImg = "parameter-bars/1.5.svg";
+    }
+    else if (weapons.w2 <= rangeOfParameters.damagePerShot.h2) {
+        damagePerShot2_SrcImg = "parameter-bars/2.svg";
+    }
+    else if (weapons.w2 <= rangeOfParameters.damagePerShot.h25) {
+        damagePerShot2_SrcImg = "parameter-bars/2.5.svg";
+    }
+    else if (weapons.w2 <= rangeOfParameters.damagePerShot.h3) {
+        damagePerShot2_SrcImg = "parameter-bars/3.svg";
+    }
+    else if (weapons.w2 <= rangeOfParameters.damagePerShot.h35) {
+        damagePerShot2_SrcImg = "parameter-bars/3.5.svg";
+    }
+    else if (weapons.w2 <= rangeOfParameters.damagePerShot.h4) {
+        damagePerShot2_SrcImg = "parameter-bars/4.svg";
+    }
+    else if (weapons.w2 <= rangeOfParameters.damagePerShot.h45) {
+        damagePerShot2_SrcImg = "parameter-bars/4.5.svg";
+    }
+    else if (weapons.w2 <= rangeOfParameters.damagePerShot.h5) {
+        damagePerShot2_SrcImg = "parameter-bars/5.svg";
+    }
+    else if (weapons.w2 <= rangeOfParameters.damagePerShot.h55) {
+        damagePerShot2_SrcImg = "parameter-bars/5.5.svg";
+    }
+    else if (weapons.w2 <= rangeOfParameters.damagePerShot.h6) {
+        damagePerShot2_SrcImg = "parameter-bars/6.svg";
+    }
+    else if (weapons.w2 <= rangeOfParameters.damagePerShot.h65) {
+        damagePerShot2_SrcImg = "parameter-bars/6.5.svg";
+    }
+    else if (weapons.w2 <= rangeOfParameters.damagePerShot.h7) {
+        damagePerShot2_SrcImg = "parameter-bars/7.svg";
+    }
+    else if (weapons.w2 <= rangeOfParameters.damagePerShot.h75) {
+        damagePerShot2_SrcImg = "parameter-bars/7.5.svg";
+    }
+    else if (weapons.w2 <= rangeOfParameters.damagePerShot.h8) {
+        damagePerShot2_SrcImg = "parameter-bars/8.svg";
+    }
+    else if (weapons.w2 <= rangeOfParameters.damagePerShot.h85) {
+        damagePerShot2_SrcImg = "parameter-bars/8.5.svg";
+    }
+    else if (weapons.w2 <= rangeOfParameters.damagePerShot.h9) {
+        damagePerShot2_SrcImg = "parameter-bars/9.svg";
+    }
+    else if (weapons.w2 <= rangeOfParameters.damagePerShot.h95) {
+        damagePerShot2_SrcImg = "parameter-bars/9.5.svg";
+    }
+    else if (weapons.w2 <= rangeOfParameters.damagePerShot.h10) {
+        damagePerShot2_SrcImg = "parameter-bars/10.svg";
+        boxShadowsStyleDamagePerShot2 = pulsingStyle;
+        ShineEffect.ForDamagePerShot2 = "shine-effect";
+    }
+
+    //damage per shot 3
+    if (weapons.w3 <= rangeOfParameters.damagePerShot.h0) {
+        damagePerShot3_SrcImg = "parameter-bars/0.svg";
+    }
+    else if (weapons.w3 <= rangeOfParameters.damagePerShot.h05) {
+        damagePerShot3_SrcImg = "parameter-bars/0.5.svg";
+    }
+    else if (weapons.w3 <= rangeOfParameters.damagePerShot.h1) {
+        damagePerShot3_SrcImg = "parameter-bars/1.svg";
+    }
+    else if (weapons.w3 <= rangeOfParameters.damagePerShot.h15) {
+        damagePerShot3_SrcImg = "parameter-bars/1.5.svg";
+    }
+    else if (weapons.w3 <= rangeOfParameters.damagePerShot.h2) {
+        damagePerShot3_SrcImg = "parameter-bars/2.svg";
+    }
+    else if (weapons.w3 <= rangeOfParameters.damagePerShot.h25) {
+        damagePerShot3_SrcImg = "parameter-bars/2.5.svg";
+    }
+    else if (weapons.w3 <= rangeOfParameters.damagePerShot.h3) {
+        damagePerShot3_SrcImg = "parameter-bars/3.svg";
+    }
+    else if (weapons.w3 <= rangeOfParameters.damagePerShot.h35) {
+        damagePerShot3_SrcImg = "parameter-bars/3.5.svg";
+    }
+    else if (weapons.w3 <= rangeOfParameters.damagePerShot.h4) {
+        damagePerShot3_SrcImg = "parameter-bars/4.svg";
+    }
+    else if (weapons.w3 <= rangeOfParameters.damagePerShot.h45) {
+        damagePerShot3_SrcImg = "parameter-bars/4.5.svg";
+    }
+    else if (weapons.w3 <= rangeOfParameters.damagePerShot.h5) {
+        damagePerShot3_SrcImg = "parameter-bars/5.svg";
+    }
+    else if (weapons.w3 <= rangeOfParameters.damagePerShot.h55) {
+        damagePerShot3_SrcImg = "parameter-bars/5.5.svg";
+    }
+    else if (weapons.w3 <= rangeOfParameters.damagePerShot.h6) {
+        damagePerShot3_SrcImg = "parameter-bars/6.svg";
+    }
+    else if (weapons.w3 <= rangeOfParameters.damagePerShot.h65) {
+        damagePerShot3_SrcImg = "parameter-bars/6.5.svg";
+    }
+    else if (weapons.w3 <= rangeOfParameters.damagePerShot.h7) {
+        damagePerShot3_SrcImg = "parameter-bars/7.svg";
+    }
+    else if (weapons.w3 <= rangeOfParameters.damagePerShot.h75) {
+        damagePerShot3_SrcImg = "parameter-bars/7.5.svg";
+    }
+    else if (weapons.w3 <= rangeOfParameters.damagePerShot.h8) {
+        damagePerShot3_SrcImg = "parameter-bars/8.svg";
+    }
+    else if (weapons.w3 <= rangeOfParameters.damagePerShot.h85) {
+        damagePerShot3_SrcImg = "parameter-bars/8.5.svg";
+    }
+    else if (weapons.w3 <= rangeOfParameters.damagePerShot.h9) {
+        damagePerShot3_SrcImg = "parameter-bars/9.svg";
+    }
+    else if (weapons.w3 <= rangeOfParameters.damagePerShot.h95) {
+        damagePerShot3_SrcImg = "parameter-bars/9.5.svg";
+    }
+    else if (weapons.w3 <= rangeOfParameters.damagePerShot.h10) {
+        damagePerShot3_SrcImg = "parameter-bars/10.svg";
+        boxShadowsStyleDamagePerShot3 = pulsingStyle;
+        ShineEffect.ForDamagePerShot3 = "shine-effect";
+    }
+
+
+    // for DPS 1   
+    if (weapons.w1_dps == "Too random to show") {
+        dps_SrcImg = "parameter-bars/0.svg";
+    }
+    else if (weapons.w1_dps <= rangeOfParameters.dps.h05) {
+        dps_SrcImg = "parameter-bars/0.svg";
+    }
+    else if (weapons.w1_dps <= rangeOfParameters.dps.h05) {
+        dps_SrcImg = "parameter-bars/0.5.svg";
+    }
+    else if (weapons.w1_dps <= rangeOfParameters.dps.h1) {
+        dps_SrcImg = "parameter-bars/1.svg";
+    }
+    else if (weapons.w1_dps <= rangeOfParameters.dps.h15) {
+        dps_SrcImg = "parameter-bars/1.5.svg";
+    }
+    else if (weapons.w1_dps <= rangeOfParameters.dps.h2) {
+        dps_SrcImg = "parameter-bars/2.svg";
+    }
+    else if (weapons.w1_dps <= rangeOfParameters.dps.h25) {
+        dps_SrcImg = "parameter-bars/2.5.svg";
+    }
+    else if (weapons.w1_dps <= rangeOfParameters.dps.h3) {
+        dps_SrcImg = "parameter-bars/3.svg";
+    }
+    else if (weapons.w1_dps <= rangeOfParameters.dps.h35) {
+        dps_SrcImg = "parameter-bars/3.5.svg";
+    }
+    else if (weapons.w1_dps <= rangeOfParameters.dps.h4) {
+        dps_SrcImg = "parameter-bars/4.svg";
+    }
+    else if (weapons.w1_dps <= rangeOfParameters.dps.h45) {
+        dps_SrcImg = "parameter-bars/4.5.svg";
+    }
+    else if (weapons.w1_dps <= rangeOfParameters.dps.h5) {
+        dps_SrcImg = "parameter-bars/5.svg";
+    }
+    else if (weapons.w1_dps <= rangeOfParameters.dps.h55) {
+        dps_SrcImg = "parameter-bars/5.5.svg";
+    }
+    else if (weapons.w1_dps <= rangeOfParameters.dps.h6) {
+        dps_SrcImg = "parameter-bars/6.svg";
+    }
+    else if (weapons.w1_dps <= rangeOfParameters.dps.h65) {
+        dps_SrcImg = "parameter-bars/6.5.svg";
+    }
+    else if (weapons.w1_dps <= rangeOfParameters.dps.h7) {
+        dps_SrcImg = "parameter-bars/7.svg";
+    }
+    else if (weapons.w1_dps <= rangeOfParameters.dps.h75) {
+        dps_SrcImg = "parameter-bars/7.5.svg";
+    }
+    else if (weapons.w1_dps <= rangeOfParameters.dps.h8) {
+        dps_SrcImg = "parameter-bars/8.svg";
+    }
+    else if (weapons.w1_dps <= rangeOfParameters.dps.h85) {
+        dps_SrcImg = "parameter-bars/8.5.svg";
+    }
+    else if (weapons.w1_dps <= rangeOfParameters.dps.h9) {
+        dps_SrcImg = "parameter-bars/9.svg";
+    }
+    else if (weapons.w1_dps <= rangeOfParameters.dps.h95) {
+        dps_SrcImg = "parameter-bars/9.5.svg";
+    }
+    else if (weapons.w1_dps <= rangeOfParameters.dps.h10) {
+        dps_SrcImg = "parameter-bars/10.svg";
+        boxShadowsStyleDps = pulsingStyle;
+        ShineEffect.ForDPS = "shine-effect";
+    }
+
+    // for DPS 2   
+    if (weapons.w2_dps == "Too random to show") {
+        dps2_SrcImg = "parameter-bars/0.svg";
+    }
+    else if (weapons.w2_dps <= rangeOfParameters.dps.h05) {
+        dps2_SrcImg = "parameter-bars/0.svg";
+    }
+    else if (weapons.w2_dps <= rangeOfParameters.dps.h05) {
+        dps2_SrcImg = "parameter-bars/0.5.svg";
+    }
+    else if (weapons.w2_dps <= rangeOfParameters.dps.h1) {
+        dps2_SrcImg = "parameter-bars/1.svg";
+    }
+    else if (weapons.w2_dps <= rangeOfParameters.dps.h15) {
+        dps2_SrcImg = "parameter-bars/1.5.svg";
+    }
+    else if (weapons.w2_dps <= rangeOfParameters.dps.h2) {
+        dps2_SrcImg = "parameter-bars/2.svg";
+    }
+    else if (weapons.w2_dps <= rangeOfParameters.dps.h25) {
+        dps2_SrcImg = "parameter-bars/2.5.svg";
+    }
+    else if (weapons.w2_dps <= rangeOfParameters.dps.h3) {
+        dps2_SrcImg = "parameter-bars/3.svg";
+    }
+    else if (weapons.w2_dps <= rangeOfParameters.dps.h35) {
+        dps2_SrcImg = "parameter-bars/3.5.svg";
+    }
+    else if (weapons.w2_dps <= rangeOfParameters.dps.h4) {
+        dps2_SrcImg = "parameter-bars/4.svg";
+    }
+    else if (weapons.w2_dps <= rangeOfParameters.dps.h45) {
+        dps2_SrcImg = "parameter-bars/4.5.svg";
+    }
+    else if (weapons.w2_dps <= rangeOfParameters.dps.h5) {
+        dps2_SrcImg = "parameter-bars/5.svg";
+    }
+    else if (weapons.w2_dps <= rangeOfParameters.dps.h55) {
+        dps2_SrcImg = "parameter-bars/5.5.svg";
+    }
+    else if (weapons.w2_dps <= rangeOfParameters.dps.h6) {
+        dps2_SrcImg = "parameter-bars/6.svg";
+    }
+    else if (weapons.w2_dps <= rangeOfParameters.dps.h65) {
+        dps2_SrcImg = "parameter-bars/6.5.svg";
+    }
+    else if (weapons.w2_dps <= rangeOfParameters.dps.h7) {
+        dps2_SrcImg = "parameter-bars/7.svg";
+    }
+    else if (weapons.w2_dps <= rangeOfParameters.dps.h75) {
+        dps2_SrcImg = "parameter-bars/7.5.svg";
+    }
+    else if (weapons.w2_dps <= rangeOfParameters.dps.h8) {
+        dps2_SrcImg = "parameter-bars/8.svg";
+    }
+    else if (weapons.w2_dps <= rangeOfParameters.dps.h85) {
+        dps2_SrcImg = "parameter-bars/8.5.svg";
+    }
+    else if (weapons.w2_dps <= rangeOfParameters.dps.h9) {
+        dps2_SrcImg = "parameter-bars/9.svg";
+    }
+    else if (weapons.w2_dps <= rangeOfParameters.dps.h95) {
+        dps2_SrcImg = "parameter-bars/9.5.svg";
+    }
+    else if (weapons.w2_dps <= rangeOfParameters.dps.h10) {
+        dps2_SrcImg = "parameter-bars/10.svg";
+        boxShadowsStyleDps2 = pulsingStyle;
+        ShineEffect.ForDPS2 = "shine-effect";
+    }
+
+    // for DPS 2   
+    if (weapons.w3_dps == "Too random to show") {
+        dps3_SrcImg = "parameter-bars/0.svg";
+    }
+    else if (weapons.w3_dps <= rangeOfParameters.dps.h05) {
+        dps3_SrcImg = "parameter-bars/0.svg";
+    }
+    else if (weapons.w3_dps <= rangeOfParameters.dps.h05) {
+        dps3_SrcImg = "parameter-bars/0.5.svg";
+    }
+    else if (weapons.w3_dps <= rangeOfParameters.dps.h1) {
+        dps3_SrcImg = "parameter-bars/1.svg";
+    }
+    else if (weapons.w3_dps <= rangeOfParameters.dps.h15) {
+        dps3_SrcImg = "parameter-bars/1.5.svg";
+    }
+    else if (weapons.w3_dps <= rangeOfParameters.dps.h2) {
+        dps3_SrcImg = "parameter-bars/2.svg";
+    }
+    else if (weapons.w3_dps <= rangeOfParameters.dps.h25) {
+        dps3_SrcImg = "parameter-bars/2.5.svg";
+    }
+    else if (weapons.w3_dps <= rangeOfParameters.dps.h3) {
+        dps3_SrcImg = "parameter-bars/3.svg";
+    }
+    else if (weapons.w3_dps <= rangeOfParameters.dps.h35) {
+        dps3_SrcImg = "parameter-bars/3.5.svg";
+    }
+    else if (weapons.w3_dps <= rangeOfParameters.dps.h4) {
+        dps3_SrcImg = "parameter-bars/4.svg";
+    }
+    else if (weapons.w3_dps <= rangeOfParameters.dps.h45) {
+        dps3_SrcImg = "parameter-bars/4.5.svg";
+    }
+    else if (weapons.w3_dps <= rangeOfParameters.dps.h5) {
+        dps3_SrcImg = "parameter-bars/5.svg";
+    }
+    else if (weapons.w3_dps <= rangeOfParameters.dps.h55) {
+        dps3_SrcImg = "parameter-bars/5.5.svg";
+    }
+    else if (weapons.w3_dps <= rangeOfParameters.dps.h6) {
+        dps3_SrcImg = "parameter-bars/6.svg";
+    }
+    else if (weapons.w3_dps <= rangeOfParameters.dps.h65) {
+        dps3_SrcImg = "parameter-bars/6.5.svg";
+    }
+    else if (weapons.w3_dps <= rangeOfParameters.dps.h7) {
+        dps3_SrcImg = "parameter-bars/7.svg";
+    }
+    else if (weapons.w3_dps <= rangeOfParameters.dps.h75) {
+        dps3_SrcImg = "parameter-bars/7.5.svg";
+    }
+    else if (weapons.w3_dps <= rangeOfParameters.dps.h8) {
+        dps3_SrcImg = "parameter-bars/8.svg";
+    }
+    else if (weapons.w3_dps <= rangeOfParameters.dps.h85) {
+        dps3_SrcImg = "parameter-bars/8.5.svg";
+    }
+    else if (weapons.w3_dps <= rangeOfParameters.dps.h9) {
+        dps3_SrcImg = "parameter-bars/9.svg";
+    }
+    else if (weapons.w3_dps <= rangeOfParameters.dps.h95) {
+        dps3_SrcImg = "parameter-bars/9.5.svg";
+    }
+    else if (weapons.w3_dps <= rangeOfParameters.dps.h10) {
+        dps3_SrcImg = "parameter-bars/10.svg";
+        boxShadowsStyleDps3 = pulsingStyle;
+        ShineEffect.ForDPS3 = "shine-effect";
+    }
+
+
+    // for range 1
+    if (weapons.w1_r <= rangeOfParameters.range.h0) {
+        range_SrcImg = "parameter-bars/0.svg";
+    }
+    else if (weapons.w1_r <= rangeOfParameters.range.h05) {
+        range_SrcImg = "parameter-bars/0.5.svg";
+    }
+    else if (weapons.w1_r <= rangeOfParameters.range.h1) {
+        range_SrcImg = "parameter-bars/1.svg";
+    }
+    else if (weapons.w1_r <= rangeOfParameters.range.h15) {
+        range_SrcImg = "parameter-bars/1.5.svg";
+    }
+    else if (weapons.w1_r <= rangeOfParameters.range.h2) {
+        range_SrcImg = "parameter-bars/2.svg";
+    }
+    else if (weapons.w1_r <= rangeOfParameters.range.h25) {
+        range_SrcImg = "parameter-bars/2.5.svg";
+    }
+    else if (weapons.w1_r <= rangeOfParameters.range.h3) {
+        range_SrcImg = "parameter-bars/3.svg";
+    }
+    else if (weapons.w1_r <= rangeOfParameters.range.h35) {
+        range_SrcImg = "parameter-bars/3.5.svg";
+    }
+    else if (weapons.w1_r <= rangeOfParameters.range.h4) {
+        range_SrcImg = "parameter-bars/4.svg";
+    }
+    else if (weapons.w1_r <= rangeOfParameters.range.h45) {
+        range_SrcImg = "parameter-bars/4.5.svg";
+    }
+    else if (weapons.w1_r <= rangeOfParameters.range.h5) {
+        range_SrcImg = "parameter-bars/5.svg";
+    }
+    else if (weapons.w1_r <= rangeOfParameters.range.h55) {
+        range_SrcImg = "parameter-bars/5.5.svg";
+    }
+    else if (weapons.w1_r <= rangeOfParameters.range.h6) {
+        range_SrcImg = "parameter-bars/6.svg";
+    }
+    else if (weapons.w1_r <= rangeOfParameters.range.h65) {
+        range_SrcImg = "parameter-bars/6.5.svg";
+    }
+    else if (weapons.w1_r <= rangeOfParameters.range.h7) {
+        range_SrcImg = "parameter-bars/7.svg";
+    }
+    else if (weapons.w1_r <= rangeOfParameters.range.h75) {
+        range_SrcImg = "parameter-bars/7.5.svg";
+    }
+    else if (weapons.w1_r <= rangeOfParameters.range.h8) {
+        range_SrcImg = "parameter-bars/8.svg";
+    }
+    else if (weapons.w1_r <= rangeOfParameters.range.h85) {
+        range_SrcImg = "parameter-bars/8.5.svg";
+    }
+    else if (weapons.w1_r <= rangeOfParameters.range.h9) {
+        range_SrcImg = "parameter-bars/9.svg";
+    }
+    else if (weapons.w1_r <= rangeOfParameters.range.h95) {
+        range_SrcImg = "parameter-bars/9.5.svg";
+    }
+    else if (weapons.w1_r <= rangeOfParameters.range.h10) {
+        range_SrcImg = "parameter-bars/10.svg";
+        boxShadowsStyleRange = pulsingStyle;
+        ShineEffect.ForRange = "shine-effect";
+    }
+
+    // for range 2
+    if (weapons.w2_r <= rangeOfParameters.range.h0) {
+        range2_SrcImg = "parameter-bars/0.svg";
+    }
+    else if (weapons.w2_r <= rangeOfParameters.range.h05) {
+        range2_SrcImg = "parameter-bars/0.5.svg";
+    }
+    else if (weapons.w2_r <= rangeOfParameters.range.h1) {
+        range2_SrcImg = "parameter-bars/1.svg";
+    }
+    else if (weapons.w2_r <= rangeOfParameters.range.h15) {
+        range2_SrcImg = "parameter-bars/1.5.svg";
+    }
+    else if (weapons.w2_r <= rangeOfParameters.range.h2) {
+        range2_SrcImg = "parameter-bars/2.svg";
+    }
+    else if (weapons.w2_r <= rangeOfParameters.range.h25) {
+        range2_SrcImg = "parameter-bars/2.5.svg";
+    }
+    else if (weapons.w2_r <= rangeOfParameters.range.h3) {
+        range2_SrcImg = "parameter-bars/3.svg";
+    }
+    else if (weapons.w2_r <= rangeOfParameters.range.h35) {
+        range2_SrcImg = "parameter-bars/3.5.svg";
+    }
+    else if (weapons.w2_r <= rangeOfParameters.range.h4) {
+        range2_SrcImg = "parameter-bars/4.svg";
+    }
+    else if (weapons.w2_r <= rangeOfParameters.range.h45) {
+        range2_SrcImg = "parameter-bars/4.5.svg";
+    }
+    else if (weapons.w2_r <= rangeOfParameters.range.h5) {
+        range2_SrcImg = "parameter-bars/5.svg";
+    }
+    else if (weapons.w2_r <= rangeOfParameters.range.h55) {
+        range2_SrcImg = "parameter-bars/5.5.svg";
+    }
+    else if (weapons.w2_r <= rangeOfParameters.range.h6) {
+        range2_SrcImg = "parameter-bars/6.svg";
+    }
+    else if (weapons.w2_r <= rangeOfParameters.range.h65) {
+        range2_SrcImg = "parameter-bars/6.5.svg";
+    }
+    else if (weapons.w2_r <= rangeOfParameters.range.h7) {
+        range2_SrcImg = "parameter-bars/7.svg";
+    }
+    else if (weapons.w2_r <= rangeOfParameters.range.h75) {
+        range2_SrcImg = "parameter-bars/7.5.svg";
+    }
+    else if (weapons.w2_r <= rangeOfParameters.range.h8) {
+        range2_SrcImg = "parameter-bars/8.svg";
+    }
+    else if (weapons.w2_r <= rangeOfParameters.range.h85) {
+        range2_SrcImg = "parameter-bars/8.5.svg";
+    }
+    else if (weapons.w2_r <= rangeOfParameters.range.h9) {
+        range2_SrcImg = "parameter-bars/9.svg";
+    }
+    else if (weapons.w2_r <= rangeOfParameters.range.h95) {
+        range2_SrcImg = "parameter-bars/9.5.svg";
+    }
+    else if (weapons.w2_r <= rangeOfParameters.range.h10) {
+        range2_SrcImg = "parameter-bars/10.svg";
+        boxShadowsStyleRange2 = pulsingStyle;
+        ShineEffect.ForRange2 = "shine-effect";
+    }
+
+    // for range 3
+    if (weapons.w3_r <= rangeOfParameters.range.h0) {
+        range3_SrcImg = "parameter-bars/0.svg";
+    }
+    else if (weapons.w3_r <= rangeOfParameters.range.h05) {
+        range3_SrcImg = "parameter-bars/0.5.svg";
+    }
+    else if (weapons.w3_r <= rangeOfParameters.range.h1) {
+        range3_SrcImg = "parameter-bars/1.svg";
+    }
+    else if (weapons.w3_r <= rangeOfParameters.range.h15) {
+        range3_SrcImg = "parameter-bars/1.5.svg";
+    }
+    else if (weapons.w3_r <= rangeOfParameters.range.h2) {
+        range3_SrcImg = "parameter-bars/2.svg";
+    }
+    else if (weapons.w3_r <= rangeOfParameters.range.h25) {
+        range3_SrcImg = "parameter-bars/2.5.svg";
+    }
+    else if (weapons.w3_r <= rangeOfParameters.range.h3) {
+        range3_SrcImg = "parameter-bars/3.svg";
+    }
+    else if (weapons.w3_r <= rangeOfParameters.range.h35) {
+        range3_SrcImg = "parameter-bars/3.5.svg";
+    }
+    else if (weapons.w3_r <= rangeOfParameters.range.h4) {
+        range3_SrcImg = "parameter-bars/4.svg";
+    }
+    else if (weapons.w3_r <= rangeOfParameters.range.h45) {
+        range3_SrcImg = "parameter-bars/4.5.svg";
+    }
+    else if (weapons.w3_r <= rangeOfParameters.range.h5) {
+        range3_SrcImg = "parameter-bars/5.svg";
+    }
+    else if (weapons.w3_r <= rangeOfParameters.range.h55) {
+        range3_SrcImg = "parameter-bars/5.5.svg";
+    }
+    else if (weapons.w3_r <= rangeOfParameters.range.h6) {
+        range3_SrcImg = "parameter-bars/6.svg";
+    }
+    else if (weapons.w3_r <= rangeOfParameters.range.h65) {
+        range3_SrcImg = "parameter-bars/6.5.svg";
+    }
+    else if (weapons.w3_r <= rangeOfParameters.range.h7) {
+        range3_SrcImg = "parameter-bars/7.svg";
+    }
+    else if (weapons.w3_r <= rangeOfParameters.range.h75) {
+        range3_SrcImg = "parameter-bars/7.5.svg";
+    }
+    else if (weapons.w3_r <= rangeOfParameters.range.h8) {
+        range3_SrcImg = "parameter-bars/8.svg";
+    }
+    else if (weapons.w3_r <= rangeOfParameters.range.h85) {
+        range3_SrcImg = "parameter-bars/8.5.svg";
+    }
+    else if (weapons.w3_r <= rangeOfParameters.range.h9) {
+        range3_SrcImg = "parameter-bars/9.svg";
+    }
+    else if (weapons.w3_r <= rangeOfParameters.range.h95) {
+        range3_SrcImg = "parameter-bars/9.5.svg";
+    }
+    else if (weapons.w3_r <= rangeOfParameters.range.h10) {
+        range3_SrcImg = "parameter-bars/10.svg";
+        boxShadowsStyleRange3 = pulsingStyle;
+        ShineEffect.ForRange3 = "shine-effect";
+    }
+
 }

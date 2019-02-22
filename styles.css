@@ -1032,19 +1032,36 @@ a{
         margin-bottom: 15px;
     }
 
-    .parameter-name {
-        text-align: right;
-        font-family: 'Exo 2';
-        color: white;
-        margin: 12px 0 17px 0;
-        font-size: 16px;
-    }
+.unit-weapon {
+    text-align: center;
+    color: white;
+}
+.modal-dialog-centered {
+    align-items: unset;
+}
 
-    .carousel {
-        max-width: 950px;
-        margin-left: auto;
-        margin-right: auto;
-    }
+    .parameter-name {
+    text-align: right;
+    font-family: 'Exo 2';
+    color: white;
+    margin: 12px 0 17px 0;
+    font-size: 16px;
+}
+
+.parameter-value-nobar {
+    margin-top: 12px;
+    margin-left: 10px;
+    color: white;
+    font-size: 14px;
+    text-align: left;
+    font-family: 'Exo 2';
+}
+
+.carousel {
+    max-width: 950px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
     .tooltip-dotted {
         border-bottom: 1px dotted;
@@ -1122,13 +1139,35 @@ a{
         position: relative;
     }
 
-    .box-shadow-for-bar {
-        width: 126px;
-        height: 10px;
-        position: absolute;
-        left: 2px;
-        top: 9px;
+.box-shadow-for-bar {
+    width: 126px;
+    height: 10px;
+    position: absolute;
+    left: 2px;
+    top: 9px;
+}
+
+@keyframes pulsing {
+    0% {
+        box-shadow: 0px 0px 8px #5EE947;
     }
+
+    25% {
+        box-shadow: 0px 0px 10px #5EE947;
+    }
+
+    50% {
+        box-shadow: 0px 0px 12px #5EE947;
+    }
+
+    75% {
+        box-shadow: 0px 0px 10px #5EE947;
+    }
+
+    100% {
+        box-shadow: 0px 0px 9px #5EE947;
+    }
+}
 
     .parameter-value {
         position: relative;
@@ -1783,9 +1822,9 @@ a{
     }
 
     /*fix for moving navbar*/
-.modal-open { 
+/*.modal-open { 
     position: fixed;
     overflow: scroll;
     width: 100%;
     padding-right: 0 !important;
-}
+}*/
