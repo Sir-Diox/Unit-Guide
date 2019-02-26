@@ -116,7 +116,7 @@ var previewPosition = {
 
 var unitTypeObj;
 
-var pulsingStyle = "animation: pulsing 2s infinite; animation-timing-function: linear;";
+var pulsingStyle = "box-shadow: 0px 0px 12px #5EE947;";
 
 var barHP_SrcImg;
 var movementSpeed_SrcImg;
@@ -189,7 +189,7 @@ var rangeOfParameters ={
         h8: 1900,
         h85: 2500,
         h9: 3500,
-        h95: 4500,
+        h95: 4900,
         h10: 100000
     },
     range : {

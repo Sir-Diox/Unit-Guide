@@ -7,14 +7,14 @@ function setLabelParametersAndValues(unitType) {
         }
         secondParameter = "Damage per shot:";
         thirdParameter = "Range:";
-        fourthParameter = "HP:";
+        fourthParameter = "Health:";
         fifthParameter = "Movement speed:";
         sixthParameter = "Sight range:";
     }
     else if (unitType.isFighterDpsOnly) {
         firstParameter = "Damage per second:";
         secondParameter = "Range:";
-        thirdParameter = "HP:";
+        thirdParameter = "Health:";
         fourthParameter = "Movement speed:";
         fifthParameter = "Sight range:";
     }
@@ -24,76 +24,76 @@ function setLabelParametersAndValues(unitType) {
         firstParameter = "Damage per second:";
         secondParameter = "Damage per shot:";
         thirdParameter = "Range:";
-        fourthParameter = "HP:";
+        fourthParameter = "Health:";
         fifthParameter = "Flying speed:";
         sixthParameter = "Sight range:";
     }
     else if (unitType.isBomber) {
         firstParameter = "Damage per bomb:";
-        secondParameter = "HP:";
+        secondParameter = "Health:";
         thirdParameter = "Flying speed:";
         fourthParameter = "Sight range:";
     }
     else if (unitType.isAntiAirBuilding) {
         firstParameter = "Damage per second:";
         secondParameter = "Range:";
-        thirdParameter = "HP:";
+        thirdParameter = "Health:";
         fourthParameter = "Sight range:";
     }
     else if (unitType.isMine) {
         firstParameter = "Max explosion damage:";
         secondParameter = "Explosion range:";
-        thirdParameter = "HP:";
+        thirdParameter = "Health:";
     }
     else if (unitType.isClawlingBomb) {
         firstParameter = "Max explosion damage:";
         secondParameter = "Explosion range:";
-        thirdParameter = "HP:";
+        thirdParameter = "Health:";
         fourthParameter = "Movement speed:";
         fifthParameter = "Sight range:";
     }
     else if (unitType.isNuke) {
         firstParameter = "Max explosion damage:";
         secondParameter = "Explosion range:";
-        thirdParameter = "HP:";
+        thirdParameter = "Health:";
     }
     else if (unitType.isCons) {
         firstParameter = "Build speed:";
         secondParameter = "Build range:";
-        thirdParameter = "HP:";
+        thirdParameter = "Health:";
         fourthParameter = "Movement speed:";
         fifthParameter = "Sight range:";
     }
     else if (unitType.isAirCons) {
         firstParameter = "Build speed:";
         secondParameter = "Build range:";
-        thirdParameter = "HP:";
+        thirdParameter = "Health:";
         fourthParameter = "Flying speed:";
         fifthParameter = "Sight range:";
     }
     else if (unitType.isSemiCon) {
         firstParameter = "Build speed (assisting):";
         secondParameter = "Build range:";
-        thirdParameter = "HP:";
+        thirdParameter = "Health:";
         fourthParameter = "Movement speed:";
         fifthParameter = "Sight range:";
     }
     else if (unitType.isBuilding) {
-        firstParameter = "HP:";
+        firstParameter = "Health:";
         secondParameter = "Sight Range:";
     }
     else if (unitType.isLab) {
         firstParameter = "Build speed:";
-        secondParameter = "HP:";
+        secondParameter = "Health:";
         thirdParameter = "Sight Range:";
     }
     else if (unitType.isEco) {
-        firstParameter = "HP:";
+        firstParameter = "Health:";
     }
     else if (unitType.isAirUnit) {
         firstParameter = "Damage per second:";
         secondParameter = "Range:";
-        thirdParameter = "HP:";
+        thirdParameter = "Health:";
         fourthParameter = "Flying speed";
     }
     else if (unitType.isDefenseShootingBuilding) {
@@ -106,84 +106,84 @@ function setLabelParametersAndValues(unitType) {
         }
         secondParameter = "Damage per shot:";
         thirdParameter = "Range:";
-        fourthParameter = "HP:";
+        fourthParameter = "Health:";
         fifthParameter = "Sight range:";
 
     }
     else if (unitType.isDefenseShootingBuildingDpsOnly) {
         firstParameter = "Damage per second:";
         secondParameter = "Range:";
-        thirdParameter = "HP:";
+        thirdParameter = "Health:";
         fourthParameter = "Sight range:";
     }
     else if (unitType.isEnergySupplier) {
-        firstParameter = "HP:"
+        firstParameter = "Health:"
     }
     else if (unitType.isMetalSupplier) {
         firstParameter = "Build Speed:"
         secondParameter = ""
-        thirdParameter = "HP:";
+        thirdParameter = "Health:";
     }
     else if (unitType.isRadarAndJammerUnit) {
         firstParameter = "Radar range:";
         secondParameter = "Jammer range:";
-        thirdParameter = "HP:";
+        thirdParameter = "Health:";
         fourthParameter = "Movement speed:";
         fifthParameter = "Sight range:";
     }
     else if (unitType.isRadarAndJammerAircraft) {
         firstParameter = "Radar range:";
         secondParameter = "Jammer range:";
-        thirdParameter = "HP:";
+        thirdParameter = "Health:";
         fourthParameter = "Flying speed:";
         fifthParameter = "Sight range:";
     }
     else if (unitType.isRadarAndJammerBuilding) {
         firstParameter = "Radar range";
         secondParameter = "Jammer range:";
-        thirdParameter = "HP:";
+        thirdParameter = "Health:";
         fourthParameter = "Sight range:";
     }
     else if (unitType.isRadarBuilding) {
         firstParameter = "Radar range:";
-        secondParameter = "HP:";
+        secondParameter = "Health:";
         thirdParameter = "Sight range:";
     }
     else if (unitType.isRadarUnit) {
         firstParameter = "Radar range:";
-        secondParameter = "HP:";
+        secondParameter = "Health:";
         thirdParameter = "Movement speed:";
         fourthParameter = "Sight range:";
     }
     else if (unitType.isJammerBuilding) {
         firstParameter = "Jammer range:";
-        secondParameter = "HP:";
+        secondParameter = "Health:";
         thirdParameter = "Sight range:";
     }
     else if (unitType.isJammerUnit) {
         firstParameter = "Jammer range:";
-        secondParameter = "HP:";
+        secondParameter = "Health:";
         thirdParameter = "Movement speed:";
         fourthParameter = "Sight range:";
     }
     else if (unitType.isJammerAircraft) {
         firstParameter = "Jammer range:";
-        secondParameter = "HP:";
+        secondParameter = "Health:";
         thirdParameter = "Flying speed:";
         fourthParameter = "Sight range:";
     }
     else if (unitType.isUndefinedUnit) { 
-        firstParameter = "HP:";
+        firstParameter = "Health:";
         secondParameter = "Movement speed:";
         thirdParameter = "Sight range:";
     }
     else if (unitType.isUndefinedAircraft) {
-        firstParameter = "HP:";
+        firstParameter = "Health:";
         secondParameter = "Flying speed:";
         thirdParameter = "Sight range:";
     }
     else {// undefined building
-        firstParameter = "HP:";
+        firstParameter = "Health:";
         secondParameter = "Sight range:";
     }
 }

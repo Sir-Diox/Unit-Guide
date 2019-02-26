@@ -46,7 +46,23 @@ a{
     font-family: 'Exo 2';
     font-size: 12px;
 }
-
+.metal-color {
+    background: #D2DEFD;
+    font-weight:600;
+    color: black;
+    border-radius: 5px;
+    padding: 1px 7px;
+}
+.bold{
+    font-weight:600;
+}
+.energy-color {
+    background: #FBFF4C;
+    font-weight: 600;
+    color: black;
+    border-radius: 5px;
+    padding: 1px 7px;
+}
 .yellow {
     color: #DEA73C;
 }
@@ -65,19 +81,16 @@ a{
 }
 
 .no-padding {
-    padding: 0;
+    padding: 0 0 0 0;
 }
 
+.brd {
+    border-bottom: 1px solid #484848;
+    padding:0 0 7px 0;
+}
 .flex-it {
     display: flex;
 }
-
-/*@media screen and (min-width: 576px) and (max-width: 1570px) {
-    .comparison-content {
-        min-width: 1173px !important;
-    }
-}*/
-
 
 .navbar {
     left: 0px;
@@ -331,10 +344,19 @@ a{
         background-color: #2b2b2b;
     }
 
-        .search-input:focus {
-            outline-width: 0;
+        .search-input::placeholder {
+            color: #a3a3a3;
         }
 
+    .search-input:focus {
+    outline-width: 0;
+}
+.dt-tips {
+    padding-right: 30px;
+}
+.dt-tips li {
+    margin-bottom:10px;
+}
     .search-icon {
         margin: 0 9px 3px 0;
         line-height: 2px;
@@ -607,10 +629,23 @@ a{
         color: #DEA73C;
     }
 
-    .buildings-pos-arm {
-        left: 13px;
-        position: relative;
-    }
+.buildings-pos-arm {
+    position: relative;
+    justify-content: flex-end;
+    margin: 0;
+}
+
+.buildings-pos-core {
+    margin: 0;
+}
+
+.buildings-section .arm-side .row {
+    justify-content: flex-end;
+}
+
+.can-build {
+    text-align:center;
+}
 
 .tooltip-wrapper {
     display: inline-block;
@@ -623,12 +658,10 @@ a{
 .buildings-type-label {
     font-weight: 600;
     color: #DEA73C;
-    margin-top: 40px;
+    line-height: 37px;
+    margin-top: 70px;
     margin-bottom: 27px;
     text-align: center;
-    background: #2b2b2b;
-    border-radius: 5px;
-    width: 98%;
     left: 50%;
     transform: translate(-50%, 0);
     position: relative;
@@ -672,15 +705,25 @@ a{
     }
 
 
-    .col-modifier-arm {
-        padding-left: 30px;
-        padding-right: 0;
-    }
+.buildings-section .col-modifier-arm {
+    padding: 0;
+    margin-right: 50px;
+}
 
-    .col-modifier-core {
-        padding-left: 105px;
-        padding-right: 0;
-    }
+.col-modifier-arm {
+    padding-left: 30px;
+    padding-right: 0;
+}
+
+.buildings-section .col-modifier-core {
+    margin-left: 50px;
+    padding: 0;
+}
+
+.col-modifier-core {
+    margin-left: 105px;
+    padding-right: 0;
+}
 
 
     .unit-box {
@@ -753,6 +796,12 @@ a{
             max-width: 97px;
         }
 
+        .buildings-section .unit-spacings-arm {
+            padding: 0;
+            margin: 0 0 0 6px;
+            max-width: 97px;
+        }
+
         .unit-spacings-arm {
             padding: 0;
             margin: 0 6px 0 0;
@@ -768,18 +817,20 @@ a{
     }
 
 
-    .lab-units-separation-line {
-        position: relative;
-        width: 3px;
-        display: inline-block;
-        background-color: #3b3b3b;
-        margin-left: 6px;
-        border-radius: 4px;
-    }
+.lab-units-separation-line {
+    position: relative;
+    width: 2px;
+    display: inline-block;
+    background-color: #3f3f3f;
+    margin-left: 6px;
+    border-radius: 4px;
+}
 
-    .height-container {
-        float: left;
-    }
+.height-container {
+    float: left;
+    left: 2px;
+    position: relative;
+}
 
     .lab-units-space-remover {
         padding-right: 0;
@@ -1035,8 +1086,15 @@ a{
 .unit-weapon {
     text-align: center;
     color: white;
+    border-top: 1px solid #525252;
+    border-bottom: 1px solid #525252;
 }
-.modal-dialog-centered {
+
+#comparison-modal .modal-dialog-centered {
+    align-items: center;
+}
+
+#detailed-unit-info-1 .modal-dialog-centered {
     align-items: unset;
 }
 
@@ -1147,17 +1205,17 @@ a{
     top: 9px;
 }
 
-@keyframes pulsing {
+/*@keyframes pulsing {
     0% {
         box-shadow: 0px 0px 8px #5EE947;
     }
 
     25% {
-        box-shadow: 0px 0px 10px #5EE947;
+        box-shadow: 0px 0px 12px #5EE947;
     }
 
     50% {
-        box-shadow: 0px 0px 12px #5EE947;
+        box-shadow: 0px 0px 11px #5EE947;
     }
 
     75% {
@@ -1167,7 +1225,7 @@ a{
     100% {
         box-shadow: 0px 0px 9px #5EE947;
     }
-}
+}*/
 
     .parameter-value {
         position: relative;
@@ -1221,11 +1279,18 @@ a{
         flex: 0 0 91.666667%;
         display: block;
     }
+.tips-tricks{
+    text-align:center;
+    font-weight:500;
+}
+.carousel-inner p{
+    text-align:justify;
+}
 
-    .ps--active-y > .ps__rail-y {
-        top: 2px !important;
-        right: 2px !important;
-    }
+.ps--active-y > .ps__rail-y {
+    top: 2px !important;
+    right: 2px !important;
+}
 
     .ps__thumb-y {
         right: 1px !important;
@@ -1275,15 +1340,16 @@ a{
         border-radius: 4px;
     }
 
-    .chosen-unit {
-        position: absolute;
-        color: white;
-        top: -3px;
-        height: 40px;
-        right: -11px;
-        background: #2b2b2b;
-        width: 275px;
-    }
+.chosen-unit {
+    position: absolute;
+    color: white;
+    top: -2px;
+    padding-left: 4px;
+    height: 40px;
+    right: -11px;
+    background: #2b2b2b;
+    width: 275px;
+}
 
     .unit-comparison-input {
         margin-bottom: 12px;
@@ -1395,7 +1461,7 @@ a{
         margin-top: 15px;
         margin-bottom: 15px;
         margin-left: 0px;
-        padding: 0 5px;
+        padding: 0 9px;
     }
 
     .special-button {
@@ -1587,8 +1653,14 @@ a{
             display: none;
         }
 
-        .col-modifier-arm, .col-modifier-core {
+        .buildings-section .col-modifier-arm, .buildings-section .col-modifier-core {
             padding-left: 0;
+            margin: 0;
+        }
+
+        .col-modifier-arm, .col-modifier-core{
+            margin:0;
+            padding:0;
         }
 
         .col-sm-6 {
@@ -1820,11 +1892,3 @@ a{
             max-width: 320px;
         }
     }
-
-    /*fix for moving navbar*/
-/*.modal-open { 
-    position: fixed;
-    overflow: scroll;
-    width: 100%;
-    padding-right: 0 !important;
-}*/

@@ -1,6 +1,9 @@
 var previousUnitsListHTML = [];
 var previousUnitsListNames = [];
 var template = "";
+var upgradeTemplate = "";
+var generalInfoTemplate = "";
+
 var popoverAsTooltipSettings = {
     placement: 'right',
     html: true,
@@ -36,7 +39,6 @@ var upgradeData = {
     energyCost: "",
     description: ""
 }
-var upgradeTemplate="";
 
 $('body').on('click', '.unit-box, .u-name, .search-input-row, .row-result', function () {
     $(".navbar").css("right", "17px");
@@ -176,7 +178,7 @@ $('body').on('click', '.unit-box, .u-name, .search-input-row, .row-result', func
                 setLabelParametersAndValues(checkUnitType());
 
                 //setParameterBars();
-
+                fillGeneralInfoTemplate();
                 ChangeColorOfKeywords();
 
                 if (weapons.w3 != "") {
@@ -291,13 +293,10 @@ ${upgradeData.name != "" ? `
             <a class="nav-item nav-link active" id="nav-statistics-tab" data-toggle="tab" href="#nav-statistics" role="tab" aria-controls="nav-statistics" aria-selected="true">Statistics</a>
           </li>
           <li class="nav-item">
-                <a class="nav-item nav-link" id="general-info-tab" data-toggle="tab" href="#nav-general-info" role="tab" aria-controls="nav-general-info" aria-selected="false">General info</a>
+                <a class="nav-item nav-link" id="nav-tips-tab" data-toggle="tab" href="#nav-tips" role="tab" aria-controls="nav-tips" aria-selected="false">Tips & trivia</a>
           </li>
           <li class="nav-item">
-                <a class="nav-item nav-link" id="nav-strategy-tab" data-toggle="tab" href="#nav-strategy" role="tab" aria-controls="nav-strategy" aria-selected="false">Strategy</a>
-          </li>
-          <li class="nav-item">
-                <a class="nav-item nav-link" id="nav-what-can-build-tab" data-toggle="tab" href="#nav-what-can-build" role="tab" aria-controls="nav-what-can-build" aria-selected="false">What can build</a>
+                <a class="nav-item nav-link" id="manufacture-info-tab" data-toggle="tab" href="#nav-manufacture-info" role="tab" aria-controls="nav-manufacture-info" aria-selected="false">Manufacture</a>
           </li>
         </ul>
 
@@ -328,8 +327,7 @@ ${upgradeData.name != "" ? `
                                         ` : ""}
                                     </div>
 
-                                    <div class="col col-lg-6 no-padding">
-                                            <div class="unit-weapon"></div>
+                                    <div class="col col-lg-6 no-padding">                                          
                                             ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther ? `                     
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForDPS}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStyleDps}"> </div>
@@ -609,7 +607,7 @@ ${upgradeData.name != "" ? `
                                                 <div class="parameter-name"><span class="tooltip-dotted" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Build time</span>This parameter shows how much time is needed to build a unit or structure. </br><span style='color: #DEA73C;'>Build time / Build speed = time in seconds </span> </br> <b>Example:</b></br> Commander with a build speed of 360 builds a <b>${unitData.name}</b> with a build time of ${setSpacesInBigNumbers(unitData.buildTime)} needs: </br><span style='color: #DEA73C;'> ${setSpacesInBigNumbers(unitData.buildTime)} / 360 = <b>${(unitData.buildTime / 360).toFixed(2)} seconds </b></span> </div>">Build time:</span></div>
                                                     ` }
                                                     ${unitData.turnRate != "n/a" && unitData.turnRate != undefined ? `
-                                                <div class="parameter-name"><span class="tooltip-dotted" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Turning speed</span>This parameter shows how fast a unit turns to change its direction. The lower a value, the slower a unit turns around. Turning speed may be important when you want to change direction to espace from an incoming threat or when you want to avoid an obstacle.</br> </br><span style='color: #DEA73C;'><b>Turning speed ranges:</b> </span> </br> <ul><li>Above 900: very fast</li><li>700 - 900: fast</li> <li>600 - 699: decent</li><li>400 - 599: average</li><li>200 - 399: slow</li> <li>Below 200: sluggish</li> </ul>   </div>">Turning speed:</span></div>
+                                                <div class="parameter-name"><span class="tooltip-dotted" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Turn speed</span>This parameter shows how fast a unit turns to change its direction. The lower a value, the slower a unit turns around. Turn speed may be important when you want to change direction to espace from an incoming threat or when you want to avoid an obstacle.</br> </br><span style='color: #DEA73C;'><b>Turn speed ranges:</b> </span> </br> <ul><li>Above 900: very fast</li><li>700 - 900: fast</li> <li>600 - 699: decent</li><li>400 - 599: average</li><li>200 - 399: slow</li> <li>Below 200: sluggish</li> </ul>   </div>">Turn speed:</span></div>
 
                                                     `: "" }
                                                     ${unitData.energyMake != undefined && unitData.energyMake != "n/a" && unitData.energyMake != 0 ? `
@@ -665,35 +663,12 @@ ${upgradeData.name != "" ? `
 
 
 </div></div>
-            <div class="tab-pane fade" id="nav-strategy" role="tabpanel" aria-labelledby="nav-strategy-tab"></div>
-            <div class="tab-pane fade" id="nav-general-info" role="tabpanel" aria-labelledby="general-info-tab"><div class="exo2-26 detailed-info-header built-by"><p>${unitData.name} <span style="font-weight:normal;">is built by:</span></p></div>
-                                               ${unitTypeObj.isEco && unitData.p4 != "" ? `
-                                                    <hr class="separator-between-info-stats">
-                                                <ul class="exo2-16 white useful-info-padding">
-                                                    <li>You get 1 E for each ${unitData.minMetalCostForE} metal spent on ${unitData.name}s. This means, you get 1000 E income if you spend ${unitData.minMetalCostForE * 1000} metal.</li>
-                                                    <li>${unitData.p1}</li>
-                                                    <li>${unitData.p2}</li>
-                                                    <li>${unitData.p3}</li>
-                                                    <li>${unitData.p4}</li>
-                                                    </ul>
-                                                ` : ""}
-                                                ${unitTypeObj.isEco && unitData.p3 != "" && unitData.p4 == "" ? `
-                                                    <hr class="separator-between-info-stats">
-                                                <ul class="exo2-16 white useful-info-padding">
-                                                    <li>You get 1 E for each ${unitData.minMetalCostForE} metal spent on ${unitData.name}s. This means, you get 1000 E income if you spend ${unitData.minMetalCostForE * 1000} metal.</li>
-                                                    <li>${unitData.p1}</li>
-                                                    <li>${unitData.p2}</li>
-                                                    <li>${unitData.p3}</li>
-                                                    </ul>`: ""}
-                                                ${unitTypeObj.isEco && unitData.p2 != "" && unitData.p3 == "" && unitData.p4 == "" ? `
-                                                    <hr class="separator-between-info-stats">
-                                                <ul class="exo2-16 white useful-info-padding">
-                                                <li>You get 1 E for each ${unitData.minMetalCostForE} metal spent on ${unitData.name}s. This means, you get 1000 E income if you spend ${unitData.minMetalCostForE * 1000} metal.</li>
-                                                    <li>${unitData.p1}</li>
-                                                    <li>${unitData.p2}</li>
-                                                    </ul>`: ""}
+<div class="tab-pane fade" id="nav-manufacture-info" role="tabpanel" aria-labelledby="manufacture-info-tab"><div class="exo2-26 detailed-info-header built-by"><p>${unitData.name} <span style="font-weight:normal;">is built by:</span></p></div><div class="can-build"></div></div>
+            <div class="tab-pane fade" id="nav-tips" role="tabpanel" aria-labelledby="nav-tips-tab">
+
+                                                ${generalInfoTemplate}
+
 </div>
-            <div class="tab-pane fade" id="nav-what-can-build" role="tabpanel" aria-labelledby="nav-what-can-build-tab"><div class="can-build"></div></div>
         </div>
 `
 }
@@ -873,13 +848,10 @@ ${upgradeData.name != "" ? `
             <a class="nav-item nav-link active" id="nav-statistics-tab" data-toggle="tab" href="#nav-statistics" role="tab" aria-controls="nav-statistics" aria-selected="true">Statistics</a>
           </li>
           <li class="nav-item">
-                <a class="nav-item nav-link" id="general-info-tab" data-toggle="tab" href="#nav-general-info" role="tab" aria-controls="nav-general-info" aria-selected="false">General info</a>
+                <a class="nav-item nav-link" id="nav-tips-tab" data-toggle="tab" href="#nav-tips" role="tab" aria-controls="nav-tips" aria-selected="false">Tips & trivia</a>
           </li>
           <li class="nav-item">
-                <a class="nav-item nav-link" id="nav-strategy-tab" data-toggle="tab" href="#nav-strategy" role="tab" aria-controls="nav-strategy" aria-selected="false">Strategy</a>
-          </li>
-          <li class="nav-item">
-                <a class="nav-item nav-link" id="nav-what-can-build-tab" data-toggle="tab" href="#nav-what-can-build" role="tab" aria-controls="nav-what-can-build" aria-selected="false">What can build</a>
+                <a class="nav-item nav-link" id="manufacture-info-tab" data-toggle="tab" href="#nav-manufacture-info" role="tab" aria-controls="nav-manufacture-info" aria-selected="false">Manufacture</a>
           </li>
         </ul>
 
@@ -890,7 +862,7 @@ ${upgradeData.name != "" ? `
                             <div class="unit-basic-stats">
 
                                 <div class="exo2-26 detailed-info-header" >Basic stats</div>
-                                <div class="row" style="margin:0; margin-top: 30px; padding-bottom: 25px; border-bottom: 1px solid #dee2e6; margin-left: 22px;">
+                                <div class="row" style="margin:0; margin-top: 30px; padding-bottom: 25px; border-bottom: 1px solid #525252; padding-left: 22px;">
                                     <div class="col col-lg-3 no-padding" style="top: 22px;">
                                         <div class="parameter-name">${firstParameter}</div>
                                         <div class="parameter-name">${secondParameter}</div>
@@ -899,11 +871,10 @@ ${upgradeData.name != "" ? `
                                         <div class="parameter-name">Reload time: </div>
                                         ` : ""}
 
-
                                     </div>
+                            
 
-
-                                    <div class="col col-lg-3 no-padding" style="max-width: 22%; border-right: 1px solid #525252; border-left: 1px solid #525252; margin-left: 8px;">
+                                    <div class="col col-lg-3 brd" style="max-width: 22%; border-right: 1px solid #525252; border-left: 1px solid #525252; margin-left: 8px;">
                                             <div class="unit-weapon">Weapon 1 ${unitData.isAntiAir1 ? `(AA)`:""}</div>
                                             ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther ? `                     
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForDPS}">
@@ -935,7 +906,7 @@ ${upgradeData.name != "" ? `
 
                                     </div>
 
-                                    <div class="col col-lg-3 no-padding" style="max-width: 22%; border-right: 1px solid #525252;">
+                                    <div class="col col-lg-3 brd" style="max-width: 22%; border-right: 1px solid #525252;">
                                             <div class="unit-weapon">Weapon 2 ${unitData.isAntiAir2 ? `(AA)` : ""}</div>
                                             ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther ? `                     
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForDPS2}">
@@ -969,7 +940,7 @@ ${upgradeData.name != "" ? `
 
 ${weapons.w3 != undefined ?
             `
-                                    <div class="col col-lg-3 no-padding" style="max-width: 22%; border-right: 1px solid #525252;">
+                                    <div class="col col-lg-3 brd" style="max-width: 22%; border-right: 1px solid #525252;">
                                             <div class="unit-weapon">Weapon 3 ${unitData.isAntiAir3 ? `(AA)` : ""}</div>
                                             ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther ? `                     
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForDPS3}">
@@ -1005,7 +976,6 @@ ${weapons.w3 != undefined ?
 
 
                                 </div>
-
 <div class="row" style="margin:0; margin-top: 15px; width: 100%; position: relative;">
                                     <div class="col col-lg-6 no-padding">
                                         ${unitData.onlyDps != undefined ? `
@@ -1101,7 +1071,7 @@ ${weapons.w3 != undefined ?
                                                 <div class="parameter-name"><span class="tooltip-dotted" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Build time</span>This parameter shows how much time is needed to build a unit or structure. </br><span style='color: #DEA73C;'>Build time / Build speed = time in seconds </span> </br> <b>Example:</b></br> Commander with a build speed of 360 builds a <b>${unitData.name}</b> with a build time of ${setSpacesInBigNumbers(unitData.buildTime)} needs: </br><span style='color: #DEA73C;'> ${setSpacesInBigNumbers(unitData.buildTime)} / 360 = <b>${(unitData.buildTime / 360).toFixed(2)} seconds </b></span> </div>">Build time:</span></div>
                                                     ` }
                                                     ${unitData.turnRate != "n/a" && unitData.turnRate != undefined ? `
-                                                <div class="parameter-name"><span class="tooltip-dotted" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Turning speed</span>This parameter shows how fast a unit turns to change its direction. The lower a value, the slower a unit turns around. Turning speed may be important when you want to change direction to espace from an incoming threat or when you want to avoid an obstacle.</br> </br><span style='color: #DEA73C;'><b>Turning speed ranges:</b> </span> </br> <ul><li>Above 900: very fast</li><li>700 - 900: fast</li> <li>600 - 699: decent</li><li>400 - 599: average</li><li>200 - 399: slow</li> <li>Below 200: sluggish</li> </ul>   </div>">Turning speed:</span></div>
+                                                <div class="parameter-name"><span class="tooltip-dotted" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Turn speed</span>This parameter shows how fast a unit turns to change its direction. The lower a value, the slower a unit turns around. Turn speed may be important when you want to change direction to espace from an incoming threat or when you want to avoid an obstacle.</br> </br><span style='color: #DEA73C;'><b>Turn speed ranges:</b> </span> </br> <ul><li>Above 900: very fast</li><li>700 - 900: fast</li> <li>600 - 699: decent</li><li>400 - 599: average</li><li>200 - 399: slow</li> <li>Below 200: sluggish</li> </ul>   </div>">Turn speed:</span></div>
 
                                                     `: "" }
                                                     ${unitData.energyMake != undefined && unitData.energyMake != "n/a" && unitData.energyMake != 0 ? `
@@ -1157,35 +1127,12 @@ ${weapons.w3 != undefined ?
 
 
 </div></div>
-            <div class="tab-pane fade" id="nav-strategy" role="tabpanel" aria-labelledby="nav-strategy-tab"></div>
-            <div class="tab-pane fade" id="nav-general-info" role="tabpanel" aria-labelledby="general-info-tab"><div class="exo2-26 detailed-info-header built-by"><p>${unitData.name} <span style="font-weight:normal;">is built by:</span></p></div>
-                                               ${unitTypeObj.isEco && unitData.p4 != "" ? `
-                                                    <hr class="separator-between-info-stats">
-                                                <ul class="exo2-16 white useful-info-padding">
-                                                    <li>You get 1 E for each ${unitData.minMetalCostForE} metal spent on ${unitData.name}s. This means, you get 1000 E income if you spend ${unitData.minMetalCostForE * 1000} metal.</li>
-                                                    <li>${unitData.p1}</li>
-                                                    <li>${unitData.p2}</li>
-                                                    <li>${unitData.p3}</li>
-                                                    <li>${unitData.p4}</li>
-                                                    </ul>
-                                                ` : ""}
-                                                ${unitTypeObj.isEco && unitData.p3 != "" && unitData.p4 == "" ? `
-                                                    <hr class="separator-between-info-stats">
-                                                <ul class="exo2-16 white useful-info-padding">
-                                                    <li>You get 1 E for each ${unitData.minMetalCostForE} metal spent on ${unitData.name}s. This means, you get 1000 E income if you spend ${unitData.minMetalCostForE * 1000} metal.</li>
-                                                    <li>${unitData.p1}</li>
-                                                    <li>${unitData.p2}</li>
-                                                    <li>${unitData.p3}</li>
-                                                    </ul>`: ""}
-                                                ${unitTypeObj.isEco && unitData.p2 != "" && unitData.p3 == "" && unitData.p4 == "" ? `
-                                                    <hr class="separator-between-info-stats">
-                                                <ul class="exo2-16 white useful-info-padding">
-                                                <li>You get 1 E for each ${unitData.minMetalCostForE} metal spent on ${unitData.name}s. This means, you get 1000 E income if you spend ${unitData.minMetalCostForE * 1000} metal.</li>
-                                                    <li>${unitData.p1}</li>
-                                                    <li>${unitData.p2}</li>
-                                                    </ul>`: ""}
+<div class="tab-pane fade" id="nav-manufacture-info" role="tabpanel" aria-labelledby="manufacture-info-tab"><div class="exo2-26 detailed-info-header built-by"><p>${unitData.name} <span style="font-weight:normal;">is built by:</span></p></div> <div class="can-build"></div></div>
+            <div class="tab-pane fade" id="nav-tips" role="tabpanel" aria-labelledby="nav-tips-tab">
+
+                                                ${generalInfoTemplate}
+
 </div>
-            <div class="tab-pane fade" id="nav-what-can-build" role="tabpanel" aria-labelledby="nav-what-can-build-tab"><div class="can-build"></div></div>
         </div>
 `
 }
@@ -1244,4 +1191,118 @@ function resetParameterBars(){
     range_SrcImg = "";
     range2_SrcImg = "";
     range3_SrcImg = "";
+}
+
+function fillGeneralInfoTemplate() {
+    generalInfoTemplate = `
+                                                <div class="detailed-info-header exo2-26">
+                                                Tips & trivia
+                                                </div>
+
+<ol class="dt-tips">
+
+                                               ${unitTypeObj.isEco && unitData.p4 != "" ? `
+
+                                                    <li class="dt-info-text white">You get 1 E for each ${unitData.minMetalCostForE} metal spent on ${unitData.name}s. This means, you get 1000 E income if you spend ${unitData.minMetalCostForE * 1000} metal.</li>
+                                                    <li class="dt-info-text white">${unitData.p1}</li>
+                                                    <li class="dt-info-text white">${unitData.p2}</li>
+                                                    <li class="dt-info-text white">${unitData.p3}</li>
+                                                    <li class="dt-info-text white">${unitData.p4}</li>
+                                                ` : ""}
+                                                ${unitTypeObj.isEco && unitData.p3 != "" && unitData.p4 == "" ? `
+                                                    <li class="dt-info-text white">You get 1 E for each ${unitData.minMetalCostForE} metal spent on ${unitData.name}s. This means, you get 1000 E income if you spend ${unitData.minMetalCostForE * 1000} metal.</li>
+                                                    <li class="dt-info-text white">${unitData.p1}</li>
+                                                    <li class="dt-info-text white">${unitData.p2}</li>
+                                                    <li class="dt-info-text white">${unitData.p3}</li>
+                                                    `: ""}
+                                                ${unitTypeObj.isEco && unitData.p2 != "" && unitData.p3 == "" && unitData.p4 == "" ? `
+                                                <li class="dt-info-text white">You get 1 E for each ${unitData.minMetalCostForE} metal spent on ${unitData.name}s. This means, you get 1000 E income if you spend ${unitData.minMetalCostForE * 1000} metal.</li>
+                                                    <li class="dt-info-text white">${unitData.p1}</li>
+                                                    <li class="dt-info-text white">${unitData.p2}</li>
+                                                    `: ""}
+
+
+        ${(unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuildingDpsOnly) && (unitData.range > 300 || weapons.w1_r > 300) && (unitData.sightRange < unitData.range || unitData.sightRange < weapons.w1_r) ? `
+                                                <li class="dt-info-text white">
+                                                     ${unitData.name}'s sight range is lower than its weapon's range. Use a radar, scouts or other units <span class="tooltip-dotted" data-toggle="popover" data-placement="top" data-content="<div class='tooltip-content'><span class='tooltip-title'>Line of Sight (LoS)</span>LoS is the visibility (what your units actually see) on the playing field. Units automatically attack an enemy within their LoS and their weapon's range.<span class="tooltip-dotted">LoS</span></span> to see an enemy and shoot it from a full distance.
+                                                </li>
+                                                ` : ""}
+
+        ${(unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly) && (unitData.movementSpeed >= 2 && unitData.metalCost > 200) && (unitData.name != "Spider") && (unitData.builtBy != "ARMSY " && unitData.builtBy != "ARMASY " && unitData.builtBy != "CORASY " && unitData.builtBy != "CORSY ") ? `
+                                                <li class="dt-info-text white">
+                                                     Speed of ${unitData.name}s is really good. If you manage to slip into the enemy's base, he may have a big problem, because it's hard to chase such fast units. Look for important economy buildings and try to destroy them. 
+                                                </li>
+                                                ` : ""}
+
+${(unitTypeObj.isCons || unitTypeObj.isAirCons) && !(unitData.name == "Podger" || unitData.name == "Spoiler")? `
+        ${unitData.buildSpeed / unitData.metalCost > 0.75 ? `
+                                                <li class="dt-info-text white">
+                                                     ${unitData.name} has a very good <span class="yellow"> build speed / metal cost ratio</span>. If metal is important on a certain map, you can make ${unitData.name}s to build faster for a comparably low metal price.
+                                                </li>
+                                                ` : ""}
+
+        ${unitData.buildSpeed / unitData.metalCost <= 0.75 && unitData.buildSpeed / unitData.metalCost > 0.5 ? `
+                                                <li class="dt-info-text white">
+                                                     ${unitData.name} doesn't have the best <span class="yellow"> build speed / metal cost </span> ratio. It is quite good though. If you want to save metal and build faster, you should consider making Tier 2 or 3 vehicle constructions.
+                                                </li>
+                                                ` : ""}
+        ${unitData.buildSpeed / unitData.metalCost <= 0.5 ? `
+                                                <li class="dt-info-text white">
+                                                     ${unitData.name}'s <span class="yellow"> build speed / metal cost ratio </span> is rather bad. If you want to save metal and build faster, you should consider making Tier 2/3 construction vehicles (the best ratio).
+                                                </li>
+                                                ` : ""
+    }
+    `: ""}
+
+${(unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly) && (unitData.HP / unitData.metalCost > 8) && (unitData.name != "Pounder")?`
+                                                <li class="dt-info-text white">
+                                                     ${unitData.name} has relatively a lot of Health for its price. It can be used as a shield for units with greater range.
+                                                </li>
+` : ""}
+
+${unitData.energyUse >= 50 ? `
+                                                <li class="dt-info-text white">
+                                                     ${unitData.name} drains ${unitData.energyUse} E/s when its special ability is turned on (or when it works). 
+                                                </li>
+` : ""}
+
+${unitTypeObj.isMineOrClawlingBomb ? `
+                                                <li class="dt-info-text white">
+                                                    You can use Ctrl + D and ${unitData.name} will explode immediately, without countdown.
+                                                </li>
+` : ""}
+
+${unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isClawlingBomb || unitTypeObj.isCons || unitTypeObj.isAirCons || unitTypeObj.isBomber || unitTypeObj.isAirFigther ? `
+${unitData.metalCost < 3000 ? `
+                                                <li class="dt-info-text white">
+
+                                                    To make one ${unitData.name} every <span class="bold yellow">5 seconds</span>, your minimum income should be about:</br><span class="energy-color">Energy</span> +${setSpacesInBigNumbers(Math.ceil(unitData.energyCost / 5))} E/s &nbsp&nbsp&nbsp&nbsp <span class="metal-color">Metal</span> +${setSpacesInBigNumbers(Math.ceil(unitData.metalCost / 5))} M/s.</br> Required build speed: ${Math.floor(unitData.buildTime / 5)} (about 
+${Math.floor((unitData.buildTime / 5) / 360) == 1 ? `
+${Math.floor((unitData.buildTime / 5) / 360)}x Tier 2 construction vehicle or ${Math.floor((unitData.buildTime / 5) / 120)}x Tier 1 construction vehicle).
+`: `${Math.floor((unitData.buildTime / 5) / 360) == 0 ? `
+        ${Math.floor((unitData.buildTime / 5) / 120)}x Tier 1 construction vehicle).` :
+                `${Math.floor((unitData.buildTime / 5) / 360)}x Tier 2 construction vehicle or ${Math.floor((unitData.buildTime / 5) / 120)}x Tier 1 construction vehicle).`}`}
+                                                </li >
+                                                    `: ""}
+                                                ${unitData.metalCost >= 200 ?`                                               
+                                                <li class="dt-info-text white">
+                                                    To make one ${unitData.name} every <span class="bold yellow">30 seconds</span>, your minimum income should be about:</br><span class="energy-color">Energy</span> +${setSpacesInBigNumbers(Math.ceil(unitData.energyCost / 30))} E/s &nbsp&nbsp&nbsp&nbsp <span class="metal-color">Metal</span> +${setSpacesInBigNumbers(Math.ceil(unitData.metalCost / 30))} M/s.</br> Required build speed: ${Math.floor(unitData.buildTime / 30)} (about
+${Math.floor((unitData.buildTime / 30) / 360) >= 1 ? `
+${Math.floor((unitData.buildTime / 30) / 360)}x Tier 2 construction vehicle or ${Math.floor((unitData.buildTime / 30) / 270)}x Tier 2 construction kbot).
+`: `${Math.floor((unitData.buildTime / 30) / 360) == 0 ? `
+        ${Math.floor((unitData.buildTime / 30) / 120)}x Tier 1 construction vehicle).` :
+                `${Math.floor((unitData.buildTime / 30) / 360)}x Tier 2 construction vehicle or ${Math.floor((unitData.buildTime / 30) / 120)}x Tier 1 construction vehicle).`}`}
+                                                </li>
+                                                
+                                                ${unitData.metalCost > 6500 ?` 
+                                                <li class="dt-info-text white">
+                                                    To make one ${unitData.name} every <span class="bold yellow">2 minutes</span>, your minimum income should be about:</br><span class="energy-color">Energy</span> +${setSpacesInBigNumbers(Math.ceil(unitData.energyCost / 120))} E/s &nbsp&nbsp&nbsp&nbsp <span class="metal-color">Metal</span> +${setSpacesInBigNumbers(Math.ceil(unitData.metalCost / 120))} M/s.</br> Required build speed: ${Math.floor(unitData.buildTime / 120)} (about ${Math.floor((unitData.buildTime / 120) / 360)}x Tier 2 construction vehicle or ${Math.floor((unitData.buildTime / 120) / 270)}x Tier 2 construction kbot).
+                                                </li>
+                                                `: ""}
+                                                `: ""}
+                                                
+` : ""}
+
+</ol>
+`
 }
