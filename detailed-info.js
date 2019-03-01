@@ -17,6 +17,13 @@ var popoverAsTooltipSettings = {
 $('body').on('mouseover', '.parameter-name, .summoning-code', function () {
     $('.tooltip-dotted').popover(popoverAsTooltipSettings);
 });
+
+$('body').on('click', '#nav-tips-tab', function () {
+    if ($('.dt-tips').has("li").length == 0) {
+        $('#nav-tips div.exo2-26').text("No tips available for this unit.");
+    }
+});
+
 var weapons = {
     w1: "",
     w2: "",
@@ -40,13 +47,17 @@ var upgradeData = {
     description: ""
 }
 
-$('body').on('click', '.unit-box, .u-name, .search-input-row, .row-result', function () {
+$('body').on('click', '.unit-box, .u-name, .search-input-row, #search-input-results-6 .row-result', function () {
+    generateDetailedInfo(this);
+});
+
+function generateDetailedInfo(val) {
     $(".navbar").css("right", "17px");
-    if ($(this).hasClass("u-name")) {
-        var obj = $(this).parent().parent().children().eq(0)
+    if ($(val).hasClass("u-name")) {
+        var obj = $(val).parent().parent().children().eq(0);
     }
     else {
-        var obj = $(this);
+        var obj = $(val);
     }
     if (previousUnitsListHTML.length == 0) {
         $("#prev-unit").parent().hide();
@@ -136,20 +147,24 @@ $('body').on('click', '.unit-box, .u-name, .search-input-row, .row-result', func
                         if (unitData.maxEnergyIncome != undefined) {
                             unitData.maxMetalCostForE = parseFloat((unitData.metalCost / unitData.maxEnergyIncome).toFixed(2));
                             unitData.ratioMax = "1 &thinsp; : &thinsp; " + unitData.maxMetalCostForE;
-                            thirdParameter = "E income / M cost ratio<sup>1</sup>:"
+                            thirdParameter = "E income / M cost ratio<sup>2</sup>:"
                         }
                     }
                     unitData.p1 = $(obj).attr("p1");
                     unitData.p2 = $(obj).attr("p2");
                     unitData.p3 = $(obj).attr("p3");
                     unitData.p4 = $(obj).attr("p4");
+                    unitData.sup1 = $(obj).attr("sup1");
+                    unitData.sup2 = $(obj).attr("sup2");
                     unitData.p1 = (unitData.p1 != undefined) ? unitData.p1 : "";
                     unitData.p2 = (unitData.p2 != undefined) ? unitData.p2 : "";
                     unitData.p3 = (unitData.p3 != undefined) ? unitData.p3 : "";
                     unitData.p4 = (unitData.p4 != undefined) ? unitData.p4 : "";
                 }
+                
                 if ($(obj).attr("w2") != undefined) {
                     resetParameterBars();
+                    setLabelParametersAndValues(checkUnitType());
                     countDpsAndRangeAndShotDmg(obj); // this overrides countDpsAndRange() from preview.
                     setParameterBarsForManyWeapons();
                     weapons.w1 = $(obj).attr("w1");
@@ -162,9 +177,21 @@ $('body').on('click', '.unit-box, .u-name, .search-input-row, .row-result', func
                     weapons.w3_r = $(obj).attr("w3-r");
 
                 }
+                else { // for 1 weapon only
+                    resetParameterBars();
+                    setLabelParametersAndValues(checkUnitType());
+                    unitData.explosionDamage = $(obj).attr("w1");
+                    weapons.w1_rt = $(obj).attr("w1-rt");
+                    unitData.dps = Math.round(unitData.explosionDamage / weapons.w1_rt);
+                    unitData.overallDps = unitData.dps;
+                    unitData.range = $(obj).attr("w1-r");
+                    unitData.biggestRange = unitData.range;
+                    setParameterBars();
+                }
+
                 unitTypeObj = checkUnitType();
 
-                if (unitTypeObj.isBuilding) {
+                if (unitTypeObj.isBuildingType) {
                 }
                 else if (!isNaN(csvObj[i].DamageModifier)) {
                     unitData.HP = csvObj[i].MaxDamage / csvObj[i].DamageModifier;
@@ -175,9 +202,10 @@ $('body').on('click', '.unit-box, .u-name, .search-input-row, .row-result', func
                 if (obj.attr("upgrade") != undefined) {
                     upgradeData.name = "r";
                 }
-                setLabelParametersAndValues(checkUnitType());
 
-                //setParameterBars();
+
+
+
                 fillGeneralInfoTemplate();
                 ChangeColorOfKeywords();
 
@@ -220,7 +248,7 @@ $('body').on('click', '.unit-box, .u-name, .search-input-row, .row-result', func
                             upgradeData.imgSrc = csvObj[i].Objectname.replace("_", "-");
                         }
                     }
-                    fillUpgradeTemplate();               
+                    fillUpgradeTemplate();
                     $("#detailed-unit-info-1 .unit-basic-info-upgr").append(upgradeTemplate);
                     upgradeData.name = "";
                 }
@@ -254,11 +282,7 @@ $('body').on('click', '.unit-box, .u-name, .search-input-row, .row-result', func
     //                    <div class="unit-guide-logo teko-47">TA: ESC <span style="color: #DEA73C;">Unit Guide</span></div>
     //                    <!--<div class="by-dioxide">by <span style="font-weight:600">Dioxide</span></div>-->
     //                </a>${filledTemplate}</body></html>`);
-});
-
-
-
-
+}
 
 function fillHtmlTemplate() {
     template =
@@ -364,7 +388,7 @@ ${upgradeData.name != "" ? `
                                                     <div class="parameter-value">${setSpacesInBigNumbers(unitData.explosionDamage)}</div>
                                                 </div>
                                             ` : ""}
-                                            ${unitTypeObj.isEco || unitTypeObj.isBuilding? `
+                                            ${unitTypeObj.isEco || unitTypeObj.isBuilding ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForHP}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStyleHP}"></div>
                                                     <img src="${barHP_SrcImg}" class="parameter-bar" alt="">
@@ -586,14 +610,14 @@ ${upgradeData.name != "" ? `
                                                         <sup class="sup">2</sup><span class="sup-info">${unitData.sup2}</span>
                                                     </i>
                                                 ` : ""
-                                               }
+        }
                                                ${unitTypeObj.isEco && unitData.sup1 != undefined && unitData.sup2 == undefined ? `
                                                     <hr class="separator-between-info-stats">
                                                     <i class="exo2-16 white useful-info-padding-dt">
                                                         <sup class="sup">1</sup><span class="sup-info">${unitData.sup1}</span>
                                                     </i>
                                                 ` : ""
-                                                }
+        }
 
                                 </div>
 
@@ -609,58 +633,55 @@ ${upgradeData.name != "" ? `
                                                     ${unitData.turnRate != "n/a" && unitData.turnRate != undefined ? `
                                                 <div class="parameter-name"><span class="tooltip-dotted" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Turn speed</span>This parameter shows how fast a unit turns to change its direction. The lower a value, the slower a unit turns around. Turn speed may be important when you want to change direction to espace from an incoming threat or when you want to avoid an obstacle.</br> </br><span style='color: #DEA73C;'><b>Turn speed ranges:</b> </span> </br> <ul><li>Above 900: very fast</li><li>700 - 900: fast</li> <li>600 - 699: decent</li><li>400 - 599: average</li><li>200 - 399: slow</li> <li>Below 200: sluggish</li> </ul>   </div>">Turn speed:</span></div>
 
-                                                    `: "" }
+                                                    `: ""}
                                                     ${unitData.energyMake != undefined && unitData.energyMake != "n/a" && unitData.energyMake != 0 ? `
                                                 <div class="parameter-name">Energy make:</div>
 
-                                                    `: "" }
-                                                    ${unitData.energyUse != undefined && unitData.energyUse != 0 ? `
+                                                    `: ""}
+                                                    ${unitData.energyUse != undefined && unitData.energyUse != 0 && unitData.energyMake != 0 ? `
                                                 <div class="parameter-name"><span class="tooltip-dotted" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Energy drain</span>This parameter shows how much energy a unit drains. This includes only: <ul><li>Cloaking</li><li>Turned on units/buildings (jammers, radars, metal makers, galactic gates and more)</li><li>Moving (most units drain up to 1E/s while moving)</li></ul> </br> <b style='color: #DEA73C;'> Warning! </b> This parameter doesn't show energy drain while shooting (e.g. green lasers from Gaat).</div">Energy drain:</span></div>
 
-                                                    `: "" }
+                                                    `: ""}
                                                     ${unitData.energyStorage != undefined && unitData.energyStorage != 0 ? `
                                                 <div class="parameter-name">Energy storage:</div>
 
-                                                    `: "" }
+                                                    `: ""}
                                                     ${unitData.metalStorage != 0 && unitData.metalStorage != undefined ? `
                                                 <div class="parameter-name">Metal storage:</div>
 
-                                                    `: "" }
+                                                    `: ""}
                                                     ${unitData.cloakCost != "n/a" ? `
                                                 <div class="parameter-name">Cloak cost:</div>
 
-                                                    `: "" }
+                                                    `: ""}
 
                                             </div>
 
                                             <div class="col col-lg-6 no-padding">
                                                     ${unitData.buildTime != undefined ? `
                                                     <div class="parameter-val">${setSpacesInBigNumbers(unitData.buildTime)}</div>
-                                                    `: "" }
+                                                    `: ""}
                                                     ${unitData.turnRate != "n/a" && unitData.turnRate != undefined ? `
                                                     <div class="parameter-val">${unitData.turnRate}</div>
-                                                    `: "" }
-                                                    ${unitData.energyMake != undefined && unitData.energyMake != "n/a" && unitData.energyMake != 0  ? `
+                                                    `: ""}
+                                                    ${unitData.energyMake != undefined && unitData.energyMake != "n/a" && unitData.energyMake != 0 ? `
                                                     <div class="parameter-val">${setSpacesInBigNumbers(unitData.energyMake)}</div>
-                                                    `: "" }
-                                                    ${unitData.energyUse != undefined && unitData.energyUse != 0 ? `
+                                                    `: ""}
+                                                    ${unitData.energyUse != undefined && unitData.energyUse != 0 && unitData.energyMake != 0 ? `
                                                     <div class="parameter-val">${setSpacesInBigNumbers(unitData.energyUse)}</div>
-                                                    `: "" }
+                                                    `: ""}
                                                     ${unitData.energyStorage != undefined && unitData.energyStorage != 0 ? `
                                                     <div class="parameter-val">${setSpacesInBigNumbers(unitData.energyStorage)}</div>
-                                                    `: "" }
+                                                    `: ""}
                                                     ${unitData.metalStorage != 0 && unitData.metalStorage != undefined ? `
                                                     <div class="parameter-val">${setSpacesInBigNumbers(unitData.metalStorage)}</div>
-                                                    `: "" }
+                                                    `: ""}
                                                     ${unitData.cloakCost != "n/a" ? `
                                                     <div class="parameter-val">${setSpacesInBigNumbers(unitData.cloakCost)}</div>
-                                                    `: "" }
+                                                    `: ""}
                                             </div>
                                         </div>
                                       </div>
-
-
-
 
 </div></div>
 <div class="tab-pane fade" id="nav-manufacture-info" role="tabpanel" aria-labelledby="manufacture-info-tab"><div class="exo2-26 detailed-info-header built-by"><p>${unitData.name} <span style="font-weight:normal;">is built by:</span></p></div><div class="can-build"></div></div>
@@ -675,7 +696,7 @@ ${upgradeData.name != "" ? `
 
 function fillUpgradeTemplate() {
     upgradeTemplate =
-        `<img src="upgrade-icon.svg" class="plus-upgrade"/>
+        `<span class="plus-upgrade">+</span>
         <div class="upgrade-info-container">
         <p class="optional-upgrade-info">${upgradeData.name} (optional) </p>
         <div class="row" style="max-width: 270px; margin:0;">
@@ -816,7 +837,7 @@ function ChangeColorOfKeywords() {
 
 
 function fillHtmlTemplateFor3() {
-        template =
+    template =
         `
 ${upgradeData.name != "" ? `
         <div class="row unit-basic-info-upgr" style="padding: 13px 13px 9px 13px; margin:0 0 0 0;">
@@ -839,7 +860,6 @@ ${upgradeData.name != "" ? `
             <div class="res-cost-row" style="margin-bottom:3px;"><div class="metal-cost-bar exo2-16">Metal cost</div><span class="metal-cost-digit exo2-16">${setSpacesInBigNumbers(unitData.metalCost)} </span></div>
             <div class="summoning-code exo2-16" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Summoning code</span>You can type this code in game to summon <span style='font-weight:600'>${unitData.name}</span>. Just press Enter and type: <span style='color: #DEA73C; font-weight:500'>+${unitData.summoningCode}</span>. Then you can press Insert key to summon more.</br> It always works in single player. If you want to summon a unit in multiplayer, you have to switch <b>Cheat codes</b> (in game's lobby) to <b>Allowed</b> before starting a game. This is very handy when you want to test units. </br></br><p style='font-weight:600'>Useful codes:</p><ul><li><span style='color: #DEA73C; font-weight:500'>+los</span> - infinite view.</li><li><span style='color: #DEA73C; font-weight:500'>+corcheat</span> - almost infinite resources.</li> <li><span style='color: #DEA73C; font-weight:500'>+corkrog 1</span> - summons a Krogoth for another player (numbers from 1 to 9 are other players).</li><li><span style='color: #DEA73C; font-weight:500'>+showranges</span> - type it, then select a unit and hold Shift key to see many types of ranges.</li></ul> </div>"><span class="tooltip-dotted">Summoning</span> <span class="tooltip-dotted">code</span></div><span class="summoning-code-text exo2-16">+${unitData.summoningCode}</span>
         </div>
-
     </div>
 
 
@@ -875,7 +895,7 @@ ${upgradeData.name != "" ? `
                             
 
                                     <div class="col col-lg-3 brd" style="max-width: 22%; border-right: 1px solid #525252; border-left: 1px solid #525252; margin-left: 8px;">
-                                            <div class="unit-weapon">Weapon 1 ${unitData.isAntiAir1 ? `(AA)`:""}</div>
+                                            <div class="unit-weapon">Weapon 1 ${unitData.isAntiAir1 ? `(AA)` : ""}</div>
                                             ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther ? `                     
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForDPS}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStyleDps}"> </div>
@@ -1073,52 +1093,52 @@ ${weapons.w3 != undefined ?
                                                     ${unitData.turnRate != "n/a" && unitData.turnRate != undefined ? `
                                                 <div class="parameter-name"><span class="tooltip-dotted" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Turn speed</span>This parameter shows how fast a unit turns to change its direction. The lower a value, the slower a unit turns around. Turn speed may be important when you want to change direction to espace from an incoming threat or when you want to avoid an obstacle.</br> </br><span style='color: #DEA73C;'><b>Turn speed ranges:</b> </span> </br> <ul><li>Above 900: very fast</li><li>700 - 900: fast</li> <li>600 - 699: decent</li><li>400 - 599: average</li><li>200 - 399: slow</li> <li>Below 200: sluggish</li> </ul>   </div>">Turn speed:</span></div>
 
-                                                    `: "" }
+                                                    `: ""}
                                                     ${unitData.energyMake != undefined && unitData.energyMake != "n/a" && unitData.energyMake != 0 ? `
                                                 <div class="parameter-name">Energy make:</div>
 
-                                                    `: "" }
-                                                    ${unitData.energyUse != undefined && unitData.energyUse != 0 ? `
+                                                    `: ""}
+                                                    ${unitData.energyUse != undefined && unitData.energyUse != 0 && unitData.energyMake != 0 ? `
                                                 <div class="parameter-name"><span class="tooltip-dotted" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Energy drain</span>This parameter shows how much energy a unit drains. This includes only: <ul><li>Cloaking</li><li>Turned on units/buildings (jammers, radars, metal makers, galactic gates and more)</li><li>Moving (most units drain up to 1E/s while moving)</li></ul> </br> <b style='color: #DEA73C;'> Warning! </b> This parameter doesn't show energy drain while shooting (e.g. green lasers from Gaat).</div">Energy drain:</span></div>
 
-                                                    `: "" }
+                                                    `: ""}
                                                     ${unitData.energyStorage != undefined && unitData.energyStorage != 0 ? `
                                                 <div class="parameter-name">Energy storage:</div>
 
-                                                    `: "" }
+                                                    `: ""}
                                                     ${unitData.metalStorage != 0 && unitData.metalStorage != undefined ? `
                                                 <div class="parameter-name">Metal storage:</div>
 
-                                                    `: "" }
+                                                    `: ""}
                                                     ${unitData.cloakCost != "n/a" ? `
                                                 <div class="parameter-name">Cloak cost:</div>
 
-                                                    `: "" }
+                                                    `: ""}
 
                                             </div>
 
                                             <div class="col col-lg-6 no-padding">
                                                     ${unitData.buildTime != undefined ? `
                                                     <div class="parameter-val">${setSpacesInBigNumbers(unitData.buildTime)}</div>
-                                                    `: "" }
+                                                    `: ""}
                                                     ${unitData.turnRate != "n/a" && unitData.turnRate != undefined ? `
                                                     <div class="parameter-val">${unitData.turnRate}</div>
-                                                    `: "" }
-                                                    ${unitData.energyMake != undefined && unitData.energyMake != "n/a" && unitData.energyMake != 0  ? `
+                                                    `: ""}
+                                                    ${unitData.energyMake != undefined && unitData.energyMake != "n/a" && unitData.energyMake != 0 ? `
                                                     <div class="parameter-val">${unitData.energyMake}</div>
-                                                    `: "" }
+                                                    `: ""}
                                                     ${unitData.energyUse != undefined && unitData.energyUse != 0 ? `
                                                     <div class="parameter-val">${unitData.energyUse}</div>
-                                                    `: "" }
+                                                    `: ""}
                                                     ${unitData.energyStorage != undefined && unitData.energyStorage != 0 ? `
                                                     <div class="parameter-val">${setSpacesInBigNumbers(unitData.energyStorage)}</div>
-                                                    `: "" }
+                                                    `: ""}
                                                     ${unitData.metalStorage != 0 && unitData.metalStorage != undefined ? `
                                                     <div class="parameter-val">${setSpacesInBigNumbers(unitData.metalStorage)}</div>
-                                                    `: "" }
+                                                    `: ""}
                                                     ${unitData.cloakCost != "n/a" ? `
                                                     <div class="parameter-val">${setSpacesInBigNumbers(unitData.cloakCost)}</div>
-                                                    `: "" }
+                                                    `: ""}
                                             </div>
                                         </div>
                                       </div>
@@ -1138,7 +1158,6 @@ ${weapons.w3 != undefined ?
 }
 
 function countDpsAndRangeAndShotDmg(obj) {
-
     weapons = {
         w1: $(obj).attr("w1"),
         w2: $(obj).attr("w2"),
@@ -1159,7 +1178,7 @@ function countDpsAndRangeAndShotDmg(obj) {
     weapons.w3_dps = Math.round(weapons.w3 / weapons.w3_rt);
 }
 
-function resetParameterBars(){
+function resetParameterBars() {
     boxShadowsStyleDps = ""; //only for bars with 10/10
     boxShadowsStyleDps2 = "";
     boxShadowsStyleDps3 = "";
@@ -1180,6 +1199,14 @@ function resetParameterBars(){
         ForRange: "",
         ForRange2: "",
         ForRange3: "",
+        ForHP: "",
+        ForMS: "",
+        ForRange: "",
+        ForSightD: "",
+        ForBuildSpeed: "",
+        ForMinMetalCostForE: "",
+        ForMaxMetalCostForE: "",
+        ForExplosionRange: ""
     }
 
     dps_SrcImg = "";
@@ -1191,6 +1218,29 @@ function resetParameterBars(){
     range_SrcImg = "";
     range2_SrcImg = "";
     range3_SrcImg = "";
+
+    unitData.isEco = false;
+    duplicateCounter = 0;
+    firstParameter = "";
+    secondParameter = "";
+    thirdParameter = "";
+    fourthParameter = "";
+    fifthParameter = "";
+    sixthParameter = "";
+    boxShadowsStyleMovementSpeed = "";
+    boxShadowsStyleFlyingSpeed = "";
+    boxShadowsStyleHP = "";
+    boxShadowsStylesightRange = "";
+    boxShadowsStyleBuildSpeed = "";
+    boxShadowsStyleBuildRange = "";
+    boxShadowsStyleRadarRange = "";
+    boxShadowsStyleJammerRange = "";
+    boxShadowsStyleJammerRange = "";
+    boxShadowsMinMetalCostForE = "";
+    boxShadowsMaxMetalCostForE = "";
+    boxShadowsStyleExplosionDamage = "";
+    boxShadowsStyleExplosionRange = "";
+
 }
 
 function fillGeneralInfoTemplate() {
@@ -1203,26 +1253,23 @@ function fillGeneralInfoTemplate() {
 
                                                ${unitTypeObj.isEco && unitData.p4 != "" ? `
 
-                                                    <li class="dt-info-text white">You get 1 E for each ${unitData.minMetalCostForE} metal spent on ${unitData.name}s. This means, you get 1000 E income if you spend ${unitData.minMetalCostForE * 1000} metal.</li>
                                                     <li class="dt-info-text white">${unitData.p1}</li>
                                                     <li class="dt-info-text white">${unitData.p2}</li>
                                                     <li class="dt-info-text white">${unitData.p3}</li>
                                                     <li class="dt-info-text white">${unitData.p4}</li>
                                                 ` : ""}
                                                 ${unitTypeObj.isEco && unitData.p3 != "" && unitData.p4 == "" ? `
-                                                    <li class="dt-info-text white">You get 1 E for each ${unitData.minMetalCostForE} metal spent on ${unitData.name}s. This means, you get 1000 E income if you spend ${unitData.minMetalCostForE * 1000} metal.</li>
                                                     <li class="dt-info-text white">${unitData.p1}</li>
                                                     <li class="dt-info-text white">${unitData.p2}</li>
                                                     <li class="dt-info-text white">${unitData.p3}</li>
                                                     `: ""}
                                                 ${unitTypeObj.isEco && unitData.p2 != "" && unitData.p3 == "" && unitData.p4 == "" ? `
-                                                <li class="dt-info-text white">You get 1 E for each ${unitData.minMetalCostForE} metal spent on ${unitData.name}s. This means, you get 1000 E income if you spend ${unitData.minMetalCostForE * 1000} metal.</li>
                                                     <li class="dt-info-text white">${unitData.p1}</li>
                                                     <li class="dt-info-text white">${unitData.p2}</li>
                                                     `: ""}
 
 
-        ${(unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuildingDpsOnly) && (unitData.range > 300 || weapons.w1_r > 300) && (unitData.sightRange < unitData.range || unitData.sightRange < weapons.w1_r) ? `
+        ${(unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuildingDpsOnly) && (unitData.range > 300 || weapons.w1_r > 300) && (unitData.sightRange < parseInt(unitData.range) || unitData.sightRange < parseInt(weapons.w1_r)) ? `
                                                 <li class="dt-info-text white">
                                                      ${unitData.name}'s sight range is lower than its weapon's range. Use a radar, scouts or other units <span class="tooltip-dotted" data-toggle="popover" data-placement="top" data-content="<div class='tooltip-content'><span class='tooltip-title'>Line of Sight (LoS)</span>LoS is the visibility (what your units actually see) on the playing field. Units automatically attack an enemy within their LoS and their weapon's range.<span class="tooltip-dotted">LoS</span></span> to see an enemy and shoot it from a full distance.
                                                 </li>
@@ -1233,8 +1280,13 @@ function fillGeneralInfoTemplate() {
                                                      Speed of ${unitData.name}s is really good. If you manage to slip into the enemy's base, he may have a big problem, because it's hard to chase such fast units. Look for important economy buildings and try to destroy them. 
                                                 </li>
                                                 ` : ""}
+        ${(unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly) && (unitData.HP / unitData.metalCost < 4.5) && (unitData.range > 700 || weapons.w1_r > 700) && !unitData.isAntiAir1 ? `
+                                                <li class="dt-info-text white">
+                                                     ${unitData.name}'s range is pretty good, however its health is rather low. You should protect these using other tanky units for cover.
+                                                </li>
+                                                ` : ""}
 
-${(unitTypeObj.isCons || unitTypeObj.isAirCons) && !(unitData.name == "Podger" || unitData.name == "Spoiler")? `
+${(unitTypeObj.isCons || unitTypeObj.isAirCons) && !(unitData.name == "Podger" || unitData.name == "Spoiler") ? `
         ${unitData.buildSpeed / unitData.metalCost > 0.75 ? `
                                                 <li class="dt-info-text white">
                                                      ${unitData.name} has a very good <span class="yellow"> build speed / metal cost ratio</span>. If metal is important on a certain map, you can make ${unitData.name}s to build faster for a comparably low metal price.
@@ -1251,10 +1303,10 @@ ${(unitTypeObj.isCons || unitTypeObj.isAirCons) && !(unitData.name == "Podger" |
                                                      ${unitData.name}'s <span class="yellow"> build speed / metal cost ratio </span> is rather bad. If you want to save metal and build faster, you should consider making Tier 2/3 construction vehicles (the best ratio).
                                                 </li>
                                                 ` : ""
-    }
+            }
     `: ""}
 
-${(unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly) && (unitData.HP / unitData.metalCost > 8) && (unitData.name != "Pounder")?`
+${(unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly) && (unitData.HP / unitData.metalCost > 8) && (unitData.name != "Pounder") ? `
                                                 <li class="dt-info-text white">
                                                      ${unitData.name} has relatively a lot of Health for its price. It can be used as a shield for units with greater range.
                                                 </li>
@@ -1276,27 +1328,27 @@ ${unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isClawlin
 ${unitData.metalCost < 3000 ? `
                                                 <li class="dt-info-text white">
 
-                                                    To make one ${unitData.name} every <span class="bold yellow">5 seconds</span>, your minimum income should be about:</br><span class="energy-color">Energy</span> +${setSpacesInBigNumbers(Math.ceil(unitData.energyCost / 5))} E/s &nbsp&nbsp&nbsp&nbsp <span class="metal-color">Metal</span> +${setSpacesInBigNumbers(Math.ceil(unitData.metalCost / 5))} M/s.</br> Required build speed: ${Math.floor(unitData.buildTime / 5)} (about 
+                                                    To make one ${unitData.name} every <span class="bold yellow">5 seconds</span>, your minimum income should be about:</br><span class="energy-color">Energy</span> +${setSpacesInBigNumbers(Math.ceil(unitData.energyCost / 5))} E/s &nbsp&nbsp&nbsp&nbsp <span class="metal-color">Metal</span> +${setSpacesInBigNumbers(Math.ceil(unitData.metalCost / 5))} M/s</br> Required build speed: ${Math.floor(unitData.buildTime / 5)} (about 
 ${Math.floor((unitData.buildTime / 5) / 360) == 1 ? `
 ${Math.floor((unitData.buildTime / 5) / 360)}x Tier 2 construction vehicle or ${Math.floor((unitData.buildTime / 5) / 120)}x Tier 1 construction vehicle).
 `: `${Math.floor((unitData.buildTime / 5) / 360) == 0 ? `
         ${Math.floor((unitData.buildTime / 5) / 120)}x Tier 1 construction vehicle).` :
-                `${Math.floor((unitData.buildTime / 5) / 360)}x Tier 2 construction vehicle or ${Math.floor((unitData.buildTime / 5) / 120)}x Tier 1 construction vehicle).`}`}
+                        `${Math.floor((unitData.buildTime / 5) / 360)}x Tier 2 construction vehicle or ${Math.floor((unitData.buildTime / 5) / 120)}x Tier 1 construction vehicle).`}`}
                                                 </li >
                                                     `: ""}
-                                                ${unitData.metalCost >= 200 ?`                                               
+                                                ${unitData.metalCost >= 200 ? `                                               
                                                 <li class="dt-info-text white">
-                                                    To make one ${unitData.name} every <span class="bold yellow">30 seconds</span>, your minimum income should be about:</br><span class="energy-color">Energy</span> +${setSpacesInBigNumbers(Math.ceil(unitData.energyCost / 30))} E/s &nbsp&nbsp&nbsp&nbsp <span class="metal-color">Metal</span> +${setSpacesInBigNumbers(Math.ceil(unitData.metalCost / 30))} M/s.</br> Required build speed: ${Math.floor(unitData.buildTime / 30)} (about
+                                                    To make one ${unitData.name} every <span class="bold yellow">30 seconds</span>, your minimum income should be about:</br><span class="energy-color">Energy</span> +${setSpacesInBigNumbers(Math.ceil(unitData.energyCost / 30))} E/s &nbsp&nbsp&nbsp&nbsp <span class="metal-color">Metal</span> +${setSpacesInBigNumbers(Math.ceil(unitData.metalCost / 30))} M/s</br> Required build speed: ${Math.floor(unitData.buildTime / 30)} (about
 ${Math.floor((unitData.buildTime / 30) / 360) >= 1 ? `
 ${Math.floor((unitData.buildTime / 30) / 360)}x Tier 2 construction vehicle or ${Math.floor((unitData.buildTime / 30) / 270)}x Tier 2 construction kbot).
 `: `${Math.floor((unitData.buildTime / 30) / 360) == 0 ? `
         ${Math.floor((unitData.buildTime / 30) / 120)}x Tier 1 construction vehicle).` :
-                `${Math.floor((unitData.buildTime / 30) / 360)}x Tier 2 construction vehicle or ${Math.floor((unitData.buildTime / 30) / 120)}x Tier 1 construction vehicle).`}`}
+                        `${Math.floor((unitData.buildTime / 30) / 360)}x Tier 2 construction vehicle or ${Math.floor((unitData.buildTime / 30) / 120)}x Tier 1 construction vehicle).`}`}
                                                 </li>
                                                 
-                                                ${unitData.metalCost > 6500 ?` 
+                                                ${unitData.metalCost > 6500 ? ` 
                                                 <li class="dt-info-text white">
-                                                    To make one ${unitData.name} every <span class="bold yellow">2 minutes</span>, your minimum income should be about:</br><span class="energy-color">Energy</span> +${setSpacesInBigNumbers(Math.ceil(unitData.energyCost / 120))} E/s &nbsp&nbsp&nbsp&nbsp <span class="metal-color">Metal</span> +${setSpacesInBigNumbers(Math.ceil(unitData.metalCost / 120))} M/s.</br> Required build speed: ${Math.floor(unitData.buildTime / 120)} (about ${Math.floor((unitData.buildTime / 120) / 360)}x Tier 2 construction vehicle or ${Math.floor((unitData.buildTime / 120) / 270)}x Tier 2 construction kbot).
+                                                    To make one ${unitData.name} every <span class="bold yellow">2 minutes</span>, your minimum income should be about:</br><span class="energy-color">Energy</span> +${setSpacesInBigNumbers(Math.ceil(unitData.energyCost / 120))} E/s &nbsp&nbsp&nbsp&nbsp <span class="metal-color">Metal</span> +${setSpacesInBigNumbers(Math.ceil(unitData.metalCost / 120))} M/s</br> Required build speed: ${Math.floor(unitData.buildTime / 120)} (about ${Math.floor((unitData.buildTime / 120) / 360)}x Tier 2 construction vehicle or ${Math.floor((unitData.buildTime / 120) / 270)}x Tier 2 construction kbot).
                                                 </li>
                                                 `: ""}
                                                 `: ""}
