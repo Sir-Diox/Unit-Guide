@@ -26,7 +26,6 @@ a{
     font-family: Teko;
     font-size: 29px;
 }
-
 .teko-18 {
     font-family: Teko;
     font-size: 18px;
@@ -47,11 +46,14 @@ a{
     font-size: 12px;
 }
 .metal-color {
+    width: 66px;
+    margin-top: 6px;
     background: #D2DEFD;
-    font-weight:600;
+    font-weight: 600;
     color: black;
     border-radius: 5px;
-    padding: 1px 7px;
+    padding: 0px 7px;
+    display: inline-block;
 }
 .bold{
     font-weight:600;
@@ -61,11 +63,13 @@ a{
     font-family:'Exo 2';
 }
 .energy-color {
+    width: 66px;
     background: #FBFF4C;
     font-weight: 600;
     color: black;
     border-radius: 5px;
-    padding: 1px 7px;
+    padding: 0px 7px;
+    display: inline-block;
 }
 .yellow {
     color: #DEA73C;
@@ -381,14 +385,19 @@ a{
         line-height: 35px;
         margin-left: 5px;
     }
-
-    .main-banner {
-        position: relative;
-        width: 100%;
-        height: 443px;
-        top: 56px;
-        overflow: hidden;
-    }
+.update {
+    position: absolute;
+    top: 270px;
+    text-align: center;
+    width: 100%;
+}
+.main-banner {
+    position: relative;
+    width: 101%;
+    height: 443px;
+    top: 54px;
+    overflow: hidden;
+}
 
     .arm-logo-banner {
         position: absolute;
@@ -846,17 +855,20 @@ a{
         max-width: 111px;
     }
 
-    .preview-frame {
-        background: #212121;
-        /*position: absolute;*/
-        border: 1px solid #FFFFFF;
-        border-radius: 3px;
-        width: 388px;
-        max-height: 660px;
-        z-index: 1600000;
-        line-height: 1.5;
-        font-size: 16px;
-    }
+.preview-frame {
+    background: #212121;
+    /*position: absolute;*/
+    border: 1px solid #FFFFFF;
+    border-radius: 3px;
+    width: 410px;
+    max-height: 660px;
+    z-index: 1600000;
+    line-height: 1.5;
+    font-size: 16px;
+    -webkit-box-shadow: 0px 0px 5px 1px rgb(121, 121, 121);
+    -moz-box-shadow: 0px 0px 5px 1px rgb(121, 121, 121);
+    box-shadow: 0px 0px 5px 1px rgb(121, 121, 121);
+}
 
     .unit-preview {
         z-index: 1600000;
@@ -867,7 +879,7 @@ a{
     background: #333333;
     width: 100%;
     position: relative;
-    padding: 3px 9px;
+    padding: 2px 9px;
 }
 
     .unit-name-text {
@@ -886,10 +898,15 @@ a{
         padding-bottom: 5px;
     }
 
-    .unit-image-box {
-        max-width: 30.5%;
-        padding: 0;
-    }
+.unit-image-box {
+    max-width: 29.5%;
+    padding: 0;
+}
+
+.unit-basic-row .col-lg-8 {
+    position: relative;
+    top: -1px;
+}
 
     .detailed-info-wrapper .unit-image-box {
         padding: 0;
@@ -935,8 +952,7 @@ a{
         }
 
 .unit-basic-info {
-    padding: 13px 13px 9px 13px;
-    padding: 13px 13px 9px 13px;
+    padding: 13px 13px 9px 15px;
     max-width: 416px;
     margin: 4px auto 4px auto;
 }
@@ -1021,7 +1037,7 @@ a{
 }
 
 .separator-between-info-stats-1 {
-    width: 383px;
+    width:  408px;
     margin: 0px auto 0 auto;
     background: #757575;
 }
@@ -1397,7 +1413,6 @@ a{
             color: #dea73c;
         }
     .close {
-            color: #DEA73C;
         text-shadow: none;
         opacity: .5;
     }
@@ -1425,17 +1440,18 @@ a{
     transform: translate(-50%, 0px);
 }
 
-    .unit-preview-comparison {
+.unit-preview-comparison {
+    display: inline-block;
+    position: relative;
+    margin-right: 5px;
+}
+
+    .unit-preview-comparison .preview-frame {
         display: inline-block;
         position: relative;
+        vertical-align: top;
+        padding-bottom: 12px;
     }
-
-        .unit-preview-comparison .preview-frame {
-            display: inline-block;
-            position: relative;
-            vertical-align: top;
-            padding-bottom: 12px;
-        }
 
     .compare-container {
         display: none;
@@ -1650,8 +1666,21 @@ a{
         background-color: #2b2b2b;
         border-color: #ffffff #dee2e6 #2b2b2b;
     }
+.mobile-dt-info-wrapper {
+    background: #181818;
+    height: 100%;
+}
+    @media screen and (max-width: 1190px) {
+        .unit-type-bg {
+            right:auto;
+        }
+            .mobile-dt-info-wrapper .unit-image-box{
 
-    @media screen and (max-width: 576px) {
+        }
+        .mobile-dt-info-wrapper .row{
+            justify-content:center;
+        }
+
         .nav-elements-container {
             display: none;
         }
@@ -1660,6 +1689,12 @@ a{
             height: 50px;
         }
 
+            .energy-color {
+            margin-top: 10px;
+            }
+        .metal-color {
+            margin-bottom: 7px;
+        }
         .unit-guide-nav-mobile {
             display: block;
             width: 100%;
@@ -1682,6 +1717,11 @@ a{
 
         .carousel {
             display: none;
+        }
+
+        .metal-cost-bar, .energy-cost-bar {
+            height: auto;
+            padding: 2px 3px 4px 3px;
         }
 
         .buildings-section .col-modifier-arm, .buildings-section .col-modifier-core {
@@ -1851,7 +1891,7 @@ a{
             text-decoration: none;
         }
 
-        #search-bar-mobile {
+            #search-bar-mobile {
             top: 65px;
             background-color: #2b2b2b;
             margin: 0 11px;
@@ -1915,6 +1955,73 @@ a{
         }
         .loading-icon {
             top: -1px;
+        }
+
+        .mobile-hide{
+            display:none;
+        }
+
+        .ug-container {
+            padding-top: 44px;
+        }
+
+        /*form detailed info*/
+
+            .basic-info-wrapper {
+                display: inline-block;
+                position: relative;
+                left: 50%;
+                transform: translate(-50%, 0px);
+                margin-top: 26px;
+            }
+
+        .res-cost-row {
+            width: unset;
+            display: block;
+            margin-bottom: 7px;
+        }
+        #mobile-unit-nav {
+            line-height: 1;
+            padding: 13px 50px 6px 50px;
+        }
+
+        .unit-name-scroll-sticky {
+            background-color: #2b2b2b;
+            color: white;
+            width: 100%;
+            z-index: 500;
+            font-weight: 600;
+            text-align: center;
+            position: fixed;
+        }
+        .unit-name-text{
+            position:absolute;
+            width:100%;           
+        }
+        .fa-arrow-left {
+            padding: 10px 17px;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            line-height: 30px !important;
+            font-size: 19px;
+            color: white;
+        }
+        .unit-name-scroll-sticky:after {
+            bottom: -5px;
+            content: "";
+            height: 5px;
+            left: 0px;
+            opacity: 1;
+            pointer-events: none;
+            position: absolute;
+            right: 0px;
+            z-index: 0;
+            box-shadow: inset 0px 4px 8px -3px rgb(164, 164, 164);
+        }
+
+                .unit-description-text {
+            padding: 55px 25px 10px 25px;
         }
     }
 

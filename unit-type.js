@@ -22,11 +22,10 @@ function setLabelParametersAndValues(unitType) {
 
     else if (unitType.isAirFigther) {
         firstParameter = "Damage per second:";
-        secondParameter = "Damage per shot:";
-        thirdParameter = "Range:";
-        fourthParameter = "Health:";
-        fifthParameter = "Flying speed:";
-        sixthParameter = "Sight range:";
+        secondParameter = "Range:";
+        thirdParameter = "Health:";
+        fourthParameter = "Flying speed:";
+        fifthParameter = "Sight range:";
     }
     else if (unitType.isBomber) {
         firstParameter = "Damage per bomb:";

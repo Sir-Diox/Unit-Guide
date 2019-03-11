@@ -1,9 +1,11 @@
 var previousUnitsListHTML = [];
 var previousUnitsListNames = [];
 var template = "";
+var mobileTemplate = "";
 var upgradeTemplate = "";
 var generalInfoTemplate = "";
-
+var canBuildHTML = "";
+var builtByHTML = "";
 var popoverAsTooltipSettings = {
     placement: 'right',
     html: true,
@@ -14,6 +16,7 @@ var popoverAsTooltipSettings = {
     boundary: 'viewport',
     fallbackPlacement: 'flip'
 }
+
 $('body').on('mouseover', '.parameter-name, .summoning-code', function () {
     $('.tooltip-dotted').popover(popoverAsTooltipSettings);
 });
@@ -23,7 +26,6 @@ $('body').on('click', '#nav-tips-tab', function () {
         $('#nav-tips div.exo2-26').text("No tips available for this unit.");
     }
 });
-
 var weapons = {
     w1: "",
     w2: "",
@@ -52,7 +54,9 @@ $('body').on('click', '.unit-box, .u-name, .search-input-row, #search-input-resu
 });
 
 function generateDetailedInfo(val) {
-    $(".navbar").css("right", "17px");
+    if (!isMobileDevice()) {
+        $(".navbar").css("right", "17px");
+    }
     if ($(val).hasClass("u-name")) {
         var obj = $(val).parent().parent().children().eq(0);
     }
@@ -67,8 +71,9 @@ function generateDetailedInfo(val) {
     }
     $('[data-toggle="popover"]').popover('hide');
     template = "";
-    $('#detailed-unit-info-1').modal('show');
-    var attributes = $(obj).prop("attributes");
+    if (!isMobileDevice()) {
+        $('#detailed-unit-info-1').modal('show');
+    }
     var ctr = 0;
 
     var unitName = $(obj).attr("uname");
@@ -79,7 +84,6 @@ function generateDetailedInfo(val) {
     if (unitImg != undefined) {
         unitData.imgSrc = unitImg;
     }
-    var buildingsList = [];
     for (i = 0; i < csvObj.length; i++) {
         if (ctr < 1) {
             if (csvObj[i].Name === unitName && csvObj[i].SIDE.toLowerCase() === unitSide) {
@@ -107,6 +111,7 @@ function generateDetailedInfo(val) {
                 $(".unit-desc").text(unitData.description);
                 $(".detailed-info-wrapper").html("");
 
+                weapons.w2 = $(obj).attr("w2"); // for checking if unit has more than 1 weapon (in template)
                 unitData.radarRange = csvObj[i].radarRange;
                 unitData.jammerRange = csvObj[i].radarRangeJam;
                 unitData.builder = csvObj[i].Builder;
@@ -150,19 +155,18 @@ function generateDetailedInfo(val) {
                             thirdParameter = "E income / M cost ratio<sup>2</sup>:"
                         }
                     }
-                    unitData.p1 = $(obj).attr("p1");
-                    unitData.p2 = $(obj).attr("p2");
-                    unitData.p3 = $(obj).attr("p3");
-                    unitData.p4 = $(obj).attr("p4");
+
                     unitData.sup1 = $(obj).attr("sup1");
                     unitData.sup2 = $(obj).attr("sup2");
-                    unitData.p1 = (unitData.p1 != undefined) ? unitData.p1 : "";
-                    unitData.p2 = (unitData.p2 != undefined) ? unitData.p2 : "";
-                    unitData.p3 = (unitData.p3 != undefined) ? unitData.p3 : "";
-                    unitData.p4 = (unitData.p4 != undefined) ? unitData.p4 : "";
                 }
-                
-                if ($(obj).attr("w2") != undefined) {
+                if (isMobile && ($(obj).attr("w2") != undefined)) {
+                    resetParameterBars();
+                    setLabelParametersAndValues(checkUnitType());
+                    countDpsAndRange(obj);
+                    setParameterBars();
+                    setWeaponsAA(obj);
+                }
+                else if ($(obj).attr("w2") != undefined) {
                     resetParameterBars();
                     setLabelParametersAndValues(checkUnitType());
                     countDpsAndRangeAndShotDmg(obj); // this overrides countDpsAndRange() from preview.
@@ -189,6 +193,7 @@ function generateDetailedInfo(val) {
                     setParameterBars();
                 }
 
+
                 unitTypeObj = checkUnitType();
 
                 if (unitTypeObj.isBuildingType) {
@@ -197,29 +202,37 @@ function generateDetailedInfo(val) {
                     unitData.HP = csvObj[i].MaxDamage / csvObj[i].DamageModifier;
                 }
 
-
+                if (unitTypeObj.isFighter) {
+                    if ((unitData.name == "Croc" || unitData.name == "Gimp" || unitData.name == "Triton" || unitData.name == "Defiler")) {
+                        unitData.HP = unitData.HP / 4;
+                    }
+                }
 
                 if (obj.attr("upgrade") != undefined) {
                     upgradeData.name = "r";
                 }
 
-
+                unitData.p1 = $(obj).attr("p1");
+                unitData.p2 = $(obj).attr("p2");
+                unitData.p3 = $(obj).attr("p3");
+                unitData.p4 = $(obj).attr("p4");
 
 
                 fillGeneralInfoTemplate();
                 ChangeColorOfKeywords();
-
-                if (weapons.w3 != "") {
-                    fillHtmlTemplateFor3();
-                    // sprawdz czy usuwa weapons data po wyjsciu i czy nie powtarza sie w innych unitach
-                }
-                else if (weapons.w2 != "") {
-                    fillHtmlTemplateFor2();
+                if (!isMobileDevice()) {
+                    if (weapons.w3 != "") {
+                        fillHtmlTemplateFor3();
+                        // sprawdz czy usuwa weapons data po wyjsciu i czy nie powtarza sie w innych unitach
+                    }
+                    else {
+                        fillHtmlTemplate();
+                    }
                 }
                 else {
-                    fillHtmlTemplate();
+                    fillGeneralInfoTemplate();
+                    $(".detailed-info-wrapper").append('<div class="built-by"></div><div class="can-build"></div>'); // to let built by and can build work on mobile.
                 }
-
                 //zerowanie
                 if ($(obj).attr("w2") != undefined) {
                     weapons.w1 = "";
@@ -233,7 +246,7 @@ function generateDetailedInfo(val) {
                     weapons.w3_r = "";
                 }
 
-                $(".detailed-info-wrapper").append(template);
+                    $(".detailed-info-wrapper").append(template);
 
                 //has upgrade?
                 if (obj.attr("upgrade") != undefined) {
@@ -276,12 +289,76 @@ function generateDetailedInfo(val) {
             }
         }
     }
-    //var filledTemplate = $("#detailed-unit-info-1 .modal-content").html();
-    //                            var opened = window.open("","_self"); // lepiej u¿yæ chyba nowego okna i potem je zamkn¹æ u¿ywaj¹c strza³ki wstecz lub X
-    //                        opened.document.write(`<html><head>     <link rel="stylesheet" href="styles.css"     <link href="https://fonts.googleapis.com/css?family=Teko:400,500,600,700" rel="stylesheet"> <link href="https://fonts.googleapis.com/css?family=Exo+2:300,400,600,700" rel="stylesheet">     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">>><title>MyTitle</title></head><body><a class="home-page-link" href="" title="Back to the top of the page">
-    //                    <div class="unit-guide-logo teko-47">TA: ESC <span style="color: #DEA73C;">Unit Guide</span></div>
-    //                    <!--<div class="by-dioxide">by <span style="font-weight:600">Dioxide</span></div>-->
-    //                </a>${filledTemplate}</body></html>`);
+
+    if (isMobileDevice()) {
+        // for mobile
+        canBuildHTML = $(".can-build").html();
+        builtByHTML = $(".built-by").html();
+        if (!(generalInfoTemplate.indexOf("li") >= 0)) {
+            generalInfoTemplate = '<div class="white exo2-16" style="text-align:center">No tips available for this unit.<div>';
+        }
+        fillMobileTemplate();
+
+        var opened = window.open("", "_blank"); 
+        opened.document.write(`
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Teko:400,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Exo+2:300,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="perfect-scrollbar.css">
+    <link rel="stylesheet" href="./fontawesome/css/all.css">
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="jquery.csv.min.js"></script>
+</head>
+
+<body>${mobileTemplate}
+<script>
+
+        $("body").on("click", ".back-to-main-page", function () {
+            window.close();
+        });
+
+window.onscroll = function() {myFunction()};
+
+function myFunction() {
+  if (document.body.scrollTop > 0 || document.documentElement.scrollTop > 0) {
+    if($("#mobile-unit-nav").height() > 55){
+        document.getElementById("mobile-unit-nav").className = "unit-name-scroll-sticky teko-29";
+        $(".unit-description-text").css("padding", "82px 25px 3px 25px");
+    }else{
+    document.getElementById("mobile-unit-nav").className = "unit-name-scroll-sticky teko-29";
+    $(".unit-description-text").css("padding", "55px 25px 10px 25px");
+    }
+
+  } else {
+        if($("#mobile-unit-nav").height() > 55){
+            document.getElementById("mobile-unit-nav").className = "unit-name-text unit-name-mobile-dt teko-29 white";
+            $(".unit-description-text").css("padding", "82px 25px 3px 25px");
+        }
+        else{
+        document.getElementById("mobile-unit-nav").className = "unit-name-text unit-name-mobile-dt teko-29 white";
+        $(".unit-description-text").css("padding", "55px 25px 10px 25px");
+        }
+  }
+}
+</script>
+</body>
+</html>`
+        );
+        closeNav();
+        $("#search-input-6").val("");
+        $("#search-input-results-6").html("");
+    }
+
 }
 
 function fillHtmlTemplate() {
@@ -328,9 +405,45 @@ ${upgradeData.name != "" ? `
             <div class="tab-pane fade show active" id="nav-statistics" role="tabpanel" aria-labelledby="nav-statistics-tab"><div class="unit-statistics">
 
 
-                            <div class="unit-basic-stats">
+       ${fillStatisticsInfo()}
 
-                                <div class="exo2-26 detailed-info-header" >Basic stats</div>
+</div></div>
+<div class="tab-pane fade" id="nav-manufacture-info" role="tabpanel" aria-labelledby="manufacture-info-tab"><div class="exo2-26 detailed-info-header built-by"></div><div class="can-build"></div></div>
+            <div class="tab-pane fade" id="nav-tips" role="tabpanel" aria-labelledby="nav-tips-tab">
+                                                <div class="detailed-info-header exo2-26">
+                                                Tips & trivia
+                                                </div>
+                                                ${generalInfoTemplate}
+
+</div>
+        </div>
+`
+}
+
+function fillUpgradeTemplate() {
+    upgradeTemplate =
+        `<span class="plus-upgrade">+</span>
+        <div class="upgrade-info-container">
+        <p class="optional-upgrade-info">${upgradeData.name} (optional) </p>
+        <div class="row" style="max-width: 270px; margin:0;">
+        <div class="col col-lg-2 unit-image-box">
+            <img src="units-images/${upgradeData.imgSrc}.jpg" class="upgrade-img"/>
+        </div>
+        <div class="col col-lg-8" style="padding-left: 12px;">
+            <div class="res-cost-row"><div class="energy-cost-bar exo2-16">Energy cost</div><span class="energy-cost-digit exo2-16">${setSpacesInBigNumbers(upgradeData.energyCost)}</span></div>
+            <div class="res-cost-row" style="margin-bottom:3px;"><div class="metal-cost-bar exo2-16">Metal cost</div><span class="metal-cost-digit exo2-16">${setSpacesInBigNumbers(upgradeData.metalCost)} </span></div>
+        </div>
+        <div style="color:white; font-size:14px; color: rgba(255, 255, 255, 0.8);">- ${upgradeData.description}<div>
+    </div></div>
+
+`
+}
+
+function fillStatisticsInfo() {
+    var template = `                            
+                                <div class="unit-basic-stats">
+
+                                <div class="exo2-26 detailed-info-header">Basic stats</div>
                                 <div class="row" style="margin:0;">
                                     <div class="col col-lg-6 no-padding">
 
@@ -346,7 +459,7 @@ ${upgradeData.name != "" ? `
                                            ${sixthParameter ? `
                                         <div class="parameter-name">${sixthParameter}</div>
                                            ` : ""}
-                                        ${unitData.onlyDps == undefined && (unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther) ? `                
+                                        ${unitData.onlyDps == undefined && weapons.w2 == undefined && (unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly) ? `                
                                         <div class="parameter-name">Reload time: </div>
                                         ` : ""}
                                     </div>
@@ -397,7 +510,7 @@ ${upgradeData.name != "" ? `
                                             ` : ""}
 
 
-                                        ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isBomber || unitTypeObj.isAirFigther ? `
+                                        ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isBomber ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForDamagePerShot}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStyleDamagePerShot}"></div>
                                                     <img src="${damagePerShot_SrcImg}" class="parameter-bar" alt="">
@@ -593,13 +706,12 @@ ${upgradeData.name != "" ? `
                                                     <div class="parameter-value">${setSpacesInBigNumbers(unitData.sightRange)}</div>
                                                 </div>
                                             ` : ""}
-                                        ${unitData.onlyDps == undefined && (unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther) ? `                     
+                                        ${unitData.onlyDps == undefined && weapons.w2 == undefined && (unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther) ? `                     
                                             <div class="parameter-value-nobar" style="margin-top: 14px; margin-bottom: 6px;">${weapons.w1_rt} s</div>
                                         ` : ""}
                                     </div>
 
                                 </div>
-
 
                                                     ${unitTypeObj.isEco && unitData.sup1 != undefined && unitData.sup2 != undefined ? `
                                                     <hr class="separator-between-info-stats">
@@ -626,12 +738,12 @@ ${upgradeData.name != "" ? `
                                         <div class="row">
                                             <div class="col col-lg-6 no-padding">
                                                     ${unitData.buildTime != undefined && (unitData.movementSpeed != 'n/a' || unitData.flyingSpeed != 'n/a') ? `
-                                                <div class="parameter-name"><span class="tooltip-dotted" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Build time</span>This parameter shows how much time is needed to build a unit or structure. </br><span style='color: #DEA73C;'>Build time / Build speed = time in seconds </span> </br> <b>Example:</b></br> Commander with a build speed of 360 builds a <b>${unitData.name}</b> with a build time of ${setSpacesInBigNumbers(unitData.buildTime)} needs: </br><span style='color: #DEA73C;'> ${setSpacesInBigNumbers(unitData.buildTime)} / 360 = <b>${(unitData.buildTime / 360).toFixed(2)} seconds </b></span> </br> Remember to add lab's building speed to it, to be exact. </div>">Build time:</span></div>
+                                                <div class="parameter-name"><span class="${(!isMobile) ? `tooltip-dotted`:""}" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Build time</span>This parameter shows how much time is needed to build a unit or structure. </br><span style='color: #DEA73C;'>Build time / Build speed = time in seconds </span> </br> <b>Example:</b></br> Commander with a build speed of 360 builds a <b>${unitData.name}</b> with a build time of ${setSpacesInBigNumbers(unitData.buildTime)} needs: </br><span style='color: #DEA73C;'> ${setSpacesInBigNumbers(unitData.buildTime)} / 360 = <b>${(unitData.buildTime / 360).toFixed(2)} seconds </b></span> </br> Remember to add lab's building speed to it, to be exact. </div>">Build time:</span></div>
                                                     `: `
-                                                <div class="parameter-name"><span class="tooltip-dotted" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Build time</span>This parameter shows how much time is needed to build a unit or structure. </br><span style='color: #DEA73C;'>Build time / Build speed = time in seconds </span> </br> <b>Example:</b></br> Commander with a build speed of 360 builds a <b>${unitData.name}</b> with a build time of ${setSpacesInBigNumbers(unitData.buildTime)} needs: </br><span style='color: #DEA73C;'> ${setSpacesInBigNumbers(unitData.buildTime)} / 360 = <b>${(unitData.buildTime / 360).toFixed(2)} seconds </b></span> </div>">Build time:</span></div>
+                                                <div class="parameter-name"><span class="${(!isMobile) ? `tooltip-dotted` : ""}" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Build time</span>This parameter shows how much time is needed to build a unit or structure. </br><span style='color: #DEA73C;'>Build time / Build speed = time in seconds </span> </br> <b>Example:</b></br> Commander with a build speed of 360 builds a <b>${unitData.name}</b> with a build time of ${setSpacesInBigNumbers(unitData.buildTime)} needs: </br><span style='color: #DEA73C;'> ${setSpacesInBigNumbers(unitData.buildTime)} / 360 = <b>${(unitData.buildTime / 360).toFixed(2)} seconds </b></span> </div>">Build time:</span></div>
                                                     ` }
                                                     ${unitData.turnRate != "n/a" && unitData.turnRate != undefined ? `
-                                                <div class="parameter-name"><span class="tooltip-dotted" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Turn speed</span>This parameter shows how fast a unit turns to change its direction. The lower a value, the slower a unit turns around. Turn speed may be important when you want to change direction to espace from an incoming threat or when you want to avoid an obstacle.</br> </br><span style='color: #DEA73C;'><b>Turn speed ranges:</b> </span> </br> <ul><li>Above 900: very fast</li><li>700 - 900: fast</li> <li>600 - 699: decent</li><li>400 - 599: average</li><li>200 - 399: slow</li> <li>Below 200: sluggish</li> </ul>   </div>">Turn speed:</span></div>
+                                                <div class="parameter-name"><span class="${(!isMobile) ? `tooltip-dotted` : ""}" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Turn speed</span>This parameter shows how fast a unit turns to change its direction. The lower a value, the slower a unit turns around. Turn speed may be important when you want to change direction to espace from an incoming threat or when you want to avoid an obstacle.</br> </br><span style='color: #DEA73C;'><b>Turn speed ranges:</b> </span> </br> <ul><li>Above 900: very fast</li><li>700 - 900: fast</li> <li>600 - 699: decent</li><li>400 - 599: average</li><li>200 - 399: slow</li> <li>Below 200: sluggish</li> </ul>   </div>">Turn speed:</span></div>
 
                                                     `: ""}
                                                     ${unitData.energyMake != undefined && unitData.energyMake != "n/a" && unitData.energyMake != 0 ? `
@@ -639,7 +751,7 @@ ${upgradeData.name != "" ? `
 
                                                     `: ""}
                                                     ${unitData.energyUse != undefined && unitData.energyUse != 0 && unitData.energyMake != 0 ? `
-                                                <div class="parameter-name"><span class="tooltip-dotted" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Energy drain</span>This parameter shows how much energy a unit drains. This includes only: <ul><li>Cloaking</li><li>Turned on units/buildings (jammers, radars, metal makers, galactic gates and more)</li><li>Moving (most units drain up to 1E/s while moving)</li></ul> </br> <b style='color: #DEA73C;'> Warning! </b> This parameter doesn't show energy drain while shooting (e.g. green lasers from Gaat).</div">Energy drain:</span></div>
+                                                <div class="parameter-name"><span class="${(!isMobile) ? `tooltip-dotted` : ""}" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Energy drain</span>This parameter shows how much energy a unit drains. This includes only: <ul><li>Cloaking</li><li>Turned on units/buildings (jammers, radars, metal makers, galactic gates and more)</li><li>Moving (most units drain up to 1E/s while moving)</li></ul> </br> <b style='color: #DEA73C;'> Warning! </b> This parameter doesn't show energy drain while shooting (e.g. green lasers from Gaat).</div">Energy drain:</span></div>
 
                                                     `: ""}
                                                     ${unitData.energyStorage != undefined && unitData.energyStorage != 0 ? `
@@ -665,10 +777,10 @@ ${upgradeData.name != "" ? `
                                                     <div class="parameter-val">${unitData.turnRate}</div>
                                                     `: ""}
                                                     ${unitData.energyMake != undefined && unitData.energyMake != "n/a" && unitData.energyMake != 0 ? `
-                                                    <div class="parameter-val">${setSpacesInBigNumbers(unitData.energyMake)}</div>
+                                                    <div class="parameter-val">${unitData.energyMake}</div>
                                                     `: ""}
                                                     ${unitData.energyUse != undefined && unitData.energyUse != 0 && unitData.energyMake != 0 ? `
-                                                    <div class="parameter-val">${setSpacesInBigNumbers(unitData.energyUse)}</div>
+                                                    <div class="parameter-val">${unitData.energyUse}</div>
                                                     `: ""}
                                                     ${unitData.energyStorage != undefined && unitData.energyStorage != 0 ? `
                                                     <div class="parameter-val">${setSpacesInBigNumbers(unitData.energyStorage)}</div>
@@ -681,37 +793,12 @@ ${upgradeData.name != "" ? `
                                                     `: ""}
                                             </div>
                                         </div>
-                                      </div>
-
-</div></div>
-<div class="tab-pane fade" id="nav-manufacture-info" role="tabpanel" aria-labelledby="manufacture-info-tab"><div class="exo2-26 detailed-info-header built-by"><p>${unitData.name} <span style="font-weight:normal;">is built by:</span></p></div><div class="can-build"></div></div>
-            <div class="tab-pane fade" id="nav-tips" role="tabpanel" aria-labelledby="nav-tips-tab">
-
-                                                ${generalInfoTemplate}
-
-</div>
-        </div>
-`
+                                      </div>`;
+    return template;
 }
 
-function fillUpgradeTemplate() {
-    upgradeTemplate =
-        `<span class="plus-upgrade">+</span>
-        <div class="upgrade-info-container">
-        <p class="optional-upgrade-info">${upgradeData.name} (optional) </p>
-        <div class="row" style="max-width: 270px; margin:0;">
-        <div class="col col-lg-2 unit-image-box">
-            <img src="units-images/${upgradeData.imgSrc}.jpg" class="upgrade-img"/>
-        </div>
-        <div class="col col-lg-8" style="padding-left: 12px;">
-            <div class="res-cost-row"><div class="energy-cost-bar exo2-16">Energy cost</div><span class="energy-cost-digit exo2-16">${setSpacesInBigNumbers(upgradeData.energyCost)}</span></div>
-            <div class="res-cost-row" style="margin-bottom:3px;"><div class="metal-cost-bar exo2-16">Metal cost</div><span class="metal-cost-digit exo2-16">${setSpacesInBigNumbers(upgradeData.metalCost)} </span></div>
-        </div>
-        <div style="color:white; font-size:14px; color: rgba(255, 255, 255, 0.8);">- ${upgradeData.description}<div>
-    </div></div>
 
-`
-}
+
 
 
 $('body').on('click', '#prev-unit', function () {
@@ -774,6 +861,12 @@ function generateCanBuildList() {
 function generateBuiltByList() {
     buildingsCodes = [];
     buildingsList = [];
+    var template =
+        `
+    <div class="exo2-26 detailed-info-header">
+        <p>${unitData.name} <span style="font-weight:normal;">is built by:</span></p>
+        </div>`;
+    $('.built-by').append(template);
     var str = unitData.builtBy;
     var buildings = str.split(" ");
 
@@ -798,7 +891,6 @@ function generateBuiltByList() {
         buildingsList.push(noDuplicatesTab[i].obj.parent().html());
     }
 
-    //$(".detailed-info-wrapper").append('<div class="built-by"><p>Built by:</p></div>');
     for (i = 0; i < buildingsList.length; i++) {
         var html = $('<div />').append(buildingsList[i]).addClass("name-image-box");
 
@@ -808,13 +900,15 @@ function generateBuiltByList() {
 
 function generateOtherStats(obj) {
     //reload time
-    if ($(obj).attr("w2") != undefined) {
+    if (!isMobile) {
+        if ($(obj).attr("w2") != undefined) {
 
-    }
-    if (unitData.unitName == "Pyro" || unitData.unitName == "Peewee" || unitData.unitName == "Reaper" || unitData.unitName == "Warrior" || unitData.unitName == "flash" || unitData.unitName == "Salamander" || unitData.unitName == "Brawler" || unitData.unitName == "Immolator") {
+        }
+        if (unitData.unitName == "Pyro" || unitData.unitName == "Peewee" || unitData.unitName == "Reaper" || unitData.unitName == "Warrior" || unitData.unitName == "flash" || unitData.unitName == "Salamander" || unitData.unitName == "Brawler" || unitData.unitName == "Immolator") {
 
-    } else {
-        $(".other-stats").append(unitData.reloadTime_w1);
+        } else {
+            $(".other-stats").append(unitData.reloadTime_w1);
+        }
     }
 }
 
@@ -888,7 +982,7 @@ ${upgradeData.name != "" ? `
                                         <div class="parameter-name">${secondParameter}</div>
                                         ${unitData.onlyDps == undefined ? `
                                         <div class="parameter-name">${thirdParameter}</div>
-                                        <div class="parameter-name">Reload time: </div>
+                                        ${!isMobile ? `<div class="parameter-name">Reload time: </div>`:""}
                                         ` : ""}
 
                                     </div>
@@ -905,7 +999,7 @@ ${upgradeData.name != "" ? `
 
                                             ` : ""}
 
-                                        ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isBomber || unitTypeObj.isAirFigther ? `
+                                        ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isBomber ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForDamagePerShot}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStyleDamagePerShot}"></div>
                                                     <img src="${damagePerShot_SrcImg}" class="parameter-bar" alt="">
@@ -1147,9 +1241,11 @@ ${weapons.w3 != undefined ?
 
 
 </div></div>
-<div class="tab-pane fade" id="nav-manufacture-info" role="tabpanel" aria-labelledby="manufacture-info-tab"><div class="exo2-26 detailed-info-header built-by"><p>${unitData.name} <span style="font-weight:normal;">is built by:</span></p></div> <div class="can-build"></div></div>
+<div class="tab-pane fade" id="nav-manufacture-info" role="tabpanel" aria-labelledby="manufacture-info-tab"><div class="exo2-26 detailed-info-header built-by"></div> <div class="can-build"></div></div>
             <div class="tab-pane fade" id="nav-tips" role="tabpanel" aria-labelledby="nav-tips-tab">
-
+                                                <div class="detailed-info-header exo2-26">
+                                                Tips & trivia
+                                                </div>
                                                 ${generalInfoTemplate}
 
 </div>
@@ -1240,49 +1336,53 @@ function resetParameterBars() {
     boxShadowsMaxMetalCostForE = "";
     boxShadowsStyleExplosionDamage = "";
     boxShadowsStyleExplosionRange = "";
-
+    unitData.p1 = "";
+    unitData.p2 = "";
+    unitData.p3 = "";
+    unitData.p4 = "";
 }
 
 function fillGeneralInfoTemplate() {
     generalInfoTemplate = `
-                                                <div class="detailed-info-header exo2-26">
-                                                Tips & trivia
-                                                </div>
+
 
 <ol class="dt-tips">
 
-                                               ${unitTypeObj.isEco && unitData.p4 != "" ? `
+                                               ${unitData.p4 != undefined ? `
 
                                                     <li class="dt-info-text white">${unitData.p1}</li>
                                                     <li class="dt-info-text white">${unitData.p2}</li>
                                                     <li class="dt-info-text white">${unitData.p3}</li>
                                                     <li class="dt-info-text white">${unitData.p4}</li>
                                                 ` : ""}
-                                                ${unitTypeObj.isEco && unitData.p3 != "" && unitData.p4 == "" ? `
+                                                ${unitData.p3 != undefined && unitData.p4 == undefined ? `
                                                     <li class="dt-info-text white">${unitData.p1}</li>
                                                     <li class="dt-info-text white">${unitData.p2}</li>
                                                     <li class="dt-info-text white">${unitData.p3}</li>
                                                     `: ""}
-                                                ${unitTypeObj.isEco && unitData.p2 != "" && unitData.p3 == "" && unitData.p4 == "" ? `
+                                                ${unitData.p2 != undefined && unitData.p3 == undefined && unitData.p4 == undefined ? `
                                                     <li class="dt-info-text white">${unitData.p1}</li>
                                                     <li class="dt-info-text white">${unitData.p2}</li>
+                                                    `: ""}
+                                                ${unitData.p1 != undefined && unitData.p2 == undefined && unitData.p3 == undefined && unitData.p4 == undefined ? `
+                                                    <li class="dt-info-text white">${unitData.p1}</li>
                                                     `: ""}
 
 
         ${(unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuildingDpsOnly) && (unitData.range > 300 || weapons.w1_r > 300) && (unitData.sightRange < parseInt(unitData.range) || unitData.sightRange < parseInt(weapons.w1_r)) ? `
                                                 <li class="dt-info-text white">
-                                                     ${unitData.name}'s sight range is lower than its weapon's range. Use a radar, scouts or other units <span class="tooltip-dotted" data-toggle="popover" data-placement="top" data-content="<div class='tooltip-content'><span class='tooltip-title'>Line of Sight (LoS)</span>LoS is the visibility (what your units actually see) on the playing field. Units automatically attack an enemy within their LoS and their weapon's range.<span class="tooltip-dotted">LoS</span></span> to see an enemy and shoot it from a full distance.
+                                                     ${unitData.name}'s sight range is lower than its weapon's range. Use a radar, scouts or other units <span class="${(!isMobile) ? `tooltip-dotted` : ""}" data-toggle="popover" data-placement="top" data-content="<div class='tooltip-content'><span class='tooltip-title'>Line of Sight (LoS)</span>LoS is the visibility (what your units actually see) on the playing field. Units automatically attack an enemy within their LoS and their weapon's range.<span class="${(!isMobile) ? `tooltip-dotted` : ""}">LoS</span></span> to see an enemy and shoot it from a full distance.
                                                 </li>
                                                 ` : ""}
 
         ${(unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly) && (unitData.movementSpeed >= 2 && unitData.metalCost > 200) && (unitData.name != "Spider") && (unitData.builtBy != "ARMSY " && unitData.builtBy != "ARMASY " && unitData.builtBy != "CORASY " && unitData.builtBy != "CORSY ") ? `
                                                 <li class="dt-info-text white">
-                                                     Speed of ${unitData.name}s is really good. If you manage to slip into the enemy's base, he may have a big problem, because it's hard to chase such fast units. Look for important economy buildings and try to destroy them. 
+                                                     Speed of ${unitData.name}s is really good. If you manage to slip into the enemy's base, he may have a big problem because it's hard to chase such fast units. Look for important economy buildings and try to destroy them. 
                                                 </li>
                                                 ` : ""}
         ${(unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly) && (unitData.HP / unitData.metalCost < 4.5) && (unitData.range > 700 || weapons.w1_r > 700) && !unitData.isAntiAir1 ? `
                                                 <li class="dt-info-text white">
-                                                     ${unitData.name}'s range is pretty good, however its health is rather low. You should protect these using other tanky units for cover.
+                                                     ${unitData.name}'s range is pretty good, however its health is rather low. You should protect these units using other tanky units for cover.
                                                 </li>
                                                 ` : ""}
 
@@ -1328,7 +1428,7 @@ ${unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isClawlin
 ${unitData.metalCost < 3000 ? `
                                                 <li class="dt-info-text white">
 
-                                                    To make one ${unitData.name} every <span class="bold yellow">5 seconds</span>, your minimum income should be about:</br><span class="energy-color">Energy</span> +${setSpacesInBigNumbers(Math.ceil(unitData.energyCost / 5))} E/s &nbsp&nbsp&nbsp&nbsp <span class="metal-color">Metal</span> +${setSpacesInBigNumbers(Math.ceil(unitData.metalCost / 5))} M/s</br> Required build speed: ${Math.floor(unitData.buildTime / 5)} (about 
+                                                    To make one ${unitData.name} every <span class="bold yellow">5 seconds</span>, your <span style="text-decoration:underline">minimum</span> income should be about:</br><span class="energy-color">Energy</span> +${setSpacesInBigNumbers(Math.ceil(unitData.energyCost / 5))} E/s ${!isMobile ? `&nbsp&nbsp&nbsp&nbsp` : `<br>`} <span class="metal-color">Metal</span> +${setSpacesInBigNumbers(Math.ceil(unitData.metalCost / 5))} M/s ${!isMobile ? `&nbsp&nbsp` : `<br>`}(focusing all resources on ${unitData.name} only!).</br> Required build speed: ${Math.floor(unitData.buildTime / 5)} (about 
 ${Math.floor((unitData.buildTime / 5) / 360) == 1 ? `
 ${Math.floor((unitData.buildTime / 5) / 360)}x Tier 2 construction vehicle or ${Math.floor((unitData.buildTime / 5) / 120)}x Tier 1 construction vehicle).
 `: `${Math.floor((unitData.buildTime / 5) / 360) == 0 ? `
@@ -1338,7 +1438,7 @@ ${Math.floor((unitData.buildTime / 5) / 360)}x Tier 2 construction vehicle or ${
                                                     `: ""}
                                                 ${unitData.metalCost >= 200 ? `                                               
                                                 <li class="dt-info-text white">
-                                                    To make one ${unitData.name} every <span class="bold yellow">30 seconds</span>, your minimum income should be about:</br><span class="energy-color">Energy</span> +${setSpacesInBigNumbers(Math.ceil(unitData.energyCost / 30))} E/s &nbsp&nbsp&nbsp&nbsp <span class="metal-color">Metal</span> +${setSpacesInBigNumbers(Math.ceil(unitData.metalCost / 30))} M/s</br> Required build speed: ${Math.floor(unitData.buildTime / 30)} (about
+                                                    To make one ${unitData.name} every <span class="bold yellow">30 seconds</span>, your <span style="text-decoration:underline">minimum</span> income should be about:</br><span class="energy-color">Energy</span> +${setSpacesInBigNumbers(Math.ceil(unitData.energyCost / 30))} E/s ${!isMobile ? `&nbsp&nbsp&nbsp&nbsp` : `<br>`} <span class="metal-color">Metal</span> +${setSpacesInBigNumbers(Math.ceil(unitData.metalCost / 30))} M/s ${!isMobile ? `&nbsp&nbsp` : `<br>`}(focusing all resources on ${unitData.name} only!).</br> Required build speed: ${Math.floor(unitData.buildTime / 30)} (about
 ${Math.floor((unitData.buildTime / 30) / 360) >= 1 ? `
 ${Math.floor((unitData.buildTime / 30) / 360)}x Tier 2 construction vehicle or ${Math.floor((unitData.buildTime / 30) / 270)}x Tier 2 construction kbot).
 `: `${Math.floor((unitData.buildTime / 30) / 360) == 0 ? `
@@ -1348,7 +1448,7 @@ ${Math.floor((unitData.buildTime / 30) / 360)}x Tier 2 construction vehicle or $
                                                 
                                                 ${unitData.metalCost > 6500 ? ` 
                                                 <li class="dt-info-text white">
-                                                    To make one ${unitData.name} every <span class="bold yellow">2 minutes</span>, your minimum income should be about:</br><span class="energy-color">Energy</span> +${setSpacesInBigNumbers(Math.ceil(unitData.energyCost / 120))} E/s &nbsp&nbsp&nbsp&nbsp <span class="metal-color">Metal</span> +${setSpacesInBigNumbers(Math.ceil(unitData.metalCost / 120))} M/s</br> Required build speed: ${Math.floor(unitData.buildTime / 120)} (about ${Math.floor((unitData.buildTime / 120) / 360)}x Tier 2 construction vehicle or ${Math.floor((unitData.buildTime / 120) / 270)}x Tier 2 construction kbot).
+                                                    To make one ${unitData.name} every <span class="bold yellow">2 minutes</span>, your <span style="text-decoration:underline">minimum</span> income should be about:</br><span class="energy-color">Energy</span> +${setSpacesInBigNumbers(Math.ceil(unitData.energyCost / 120))} E/s ${!isMobile ? `&nbsp&nbsp&nbsp&nbsp` : `<br>`} <span class="metal-color">Metal</span> +${setSpacesInBigNumbers(Math.ceil(unitData.metalCost / 120))} M/s ${!isMobile ? `&nbsp&nbsp` : `<br>`}(focusing all resources on ${unitData.name} only!).</br> Required build speed: ${Math.floor(unitData.buildTime / 120)} (about ${Math.floor((unitData.buildTime / 120) / 360)}x Tier 2 construction vehicle or ${Math.floor((unitData.buildTime / 120) / 270)}x Tier 2 construction kbot).
                                                 </li>
                                                 `: ""}
                                                 `: ""}
