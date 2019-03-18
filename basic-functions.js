@@ -156,6 +156,16 @@ function closeNav() {
     $("#nav-mobile-overlay").addClass("overlay-opened");
 }
 
+function openDtInfo() {
+    document.getElementById("unit-dt-info-overlay").style.opacity = "1";
+    //$("#unit-dt-info-overlay").removeClass("overlay-opened");
+}
+
+function closeDtInfo() {
+    document.getElementById("unit-dt-info-overlay").style.opacity = "0";
+    //$("#unit-dt-info-overlay").addClass("overlay-opened");
+}
+
 $(".card-header").click(function () {
     if ($(this).parent().parent().children().eq(1).hasClass("show")) {
         $(this).children().eq(0).children().eq(0).css({ "transform": "rotate(0deg)", "transition": "transform .25s" });
@@ -213,11 +223,10 @@ $(".tier-buttons a[href^='#'], .unit-type-list a[href^='#']").click(function (e)
 });
 
 function isMobileDevice() {
-    return ((window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)) && ($(window).width() < 600);
+    return ((window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)) && ($(window).width() < 1191);
 };
 
 $(document).ready(function () {
-
     $(".modal-body").tooltip({
         selector: '[data-toggle="tooltip"]'
     });
@@ -442,6 +451,11 @@ $(document).ready(function () {
         else {
             $('#search-input-results-' + inputNumber).show();
             $('#search-input-results-' + inputNumber).addClass("border-white");
+            if (isMobile) {
+                var inputWidth = $("#search-bar-mobile").width() + 4;
+                $('#search-input-results-' + inputNumber).css("width", inputWidth);
+                $('#search-input-results-' + inputNumber).css("margin", "0 13px");
+            }
         }
     });
 
@@ -579,9 +593,15 @@ $(document).ready(function () {
         if (e.key === "Enter" || e.key === "Control" || e.key === "Alt" || e.key === "Shift" || e.key === "Tab") {
         } else {
             $('#search-input-results-' + inputNumber).show();
+            if (isMobile) {
+                var inputWidth = $("#search-bar-mobile").width() + 4;
+                $('#search-input-results-' + inputNumber).css("width", inputWidth);
+                $('#search-input-results-' + inputNumber).css("margin", "0 13px");
+            }
         }
         clearTimeout(typingTimer);
     });
+
 
     function doneTyping() {
         $(".loading-icon").hide();

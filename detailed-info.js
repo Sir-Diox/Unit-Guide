@@ -49,6 +49,43 @@ var upgradeData = {
     description: ""
 }
 
+document.addEventListener('scroll', function (event) {
+    if (event.target.id === 'unit-dt-info-overlay') {   
+        myFunction();
+    }
+}, true);
+$('body').on('click', '.back-to-main-page', function () {
+    $('#unit-dt-info-overlay').fadeOut(50);
+    $('#unit-dt-info-overlay').html("");
+    $('#unit-dt-info-overlay').css("z-index", "-1");
+    $('body').css("overflow", "auto");
+
+});
+
+
+function myFunction() {
+    if ($("#unit-dt-info-overlay").scrollTop() > 0) {
+        if ($("#mobile-unit-nav").height() > 55) {
+            document.getElementById("mobile-unit-nav").className = "unit-name-scroll-sticky teko-29";
+            $(".unit-description-text").css("padding", "82px 25px 3px 25px");
+        } else {
+            document.getElementById("mobile-unit-nav").className = "unit-name-scroll-sticky teko-29";
+            $(".unit-description-text").css("padding", "55px 25px 10px 25px");
+        }
+
+    } else {
+
+        if ($("#mobile-unit-nav").height() > 55) {
+            document.getElementById("mobile-unit-nav").className = "unit-name-text unit-name-mobile-dt teko-29 white";
+            $(".unit-description-text").css("padding", "82px 25px 3px 25px");
+        }
+        else {
+            document.getElementById("mobile-unit-nav").className = "unit-name-text unit-name-mobile-dt teko-29 white";
+            $(".unit-description-text").css("padding", "55px 25px 10px 25px");
+        }
+    }
+}
+
 $('body').on('click', '.unit-box, .u-name, .search-input-row, #search-input-results-6 .row-result', function () {
     generateDetailedInfo(this);
 });
@@ -56,7 +93,7 @@ $('body').on('click', '.unit-box, .u-name, .search-input-row, #search-input-resu
 function generateDetailedInfo(val) {
     if (!isMobileDevice()) {
         $(".navbar").css("right", "17px");
-    }
+    } 
     if ($(val).hasClass("u-name")) {
         var obj = $(val).parent().parent().children().eq(0);
     }
@@ -258,7 +295,7 @@ function generateDetailedInfo(val) {
                             upgradeData.metalCost = csvObj[i].BuildCostMetal;
                             upgradeData.energyCost = csvObj[i].BuildCostEnergy;
                             upgradeData.description = csvObj[i].Description;
-                            upgradeData.imgSrc = csvObj[i].Objectname.replace("_", "-");
+                            upgradeData.imgSrc = csvObj[i].Objectname.replace("_", "-").toLowerCase();
                         }
                     }
                     fillUpgradeTemplate();
@@ -292,68 +329,87 @@ function generateDetailedInfo(val) {
 
     if (isMobileDevice()) {
         // for mobile
+        $("#unit-dt-info-overlay").scrollTop(0);
+        $('#unit-dt-info-overlay').html("");
         canBuildHTML = $(".can-build").html();
         builtByHTML = $(".built-by").html();
         if (!(generalInfoTemplate.indexOf("li") >= 0)) {
             generalInfoTemplate = '<div class="white exo2-16" style="text-align:center">No tips available for this unit.<div>';
         }
         fillMobileTemplate();
+        $('#unit-dt-info-overlay').append(mobileTemplate);
 
-        var opened = window.open("", "_blank"); 
-        opened.document.write(`
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="shortcut icon" href="favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css?family=Teko:400,500,600,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Exo+2:300,400,600,700" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="perfect-scrollbar.css">
-    <link rel="stylesheet" href="./fontawesome/css/all.css">
-    <script src="jquery-3.3.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <script src="jquery.csv.min.js"></script>
-</head>
-
-<body>${mobileTemplate}
-<script>
-
-        $("body").on("click", ".back-to-main-page", function () {
-            window.close();
-        });
-
-window.onscroll = function() {myFunction()};
-
-function myFunction() {
-  if (document.body.scrollTop > 0 || document.documentElement.scrollTop > 0) {
-    if($("#mobile-unit-nav").height() > 55){
-        document.getElementById("mobile-unit-nav").className = "unit-name-scroll-sticky teko-29";
-        $(".unit-description-text").css("padding", "82px 25px 3px 25px");
-    }else{
-    document.getElementById("mobile-unit-nav").className = "unit-name-scroll-sticky teko-29";
-    $(".unit-description-text").css("padding", "55px 25px 10px 25px");
-    }
-
-  } else {
-        if($("#mobile-unit-nav").height() > 55){
-            document.getElementById("mobile-unit-nav").className = "unit-name-text unit-name-mobile-dt teko-29 white";
+        $('#unit-dt-info-overlay').css("z-index", "3000");
+        $('#unit-dt-info-overlay').addClass("fix-dt-desc");
+        if ($("#mobile-unit-nav").height() > 55) {
             $(".unit-description-text").css("padding", "82px 25px 3px 25px");
-        }
-        else{
-        document.getElementById("mobile-unit-nav").className = "unit-name-text unit-name-mobile-dt teko-29 white";
-        $(".unit-description-text").css("padding", "55px 25px 10px 25px");
-        }
-  }
-}
-</script>
-</body>
-</html>`
-        );
+        } 
+        $('#unit-dt-info-overlay').removeClass("fix-dt-desc");
+        $('body').css("overflow", "hidden");
+        $('#unit-dt-info-overlay').fadeIn(300, function () {
+
+        });
+        //openDtInfo();
+        //$('#unit-dt-info-overlay').addClass("show-dt");
+        //$('#unit-dt-info-overlay').css("display", "block");
+        //$('#unit-dt-info-overlay').css("z-index", "3000");
+        //openDtInfo();
+        //$('body').css("overflow", "hidden");
+//        var opened = window.open("", "_blank"); 
+//        opened.document.write(`
+
+//<!DOCTYPE html>
+//<html lang="en">
+//<head>
+//    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+//    <link rel="shortcut icon" href="favicon.ico" />
+//    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//    <link href="https://fonts.googleapis.com/css?family=Teko:400,500,600,700" rel="stylesheet">
+//    <link href="https://fonts.googleapis.com/css?family=Exo+2:300,400,600,700" rel="stylesheet">
+//    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+//    <link rel="stylesheet" href="styles.css">
+//    <link rel="stylesheet" href="perfect-scrollbar.css">
+//    <link rel="stylesheet" href="./fontawesome/css/all.css">
+//    <script src="jquery-3.3.1.min.js"></script>
+//    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+//    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+//    <script src="jquery.csv.min.js"></script>
+//</head>
+
+//<body>${mobileTemplate}
+//<script>
+
+//        $("body").on("click", ".back-to-main-page", function () {
+//            window.close();
+//        });
+
+//window.onscroll = function() {myFunction()};
+
+//function myFunction() {
+//  if (document.body.scrollTop > 0 || document.documentElement.scrollTop > 0) {
+//    if($("#mobile-unit-nav").height() > 55){
+//        document.getElementById("mobile-unit-nav").className = "unit-name-scroll-sticky teko-29";
+//        $(".unit-description-text").css("padding", "82px 25px 3px 25px");
+//    }else{
+//    document.getElementById("mobile-unit-nav").className = "unit-name-scroll-sticky teko-29";
+//    $(".unit-description-text").css("padding", "55px 25px 10px 25px");
+//    }
+
+//  } else {
+//        if($("#mobile-unit-nav").height() > 55){
+//            document.getElementById("mobile-unit-nav").className = "unit-name-text unit-name-mobile-dt teko-29 white";
+//            $(".unit-description-text").css("padding", "82px 25px 3px 25px");
+//        }
+//        else{
+//        document.getElementById("mobile-unit-nav").className = "unit-name-text unit-name-mobile-dt teko-29 white";
+//        $(".unit-description-text").css("padding", "55px 25px 10px 25px");
+//        }
+//  }
+//}
+//</script>
+//</body>
+//</html>`
+//        );
         closeNav();
         $("#search-input-6").val("");
         $("#search-input-results-6").html("");
@@ -383,7 +439,7 @@ ${upgradeData.name != "" ? `
 
             <div class="res-cost-row"><div class="energy-cost-bar exo2-16">Energy cost</div><span class="energy-cost-digit exo2-16">${setSpacesInBigNumbers(unitData.energyCost)}</span></div>
             <div class="res-cost-row" style="margin-bottom:3px;"><div class="metal-cost-bar exo2-16">Metal cost</div><span class="metal-cost-digit exo2-16">${setSpacesInBigNumbers(unitData.metalCost)} </span></div>
-            <div class="summoning-code exo2-16" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Summoning code</span>You can type this code in game to summon <span style='font-weight:600'>${unitData.name}</span>. Just press Enter and type: <span style='color: #DEA73C; font-weight:500'>+${unitData.summoningCode}</span>. Then you can press Insert key to summon more.</br> It always works in single player. If you want to summon a unit in multiplayer, you have to switch <b>Cheat codes</b> (in game's lobby) to <b>Allowed</b> before starting a game. This is very handy when you want to test units. </br></br><p style='font-weight:600'>Useful codes:</p><ul><li><span style='color: #DEA73C; font-weight:500'>+los</span> - infinite view.</li><li><span style='color: #DEA73C; font-weight:500'>+corcheat</span> - almost infinite resources.</li> <li><span style='color: #DEA73C; font-weight:500'>+corkrog 1</span> - summons a Krogoth for another player (numbers from 1 to 9 are other players).</li><li><span style='color: #DEA73C; font-weight:500'>+showranges</span> - type it, then select a unit and hold Shift key to see many types of ranges.</li></ul> </div>"><span class="tooltip-dotted">Summoning</span> <span class="tooltip-dotted">code</span></div><span class="summoning-code-text exo2-16">+${unitData.summoningCode}</span>
+            <div class="summoning-code exo2-16" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Summoning code</span>You can type this code in game to summon a <span style='font-weight:600'>${unitData.name}</span>. Just press Enter and type: <span style='color: #DEA73C; font-weight:500'>+${unitData.summoningCode}</span>. Then you can press Insert key to summon more.</br> It always works in single player. If you want to summon a unit in multiplayer, you have to switch <b>Cheat codes</b> (in game's lobby) to <b>Allowed</b> before starting a game. This is very handy when you want to test units. </br></br><p style='font-weight:600'>Useful codes:</p><ul><li><span style='color: #DEA73C; font-weight:500'>+los</span> - infinite view.</li><li><span style='color: #DEA73C; font-weight:500'>+corcheat</span> - almost infinite resources.</li> <li><span style='color: #DEA73C; font-weight:500'>+corkrog 1</span> - summons a Krogoth for another player (numbers from 1 to 9 are other players).</li><li><span style='color: #DEA73C; font-weight:500'>+showranges</span> - type it, then select a unit and hold Shift key to see many types of ranges.</li></ul> </div>"><span class="tooltip-dotted">Summoning</span> <span class="tooltip-dotted">code</span></div><span class="summoning-code-text exo2-16">+${unitData.summoningCode}</span>
         </div>
 
     </div>
@@ -977,13 +1033,13 @@ ${upgradeData.name != "" ? `
 
                                 <div class="exo2-26 detailed-info-header" >Basic stats</div>
                                 <div class="row" style="margin:0; margin-top: 30px; padding-bottom: 25px; border-bottom: 1px solid #525252; padding-left: 22px;">
-                                    <div class="col col-lg-3 no-padding" style="top: 22px;">
+                                    <div class="col col-lg-3 no-padding" style="top: 24px;">
                                         <div class="parameter-name">${firstParameter}</div>
                                         <div class="parameter-name">${secondParameter}</div>
-                                        ${unitData.onlyDps == undefined ? `
-                                        <div class="parameter-name">${thirdParameter}</div>
-                                        ${!isMobile ? `<div class="parameter-name">Reload time: </div>`:""}
+                                        ${unitData.onlyDps == undefined && !unitTypeObj.isAirFigther ? `
+                                        <div class="parameter-name">${thirdParameter}</div>                                       
                                         ` : ""}
+                                        ${!isMobile ? `<div class="parameter-name">Reload time: </div>` : ""}
 
                                     </div>
                             
@@ -1031,7 +1087,7 @@ ${upgradeData.name != "" ? `
 
                                             ` : ""}
 
-                                        ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isBomber || unitTypeObj.isAirFigther ? `
+                                        ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isBomber  ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForDamagePerShot2}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStyleDamagePerShot2}"></div>
                                                     <img src="${damagePerShot2_SrcImg}" class="parameter-bar" alt="">
@@ -1094,6 +1150,9 @@ ${weapons.w3 != undefined ?
                                     <div class="col col-lg-6 no-padding">
                                         ${unitData.onlyDps != undefined ? `
                                         <div class="parameter-name">${thirdParameter}</div>
+                                        ` : ""}
+                                        ${unitTypeObj.isAirFigther ? `
+                                        <div class="parameter-name">${thirdParameter}</div>                                       
                                         ` : ""}
                                         ${fourthParameter ? `
                                         <div class="parameter-name">${fourthParameter}</div>
