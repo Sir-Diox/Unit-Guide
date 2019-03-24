@@ -140,14 +140,14 @@ var explosionRange_SrcImg;
 var maxMetalCostForE_SrcImg;
 var minMetalCostForE_SrcImg;
 var firstParameter = "";
-var SecondParameter = "";
+var secondParameter = "";
 var thirdParameter="";
 var fourthParameter="";
 var fifthParameter="";
 var sixthParameter="";
 var rangeOfParameters ={
     dps : {
-        h0: 20,
+        h0: 10,
         h05: 30,
         h1: 60,
         h15: 90,
@@ -491,7 +491,7 @@ function setParameterBars(){
     if(unitData.dps =="Too random to show"){
         dps_SrcImg="parameter-bars/0.svg";
     }
-    else if(unitData.overallDps <= rangeOfParameters.dps.h05){
+    else if(unitData.overallDps <= rangeOfParameters.dps.h0){
         dps_SrcImg="parameter-bars/0.svg";
     }
     else if(unitData.overallDps <= rangeOfParameters.dps.h05){

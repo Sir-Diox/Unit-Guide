@@ -218,7 +218,7 @@ function generateDetailedInfo(val) {
                     weapons.w3_r = $(obj).attr("w3-r");
 
                 }
-                else { // for 1 weapon only
+                else if ($(obj).attr("w1") != undefined) { // for 1 weapon only
                     resetParameterBars();
                     setLabelParametersAndValues(checkUnitType());
                     unitData.explosionDamage = $(obj).attr("w1");
@@ -453,7 +453,7 @@ ${upgradeData.name != "" ? `
                 <a class="nav-item nav-link" id="nav-tips-tab" data-toggle="tab" href="#nav-tips" role="tab" aria-controls="nav-tips" aria-selected="false">Tips & trivia</a>
           </li>
           <li class="nav-item">
-                <a class="nav-item nav-link" id="manufacture-info-tab" data-toggle="tab" href="#nav-manufacture-info" role="tab" aria-controls="nav-manufacture-info" aria-selected="false">Manufacture</a>
+                <a class="nav-item nav-link" id="manufacture-info-tab" data-toggle="tab" href="#nav-manufacture-info" role="tab" aria-controls="nav-manufacture-info" aria-selected="false">Production</a>
           </li>
         </ul>
 
@@ -1021,7 +1021,7 @@ ${upgradeData.name != "" ? `
                 <a class="nav-item nav-link" id="nav-tips-tab" data-toggle="tab" href="#nav-tips" role="tab" aria-controls="nav-tips" aria-selected="false">Tips & trivia</a>
           </li>
           <li class="nav-item">
-                <a class="nav-item nav-link" id="manufacture-info-tab" data-toggle="tab" href="#nav-manufacture-info" role="tab" aria-controls="nav-manufacture-info" aria-selected="false">Manufacture</a>
+                <a class="nav-item nav-link" id="manufacture-info-tab" data-toggle="tab" href="#nav-manufacture-info" role="tab" aria-controls="nav-manufacture-info" aria-selected="false">Production</a>
           </li>
         </ul>
 
@@ -1121,7 +1121,7 @@ ${weapons.w3 != undefined ?
 
                                             ` : ""}
 
-                                        ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isBomber || unitTypeObj.isAirFigther ? `
+                                        ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isBomber ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForDamagePerShot3}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStyleDamagePerShot3}"></div>
                                                     <img src="${damagePerShot3_SrcImg}" class="parameter-bar" alt="">

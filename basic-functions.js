@@ -130,16 +130,19 @@ var popoverSettings = {
 
 var unitGuideCSV;
 var csvObj;
+var weaponsCSV;
+var weaponsObj;
 var htmlOfPreview;
 var duplicateCounter = 0;
 var inputNumber = 0;
-var searchInput = "";
 var unitImg = "";
 var status = 0;
 var changingColorCounter = 0;
 var numberOfRowResults = 0;
 var currentInputNumber = "";
 var selectedRowNumber = 0;
+var typingTimer;
+var doneTypingInterval = 200;
 
 $(".unit-type-list li").click(function () {
     closeNav();
@@ -234,9 +237,21 @@ $(document).ready(function () {
         selector: '[rel="tooltip"]'
     });
     isMobile = isMobileDevice();
+    if (isMobile) {
+        doneTypingInterval = 700;
+    }
     $("#compare-container").hide();
     setSeparationLineHeight();
 
+    $(".unit-name").each(function () {
+        var checkboxTemplate = `
+<label class="container">
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+    `;
+        $(checkboxTemplate).insertAfter(this);
+    });
     //$('body').popover(popoverAsTooltipSettings);
     $('body').popover(popoverSettings);
 
@@ -259,7 +274,8 @@ $(document).ready(function () {
 
     csvObj = $.csv.toObjects(unitGuideCSV);
 
-
+    //weaponsCSV = $("#weapons-csv").text();
+    //weaponsObj = $.csv.toObjects(weaponsCSV);
 
     $(document).on({
         mouseenter: function () {
@@ -382,6 +398,8 @@ $(document).ready(function () {
         },
         mouseleave: function () {
             unitData.isEco = false;
+            unitData.minEnergyIncome = undefined;
+            unitData.maxEnergyIncome = undefined;
             duplicateCounter = 0;
             clearTimeout(delay);
             firstParameter = "";
@@ -424,7 +442,6 @@ $(document).ready(function () {
 
     $(".search-input").click(function () {
         inputNumber = $(this).attr('number');
-        searchInput = $("#search-input-" + inputNumber);
     });
 
     $(document).click(function (event) {
@@ -436,8 +453,6 @@ $(document).ready(function () {
         }
     });
 
-    var typingTimer;
-    var doneTypingInterval = 200;
     var html;
 
     $(".search-bar").on('click', function () {
@@ -537,8 +552,9 @@ $(document).ready(function () {
                         }
 
                         var attributes = $(obj).prop("attributes");
-                        $("#search-input-" + inputNumber).parent().append("<div class='chosen-unit exo2-16' id='chosen-unit-id-" + inputNumber + "' side='" + $(obj).attr("side") + "'>" + $(obj).attr("uname") + "<div class='close-btn'>&#10006;</div></div>");
+                        $("#search-input-" + inputNumber).parent().append("<li class='chosen-unit exo2-16' id='chosen-unit-id-" + inputNumber + "' side='" + $(obj).attr("side") + "'><span style='position:relative; left:-10px;'>" + $(obj).attr("uname") + "</span><div class='close-btn'>&#10006;</div></li>");
                         $("#search-input-" + inputNumber).val("");
+                        checkCheckboxIfWrite($(obj).attr("uname"));
                         for (i = 0; i < attributes.length; i++) {
                             $("#chosen-unit-id-" + inputNumber).attr(attributes[i].name, attributes[i].value);
                         }
@@ -581,6 +597,9 @@ $(document).ready(function () {
         else if (e.key === "Control" || e.key === "Alt" || e.key === "Shift" || e.key === "Tab") {
             $('#search-input-results-' + inputNumber).removeClass("border-white");
             $('#search-input-results-' + inputNumber).html("");
+            if (e.key === "Tab" && inputNumber == 4) {
+                $('#search-input-1').focus();
+            }
         }
         else {
             $("#loading-icon-" + $(this).attr("number")).show();
@@ -604,6 +623,7 @@ $(document).ready(function () {
 
 
     function doneTyping() {
+        if ($("#chosen-unit-id-" + inputNumber).length == 0) {
         $(".loading-icon").hide();
         $(".search-icon").show();
         var allNamesContainingStringFromSearch = [];
@@ -622,7 +642,6 @@ $(document).ready(function () {
                             side: csvObj[i].SIDE.toLowerCase()
                         };
                         allNamesContainingStringFromSearch.push(unitNameAndSide);
-
                     }
                 }
             }
@@ -663,6 +682,7 @@ $(document).ready(function () {
                         }
                         $(".row-result:last-child").removeAttr("style");
                     }
+                    $("#search-input-results-" + inputNumber).prepend('<div class="white exo2-16" style="padding-left:6px;padding-top:7px;font-size:14px;">Choose a unit:</div> ');
                 }
                 else {
                     for (i = 0; i < uniqueUnitNamesList.length; i++) {
@@ -673,25 +693,46 @@ $(document).ready(function () {
                         $(".search-input-row:last-child").removeAttr("style");
                     }
                 }
-
+                
             }
             if (!$("#search-input-results-" + inputNumber).text() == "") {
                 $("#search-input-results-" + inputNumber).show();
             }
+            $(".input-results-container #search-input-results-" + inputNumber).parent().show();
             numberOfRowResults = $(".row-result, .search-input-row").length;
+
             const ps = new PerfectScrollbar("#search-input-results-" + inputNumber, {
                 wheelSpeed: 0.6,
                 wheelPropagation: true,
                 minScrollbarLength: 20
             });
+
+            if ($(".row-result").length == 1) {
+                inputNumber = $(".row-result").parent().parent().parent().children().eq(0).attr("number");
+                var attributes = $(".row-result").prop("attributes");
+                $("#search-input-" + inputNumber).parent().append("<li class='chosen-unit exo2-16' id='chosen-unit-id-" + inputNumber + "' side='" + $(".row-result").attr("side") + "'><span style='position:relative; left:-10px;'>" + $(".row-result").attr("uname") + "</span><div class='close-btn'>&#10006;</div></li>");
+                $("#search-input-" + inputNumber).val("");
+                for (i = 0; i < attributes.length; i++) {
+                    $("#chosen-unit-id-" + inputNumber).attr(attributes[i].name, attributes[i].value);
+                }
+                checkCheckboxIfWrite($(".row-result").attr("uname"));
+                $("#chosen-unit-id-" + inputNumber).removeClass("row-result");
+                $("#chosen-unit-id-" + inputNumber).addClass("chosen-unit exo2-16");
+                $("#search-input-results-" + inputNumber).html("");
+                selectedRowNumber = 0;
+                checkIfButtonDisabled();
+                $(".input-results-container").hide();
+            }
+            }
         }
     }
 
     $('#compare-container').on('click', '.row-result', function () {
         inputNumber = $(this).parent().parent().parent().children().eq(0).attr("number");
         var attributes = $(this).prop("attributes");
-        $("#search-input-" + inputNumber).parent().append("<div class='chosen-unit exo2-16' id='chosen-unit-id-" + inputNumber + "' side='" + $(this).attr("side") + "'>" + $(this).attr("uname") + "<div class='close-btn'>&#10006;</div></div>");
+        $("#search-input-" + inputNumber).parent().append("<li class='chosen-unit exo2-16' id='chosen-unit-id-" + inputNumber + "' side='" + $(this).attr("side") + "'><span style='position:relative; left:-10px;'>" + $(this).attr("uname") + "</span><div class='close-btn'>&#10006;</div></li>");
         $("#search-input-" + inputNumber).val("");
+        checkCheckboxIfWrite($(this).attr("uname"));
         for (i = 0; i < attributes.length; i++) {
             $("#chosen-unit-id-" + inputNumber).attr(attributes[i].name, attributes[i].value);
         }
@@ -700,6 +741,7 @@ $(document).ready(function () {
         $("#search-input-results-" + inputNumber).html("");
         selectedRowNumber = 0;
         checkIfButtonDisabled();
+        $(".input-results-container").hide();
     });
 
     function checkIfButtonDisabled() {
@@ -722,6 +764,24 @@ $(document).ready(function () {
         else {
             document.getElementById("comparison-button").disabled = false;
         }
+        $(".loading-icon").hide();
+    });
+
+    $('#compare-container').on('click', '.chosen-unit', function () {
+        inputNumber = $(this).parent().children().eq(0).attr("number");
+        var uname = $(this).attr("uname");
+        $("#search-input-results-" + inputNumber).hide();
+        $(this).parent().children().eq(0).val("");
+        $(this).remove();
+        
+        uncheckCheckboxWhenDelete(uname);
+        if ($('.chosen-unit').length < 2) {
+            document.getElementById("comparison-button").disabled = true;
+        }
+        else {
+            document.getElementById("comparison-button").disabled = false;
+        }
+        $(".loading-icon").hide();
     });
 
     $('#compare-container').on('click', '#comparison-button', function () {
@@ -744,6 +804,7 @@ $(document).ready(function () {
         $('#compare-container').slideUp(150);
         status = 0;
         $(".navbar").css("filter", "0.15");
+        hideAndClearCheckboxes();
     }
 
     $('#comparison-modal').on('hidden.bs.modal', function () {
@@ -755,10 +816,6 @@ $(document).ready(function () {
     $('#detailed-unit-info-1').on('hidden.bs.modal', function () {
         $(".navbar").css("right", "0px");
     });
-
-    //$('#comparison-modal').on('click', '.transparent-no-border', function () {
-    //    $('#comparison-modal').modal('hide');
-    //});
 
     $(document).click(function (event) {
         if (!$(event.target).closest('.unit-preview-comparison').length) {
@@ -863,6 +920,8 @@ $(document).ready(function () {
             $(".comparison-content").append(htmlOfPreview);
             findKeywordsAndChangeColor();
             unitData.isEco = false;
+            unitData.minEnergyIncome = undefined;
+            unitData.maxEnergyIncome = undefined;
             duplicateCounter = 0;
             firstParameter = "";
             secondParameter = "";
@@ -907,10 +966,12 @@ $(document).ready(function () {
     $("#comparison-option-button").click(function () {
         if (status == 0) {
             $("#compare-container").slideDown(150);
+            $("label").show();
             status = 1;
         }
         else {
             $("#compare-container").slideUp(150);
+            hideAndClearCheckboxes();
             status = 0;
         }
         $("#comparison-modal").hide();
@@ -922,6 +983,7 @@ $(document).ready(function () {
         }
         else {
             $("#compare-container").slideUp(150);
+            hideAndClearCheckboxes();
             status = 0;
         }
     });
@@ -1007,6 +1069,75 @@ $(document).ready(function () {
             $("#search-bar-mobile .search-icon").show();
             $("#loading-icon-6").hide();
         }, 300);
+    }
+
+    $(".container").on('click', ".checkmark", function () {
+        inputNumber = checkWhichFirstInputIsFree();
+        var checkboxObj = $(this).parent().children().eq(0);
+        if (inputNumber == 10) {
+            replaceLastChoiceIfFull();
+            inputNumber = 4;
+        } else {
+        }
+        if (!checkboxObj.prop('checked')) {
+            var obj = $(this).parent().parent().children().eq(0);
+            var attributes = $(obj).prop("attributes");
+            $("#search-input-" + inputNumber).parent().append("<li class='chosen-unit exo2-16' id='chosen-unit-id-" + inputNumber + "' side='" + $(obj).attr("side") + "'><span style='position:relative; left:-10px;'>" + $(obj).attr("uname") + "</span><div class='close-btn'>&#10006;</div></li>");
+            $("#search-input-" + inputNumber).val("");
+            for (i = 0; i < attributes.length; i++) {
+                if (!(attributes[i].name == "class") && !(attributes[i].name == "data-toggle") && !(attributes[i].name == "data-original-title")) {
+                    if (attributes[i].name == "style") {
+                        $("#chosen-unit-id-" + inputNumber).attr("img", attributes[i].value);
+                    } else {
+                        $("#chosen-unit-id-" + inputNumber).attr(attributes[i].name, attributes[i].value);
+                    }
+
+                }
+            }
+            checkIfButtonDisabled();
+        }
+        else {           
+            var uname = $(this).parent().parent().children().eq(0).attr("uname");
+            $(".chosen-unit[uname = '" + uname + "']").remove();
+            $(this).prop('checked', false);
+            checkIfButtonDisabled();
+        }
+
+    });
+    function checkWhichFirstInputIsFree() {
+        if ($("#chosen-unit-id-1").length != 1) {
+            return 1;
+        }
+        else if ($("#chosen-unit-id-2").length != 1) {
+            return 2;
+        }
+        else if ($("#chosen-unit-id-3").length != 1) {
+            return 3;
+        }
+        else if ($("#chosen-unit-id-4").length != 1) {
+            return 4;
+        }
+        else {
+            return 10;
+        }
+    }
+
+    function hideAndClearCheckboxes() {
+        $("label.container").hide();
+        //$("label.container>input").prop('checked', false);
+    }
+
+    function checkCheckboxIfWrite(uname) {
+        $(".unit-box[uname='" + uname + "']").each(function () { $(this).parent().children().eq(2).children().eq(0).prop('checked', true); })
+    }
+    function uncheckCheckboxWhenDelete(uname) {
+        $(".unit-box[uname='" + uname + "']").each(function () { $(this).parent().children().eq(2).children().eq(0).prop('checked', false); })
+    }
+
+    function replaceLastChoiceIfFull() {
+        var uname = $("#chosen-unit-id-4").attr("uname");
+        $("#chosen-unit-id-4").remove();
+        uncheckCheckboxWhenDelete(uname);
     }
 
     function fillHTML() {
@@ -1119,7 +1250,7 @@ $(document).ready(function () {
                                                             <div class="parameter-value">${setSpacesInBigNumbers(unitData.range)}</div>
                                                     </div>
                                                     ` : ""}
-                                                    ${unitTypeObj.isEco ? `
+                                                    ${unitTypeObj.isEco && unitData.minEnergyIncome != undefined ? `
                                                         <div class="parameter-bar-and-value ${ShineEffect.ForMinMetalCostForE}">
                                                         <div class="box-shadow-for-bar" style="${boxShadowsMinMetalCostForE}"></div>
                                                             <img src="${minMetalCostForE_SrcImg}" class="parameter-bar" alt="">
@@ -1163,12 +1294,12 @@ $(document).ready(function () {
                                                             <div class="parameter-value">${setSpacesInBigNumbers(unitData.HP)}</div>
                                                         </div>
                                                     ` : ""}
-                                                    ${unitTypeObj.isEco && unitData.maxEnergyIncome != undefined ? `
+                                                    ${unitTypeObj.isEco && unitData.maxEnergyIncome != undefined && unitData.minEnergyIncome != undefined ? `
                                                         <div class="parameter-bar-and-value ${ShineEffect.ForMaxMetalCostForE}">
                                                         <div class="box-shadow-for-bar" style="${boxShadowsMaxMetalCostForE}"></div>
                                                             <img src="${maxMetalCostForE_SrcImg}" class="parameter-bar" alt="">
                                                             <div class="parameter-value">${unitData.ratioMax}</div>
-                                                    </div>
+                                                        </div>
                                                     ` : ""}
                                                     ${unitTypeObj.isCons || unitTypeObj.isAirCons || unitTypeObj.isSemiCon || unitTypeObj.isNuke ? `
                                                         <div class="parameter-bar-and-value ${ShineEffect.ForHP}">
@@ -1297,10 +1428,10 @@ $(document).ready(function () {
                                             </div>
 
                                         </div>
-                                                    ${(unitTypeObj.isRadarAndJammerAircraft || unitTypeObj.isRadarAndJammerBuilding || unitTypeObj.isRadarAndJammerUnit || unitTypeObj.isJammerAircraft || unitTypeObj.isJammerBuilding || unitTypeObj.isJammerUnit || unitTypeObj.isBuilding) && unitData.p1 != undefined ? `
+                                                    ${(unitTypeObj.isRadarAndJammerAircraft || unitTypeObj.isRadarAndJammerBuilding || unitTypeObj.isRadarAndJammerUnit || unitTypeObj.isJammerAircraft || unitTypeObj.isJammerBuilding || unitTypeObj.isJammerUnit || unitTypeObj.isBuilding || unitTypeObj.isEco) && unitData.p1 != undefined && unitData.minEnergyIncome == undefined ? `
 
                                                             <hr class="separator-between-info-stats-1">
-                                                            <div class="exo2-26 additional-info">Info</div>
+                                                            <div class="exo2-26 additional-info">Note</div>
                                                             <p style="color:white; text-align:center; padding:7px 30px">${unitData.p1} ${unitData.p2 != undefined ? unitData.p2 : ""}</p>
 
                                                     ` : ""}
