@@ -240,10 +240,14 @@ $(document).ready(function () {
     if (isMobile) {
         doneTypingInterval = 700;
     }
+
+    $(".main-banner-text").fadeIn(1500); // TYLKO "UNIT GUIDE" niech siê pojawia
+
     $("#compare-container").hide();
     setSeparationLineHeight();
 
-    $(".unit-name").each(function () {
+
+    $(".units-container .unit-name").each(function () {
         var checkboxTemplate = `
 <label class="container">
 <input type="checkbox">
@@ -259,7 +263,10 @@ $(document).ready(function () {
         $(this).parent().children().eq(0).addClass("border-button");
     }, function () { $(this).parent().children().eq(0).removeClass("border-button") });
 
-
+    unitGuideCSV = $("#csv-unit-guide").text();
+    csvObj = $.csv.toObjects(unitGuideCSV);
+    weaponsCSV = $("#weapons-csv").text();
+    weaponsObj = $.csv.toObjects(weaponsCSV);
 
     $(".unit-box").each(function () {
         $(this).attr("data-toggle", "popover");
@@ -270,12 +277,7 @@ $(document).ready(function () {
     screenHeight = window.screen.availHeight;
     screenWidth = window.screen.availWidth;
 
-    unitGuideCSV = $("#csv-unit-guide").text();
-
-    csvObj = $.csv.toObjects(unitGuideCSV);
-
-    //weaponsCSV = $("#weapons-csv").text();
-    //weaponsObj = $.csv.toObjects(weaponsCSV);
+    $("#compare-container").draggable().css("top", ((screenHeight - 580) ) + "px");
 
     $(document).on({
         mouseenter: function () {
@@ -457,10 +459,7 @@ $(document).ready(function () {
 
     $(".search-bar").on('click', function () {
         currentInputNumber = $(this).children().eq(0).attr("number");
-        if ($(this).attr("number") == 0) {
-            $("#compare-container").hide();
-            status = 0;
-        }
+
         if ($('#search-input-results-' + inputNumber).html() == "" || $('#search-input-results-' + inputNumber).html() == undefined) {
         }
         else {
@@ -541,6 +540,7 @@ $(document).ready(function () {
                 }
 
                 else {
+                    if (!isMobile) {
                     // for comparison inputs
                     var obj = $(".row-result").first();
                     if (obj.length == 0) {
@@ -566,7 +566,8 @@ $(document).ready(function () {
                         inputNumber++
                         $('#search-input-' + inputNumber).focus();
                     }
-                    selectedRowNumber = 0;
+                        selectedRowNumber = 0;
+                    }
                 }
 
             }
@@ -624,105 +625,110 @@ $(document).ready(function () {
 
     function doneTyping() {
         if ($("#chosen-unit-id-" + inputNumber).length == 0) {
-        $(".loading-icon").hide();
-        $(".search-icon").show();
-        var allNamesContainingStringFromSearch = [];
-        var unitsThatAlreadyAreInList = [];
+            $(".loading-icon").hide();
+            $(".search-icon").show();
+            var allNamesContainingStringFromSearch = [];
+            var unitsThatAlreadyAreInList = [];
 
-        var textFromSearchInput = $("#search-input-" + inputNumber).val().toLowerCase();
-        if (textFromSearchInput.length >= 1) {
+            var textFromSearchInput = $("#search-input-" + inputNumber).val().toLowerCase();
+            if (textFromSearchInput.length >= 1) {
 
 
-            for (i = 0; i < csvObj.length; i++) {
-                if (csvObj[i].Name != undefined && csvObj[i].Name != 'n/a') {
-                    var unitName = (csvObj[i].Name).toLowerCase().indexOf(textFromSearchInput);
-                    if (unitName >= 0) {
-                        var unitNameAndSide = {
-                            name: csvObj[i].Name,
-                            side: csvObj[i].SIDE.toLowerCase()
-                        };
-                        allNamesContainingStringFromSearch.push(unitNameAndSide);
+                for (i = 0; i < csvObj.length; i++) {
+                    if (csvObj[i].Name != undefined && csvObj[i].Name != 'n/a') {
+                        var unitName = (csvObj[i].Name).toLowerCase().indexOf(textFromSearchInput);
+                        if (unitName >= 0) {
+                            var unitNameAndSide = {
+                                name: csvObj[i].Name,
+                                side: csvObj[i].SIDE.toLowerCase()
+                            };
+                            allNamesContainingStringFromSearch.push(unitNameAndSide);
+                        }
                     }
                 }
-            }
-            for (i = 0; i < allNamesContainingStringFromSearch.length; i++) {
-                $(".unit-box").each(function () {
-                    if ($(this).attr("uname") == allNamesContainingStringFromSearch[i].name && $(this).attr("side") == allNamesContainingStringFromSearch[i].side) {
-                        var attributes = $(this).prop("attributes");
-                        var obj = $(this).clone().addClass("unit-box-in-search-result");
-                        html = $('<div />').append($(obj).removeClass("unit-box").removeAttr("data-toggle").clone()).html();
-                        var unitNameLower = $(this).attr("uname").toLowerCase();
-                        var indexStart = unitNameLower.indexOf(textFromSearchInput.toLowerCase());
-                        var indexEnd = unitNameLower.indexOf(textFromSearchInput) + textFromSearchInput.toLowerCase().length;
-                        var name = highlightThePhrase($(this).attr("uname"), indexStart, indexEnd);
-                        var unitNameAndSide = {
-                            nameSide: $(this).attr("uname") + $(this).attr("side"),
-                            name: $(this).attr("uname"),
-                            side: $(this).attr("side"),
-                            attributes: attributes,
-                            unitImg: $(this).attr("style"),
-                            html: html,
-                            unitNameHTML: '<div class="unit-name-html"><span class="unit-name-containter">' + name + ' [' + $(this).attr("side").toUpperCase() + ']</span></div>'
-                        };
-                        unitsThatAlreadyAreInList.push(unitNameAndSide);
-                    }
-
-                });
-            }
-            if (unitsThatAlreadyAreInList.length == 0) {
-                $('#search-input-results-' + inputNumber).append('<div class="no-results-info exo2-16"> Unit was not found.</div>').addClass("border-white");
-            }
-            else {
-                var uniqueUnitNamesList = removeDuplicates(unitsThatAlreadyAreInList, "nameSide");
-                if (inputNumber > 0) {
-                    for (i = 0; i < uniqueUnitNamesList.length; i++) {
-                        $("#search-input-results-" + inputNumber).append('<div class="row-result" img="' + uniqueUnitNamesList[i].unitImg + '">' + uniqueUnitNamesList[i].html + uniqueUnitNamesList[i].unitNameHTML + ' </div>').addClass("border-white");
-                        for (j = 1; j < uniqueUnitNamesList[i].attributes.length; j++) {
-                            $(".row-result:last-child").attr(uniqueUnitNamesList[i].attributes[j].name, uniqueUnitNamesList[i].attributes[j].value).removeAttr("data-toggle");
+                for (i = 0; i < allNamesContainingStringFromSearch.length; i++) {
+                    $(".unit-box").each(function () {
+                        if ($(this).attr("uname") == allNamesContainingStringFromSearch[i].name && $(this).attr("side") == allNamesContainingStringFromSearch[i].side) {
+                            var attributes = $(this).prop("attributes");
+                            var obj = $(this).clone().addClass("unit-box-in-search-result");
+                            html = $('<div />').append($(obj).removeClass("unit-box").removeAttr("data-toggle").clone()).html();
+                            var unitNameLower = $(this).attr("uname").toLowerCase();
+                            var indexStart = unitNameLower.indexOf(textFromSearchInput.toLowerCase());
+                            var indexEnd = unitNameLower.indexOf(textFromSearchInput) + textFromSearchInput.toLowerCase().length;
+                            var name = highlightThePhrase($(this).attr("uname"), indexStart, indexEnd);
+                            var unitNameAndSide = {
+                                nameSide: $(this).attr("uname") + $(this).attr("side"),
+                                name: $(this).attr("uname"),
+                                side: $(this).attr("side"),
+                                attributes: attributes,
+                                unitImg: $(this).attr("style"),
+                                html: html,
+                                unitNameHTML: '<div class="unit-name-html"><span class="unit-name-containter">' + name + ' [' + $(this).attr("side").toUpperCase() + ']</span></div>'
+                            };
+                            unitsThatAlreadyAreInList.push(unitNameAndSide);
                         }
-                        $(".row-result:last-child").removeAttr("style");
-                    }
-                    $("#search-input-results-" + inputNumber).prepend('<div class="white exo2-16" style="padding-left:6px;padding-top:7px;font-size:14px;">Choose a unit:</div> ');
+
+                    });
+                }
+                if (unitsThatAlreadyAreInList.length == 0) {
+                    $('#search-input-results-' + inputNumber).append('<div class="no-results-info exo2-16"> Unit was not found.</div>').addClass("border-white");
                 }
                 else {
-                    for (i = 0; i < uniqueUnitNamesList.length; i++) {
-                        $("#search-input-results-" + inputNumber).append('<div class="search-input-row" img="' + uniqueUnitNamesList[i].unitImg + '">' + uniqueUnitNamesList[i].html + uniqueUnitNamesList[i].unitNameHTML + ' </div>').addClass("border-white");
-                        for (j = 1; j < uniqueUnitNamesList[i].attributes.length; j++) {
-                            $(".search-input-row:last-child").attr(uniqueUnitNamesList[i].attributes[j].name, uniqueUnitNamesList[i].attributes[j].value);
+                    var uniqueUnitNamesList = removeDuplicates(unitsThatAlreadyAreInList, "nameSide");
+                    if (inputNumber > 0) {
+                        for (i = 0; i < uniqueUnitNamesList.length; i++) {
+                            $("#search-input-results-" + inputNumber).append('<div class="row-result" img="' + uniqueUnitNamesList[i].unitImg + '">' + uniqueUnitNamesList[i].html + uniqueUnitNamesList[i].unitNameHTML + ' </div>').addClass("border-white");
+                            for (j = 1; j < uniqueUnitNamesList[i].attributes.length; j++) {
+                                $(".row-result:last-child").attr(uniqueUnitNamesList[i].attributes[j].name, uniqueUnitNamesList[i].attributes[j].value).removeAttr("data-toggle");
+                            }
+                            $(".row-result:last-child").removeAttr("style");
                         }
-                        $(".search-input-row:last-child").removeAttr("style");
+                        if (!isMobile) {
+                                                    $("#search-input-results-" + inputNumber).prepend('<div class="white exo2-16" style="padding-left:6px;padding-top:7px;font-size:14px;">Choose a unit:</div> ');
+                        }
+
+                    }
+                    else {
+                        for (i = 0; i < uniqueUnitNamesList.length; i++) {
+                            $("#search-input-results-" + inputNumber).append('<div class="search-input-row" img="' + uniqueUnitNamesList[i].unitImg + '">' + uniqueUnitNamesList[i].html + uniqueUnitNamesList[i].unitNameHTML + ' </div>').addClass("border-white");
+                            for (j = 1; j < uniqueUnitNamesList[i].attributes.length; j++) {
+                                $(".search-input-row:last-child").attr(uniqueUnitNamesList[i].attributes[j].name, uniqueUnitNamesList[i].attributes[j].value);
+                            }
+                            $(".search-input-row:last-child").removeAttr("style");
+                        }
+                    }
+
+                }
+                if (!$("#search-input-results-" + inputNumber).text() == "") {
+                    $("#search-input-results-" + inputNumber).show();
+                }
+                $(".input-results-container #search-input-results-" + inputNumber).parent().show();
+                numberOfRowResults = $(".row-result, .search-input-row").length;
+
+                const ps = new PerfectScrollbar("#search-input-results-" + inputNumber, {
+                    wheelSpeed: 0.6,
+                    wheelPropagation: true,
+                    minScrollbarLength: 20
+                });
+
+                if ($(".row-result").length == 1) {
+                    if (!isMobile) {
+                    inputNumber = $(".row-result").parent().parent().parent().children().eq(0).attr("number");
+                    var attributes = $(".row-result").prop("attributes");
+                    $("#search-input-" + inputNumber).parent().append("<li class='chosen-unit exo2-16' id='chosen-unit-id-" + inputNumber + "' side='" + $(".row-result").attr("side") + "'><span style='position:relative; left:-10px;'>" + $(".row-result").attr("uname") + "</span><div class='close-btn'>&#10006;</div></li>");
+                    $("#search-input-" + inputNumber).val("");
+                    for (i = 0; i < attributes.length; i++) {
+                        $("#chosen-unit-id-" + inputNumber).attr(attributes[i].name, attributes[i].value);
+                    }
+                    checkCheckboxIfWrite($(".row-result").attr("uname"));
+                    $("#chosen-unit-id-" + inputNumber).removeClass("row-result");
+                    $("#chosen-unit-id-" + inputNumber).addClass("chosen-unit exo2-16");
+                    $("#search-input-results-" + inputNumber).html("");
+                    selectedRowNumber = 0;
+                    checkIfButtonDisabled();
+                        $(".input-results-container").hide();
                     }
                 }
-                
-            }
-            if (!$("#search-input-results-" + inputNumber).text() == "") {
-                $("#search-input-results-" + inputNumber).show();
-            }
-            $(".input-results-container #search-input-results-" + inputNumber).parent().show();
-            numberOfRowResults = $(".row-result, .search-input-row").length;
-
-            const ps = new PerfectScrollbar("#search-input-results-" + inputNumber, {
-                wheelSpeed: 0.6,
-                wheelPropagation: true,
-                minScrollbarLength: 20
-            });
-
-            if ($(".row-result").length == 1) {
-                inputNumber = $(".row-result").parent().parent().parent().children().eq(0).attr("number");
-                var attributes = $(".row-result").prop("attributes");
-                $("#search-input-" + inputNumber).parent().append("<li class='chosen-unit exo2-16' id='chosen-unit-id-" + inputNumber + "' side='" + $(".row-result").attr("side") + "'><span style='position:relative; left:-10px;'>" + $(".row-result").attr("uname") + "</span><div class='close-btn'>&#10006;</div></li>");
-                $("#search-input-" + inputNumber).val("");
-                for (i = 0; i < attributes.length; i++) {
-                    $("#chosen-unit-id-" + inputNumber).attr(attributes[i].name, attributes[i].value);
-                }
-                checkCheckboxIfWrite($(".row-result").attr("uname"));
-                $("#chosen-unit-id-" + inputNumber).removeClass("row-result");
-                $("#chosen-unit-id-" + inputNumber).addClass("chosen-unit exo2-16");
-                $("#search-input-results-" + inputNumber).html("");
-                selectedRowNumber = 0;
-                checkIfButtonDisabled();
-                $(".input-results-container").hide();
-            }
             }
         }
     }
@@ -788,6 +794,7 @@ $(document).ready(function () {
         generateComparison();
     });
     function generateComparison() {
+
         $(".navbar").css("right", "17px");
         switch ($(".chosen-unit").length) {
             case 2:
@@ -801,10 +808,10 @@ $(document).ready(function () {
                 break;
         }
         generateUnitComparison();
-        $('#compare-container').slideUp(150);
-        status = 0;
+        //$('#compare-container').slideUp(150);
+        //status = 0;
         $(".navbar").css("filter", "0.15");
-        hideAndClearCheckboxes();
+        //hideAndClearCheckboxes();
     }
 
     $('#comparison-modal').on('hidden.bs.modal', function () {
@@ -965,24 +972,27 @@ $(document).ready(function () {
 
     $("#comparison-option-button").click(function () {
         if (status == 0) {
-            $("#compare-container").slideDown(150);
+            $(this).addClass("active");
+            $("#compare-container").fadeIn(300);
             $("label").show();
             status = 1;
         }
         else {
-            $("#compare-container").slideUp(150);
+            $("#compare-container").fadeOut(150);
+            $(this).removeClass("active");
             hideAndClearCheckboxes();
             status = 0;
         }
         $("#comparison-modal").hide();
     });
-    $("#close-comparison-window").click(function () {
+    $("#close-comparison-window, #close-comparison-window-x").click(function () {
         if (status == 0) {
-            $("#compare-container").slideDown(150);
+            $("#compare-container").fadeIn(300);
             status = 1;
         }
         else {
-            $("#compare-container").slideUp(150);
+            $("#compare-container").fadeOut(150);
+            $("#comparison-option-button").removeClass("active");
             hideAndClearCheckboxes();
             status = 0;
         }
@@ -1074,10 +1084,12 @@ $(document).ready(function () {
     $(".container").on('click', ".checkmark", function () {
         inputNumber = checkWhichFirstInputIsFree();
         var checkboxObj = $(this).parent().children().eq(0);
-        if (inputNumber == 10) {
-            replaceLastChoiceIfFull();
-            inputNumber = 4;
-        } else {
+        var uname = $(this).parent().parent().children().eq(0).attr("uname");
+        if (inputNumber == 10) {           
+            if (!($('.chosen-unit[uname = "' + uname + '"]').length == 1)) {
+                replaceLastChoiceIfFull();
+                inputNumber = 4;
+            }
         }
         if (!checkboxObj.prop('checked')) {
             var obj = $(this).parent().parent().children().eq(0);
@@ -1097,8 +1109,7 @@ $(document).ready(function () {
             checkIfButtonDisabled();
         }
         else {           
-            var uname = $(this).parent().parent().children().eq(0).attr("uname");
-            $(".chosen-unit[uname = '" + uname + "']").remove();
+            $('.chosen-unit[uname = "' + uname + '"]').remove();
             $(this).prop('checked', false);
             checkIfButtonDisabled();
         }
@@ -1128,10 +1139,10 @@ $(document).ready(function () {
     }
 
     function checkCheckboxIfWrite(uname) {
-        $(".unit-box[uname='" + uname + "']").each(function () { $(this).parent().children().eq(2).children().eq(0).prop('checked', true); })
+        $('.unit-box[uname="' + uname + '"]').each(function () { $(this).parent().children().eq(2).children().eq(0).prop('checked', true); })
     }
     function uncheckCheckboxWhenDelete(uname) {
-        $(".unit-box[uname='" + uname + "']").each(function () { $(this).parent().children().eq(2).children().eq(0).prop('checked', false); })
+        $('.unit-box[uname="' + uname + '"]').each(function () { $(this).parent().children().eq(2).children().eq(0).prop('checked', false); })
     }
 
     function replaceLastChoiceIfFull() {

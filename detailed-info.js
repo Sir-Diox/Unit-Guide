@@ -144,6 +144,23 @@ function generateDetailedInfo(val) {
                 unitData.canBuild = csvObj[i].CanBuild;
                 unitData.builtBy = csvObj[i].BuiltBy;
 
+                if ((csvObj[i].Weapon1.indexOf("RANGE") >= 0) && csvObj[i].Weapon2 != "n/a") {
+                    unitData.weapon1ObjectName = csvObj[i].Weapon2;
+                } else {
+                    unitData.weapon1ObjectName = csvObj[i].Weapon1;
+                }
+                unitData.weapon2ObjectName = csvObj[i].Weapon2;
+                if (csvObj[i].Weapon2 == "n/a" || (csvObj[i].Weapon2.indexOf("RANGE") >= 0) && csvObj[i].Weapon3 != "n/a") {
+                    unitData.weapon2ObjectName = csvObj[i].Weapon3;
+                } else {
+                    if (csvObj[i].Weapon3.indexOf("RANGE") >= 0) {
+                        unitData.weapon2ObjectName = "";
+                    }else {
+                        unitData.weapon3ObjectName = csvObj[i].Weapon3;
+                    }
+                }
+
+
                 $(".modal-title").text(unitName);
                 $(".unit-desc").text(unitData.description);
                 $(".detailed-info-wrapper").html("");
@@ -160,7 +177,6 @@ function generateDetailedInfo(val) {
                 unitData.isAntiAir3 = $(obj).attr("w3-AA");
                 unitData.isMineOrClawlingBomb = csvObj[i].kamikaze;
                 weapons.w1_rt = $(obj).attr("w1-rt");
-                //unitData.explosionDamage = $(obj).attr("w1");
                 unitData.onlyDps = $(obj).attr("only-dps");
                 unitData.p1 = $(obj).attr("p1");
 
@@ -203,7 +219,7 @@ function generateDetailedInfo(val) {
                     setParameterBars();
                     setWeaponsAA(obj);
                 }
-                else if ($(obj).attr("w2") != undefined) {
+                else if ($(obj).attr("w2") != undefined) { // for 2 or more weapons
                     resetParameterBars();
                     setLabelParametersAndValues(checkUnitType());
                     countDpsAndRangeAndShotDmg(obj); // this overrides countDpsAndRange() from preview.
@@ -216,6 +232,7 @@ function generateDetailedInfo(val) {
                     weapons.w1_r = $(obj).attr("w1-r");
                     weapons.w2_r = $(obj).attr("w2-r");
                     weapons.w3_r = $(obj).attr("w3-r");
+                    getDataFromWeaponsCSV(2);  // 2 - number of weapons (or more)
 
                 }
                 else if ($(obj).attr("w1") != undefined) { // for 1 weapon only
@@ -228,6 +245,7 @@ function generateDetailedInfo(val) {
                     unitData.range = $(obj).attr("w1-r");
                     unitData.biggestRange = unitData.range;
                     setParameterBars();
+                    getDataFromWeaponsCSV(1);  // 1 - number of weapons
                 }
 
 
@@ -260,7 +278,6 @@ function generateDetailedInfo(val) {
                 if (!isMobileDevice()) {
                     if (weapons.w3 != "") {
                         fillHtmlTemplateFor3();
-                        // sprawdz czy usuwa weapons data po wyjsciu i czy nie powtarza sie w innych unitach
                     }
                     else {
                         fillHtmlTemplate();
@@ -499,7 +516,9 @@ function fillStatisticsInfo() {
     var template = `                            
                                 <div class="unit-basic-stats">
 
-                                <div class="exo2-26 detailed-info-header">Basic stats</div>
+                                <div class="exo2-26 detailed-info-header">${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber ? `
+                                                Combat stats
+`: `Basic stats`}</div>
                                 <div class="row" style="margin:0;">
                                     <div class="col col-lg-6 no-padding">
 
@@ -515,12 +534,9 @@ function fillStatisticsInfo() {
                                            ${sixthParameter ? `
                                         <div class="parameter-name">${sixthParameter}</div>
                                            ` : ""}
-                                        ${unitData.onlyDps == undefined && weapons.w2 == undefined && (unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly) ? `                
-                                        <div class="parameter-name">Reload time: </div>
-                                        ` : ""}
                                     </div>
+                                   <div class="col col-lg-6 no-padding">  
 
-                                    <div class="col col-lg-6 no-padding">                                          
                                             ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther ? `                     
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForDPS}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStyleDps}"> </div>
@@ -587,13 +603,13 @@ function fillStatisticsInfo() {
                                                     <div class="parameter-value">${setSpacesInBigNumbers(unitData.range)}</div>
                                             </div>
                                             ` : ""}
-                                            ${unitTypeObj.isEco ? `
-                                                <div class="parameter-bar-and-value ${ShineEffect.ForMinMetalCostForE}">
-                                                <div class="box-shadow-for-bar" style="${boxShadowsMinMetalCostForE}"></div>
-                                                    <img src="${minMetalCostForE_SrcImg}" class="parameter-bar" alt="">
-                                                    <div class="parameter-value">${unitData.ratioMin}</div>
-                                            </div>
-                                            ` : ""}
+                                                    ${unitTypeObj.isEco && unitData.minEnergyIncome != undefined ? `
+                                                        <div class="parameter-bar-and-value ${ShineEffect.ForMinMetalCostForE}">
+                                                        <div class="box-shadow-for-bar" style="${boxShadowsMinMetalCostForE}"></div>
+                                                            <img src="${minMetalCostForE_SrcImg}" class="parameter-bar" alt="">
+                                                            <div class="parameter-value">${unitData.ratioMin}</div>
+                                                    </div>
+                                                    ` : ""}
                                              ${unitTypeObj.isCons || unitTypeObj.isAirCons || unitTypeObj.isSemiCon ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForBuildRange}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStyleBuildRange}"></div>
@@ -631,13 +647,13 @@ function fillStatisticsInfo() {
                                                     <div class="parameter-value">${setSpacesInBigNumbers(unitData.HP)}</div>
                                                 </div>
                                             ` : ""}
-                                            ${unitTypeObj.isEco && unitData.maxEnergyIncome != undefined ? `
-                                                <div class="parameter-bar-and-value ${ShineEffect.ForMaxMetalCostForE}">
-                                                <div class="box-shadow-for-bar" style="${boxShadowsMaxMetalCostForE}"></div>
-                                                    <img src="${maxMetalCostForE_SrcImg}" class="parameter-bar" alt="">
-                                                    <div class="parameter-value">${unitData.ratioMax}</div>
-                                            </div>
-                                            ` : ""}
+                                                    ${unitTypeObj.isEco && unitData.maxEnergyIncome != undefined && unitData.minEnergyIncome != undefined ? `
+                                                        <div class="parameter-bar-and-value ${ShineEffect.ForMaxMetalCostForE}">
+                                                        <div class="box-shadow-for-bar" style="${boxShadowsMaxMetalCostForE}"></div>
+                                                            <img src="${maxMetalCostForE_SrcImg}" class="parameter-bar" alt="">
+                                                            <div class="parameter-value">${unitData.ratioMax}</div>
+                                                        </div>
+                                                    ` : ""}
                                             ${unitTypeObj.isCons || unitTypeObj.isAirCons || unitTypeObj.isSemiCon || unitTypeObj.isNuke ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForHP}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStyleHP}"></div>
@@ -747,7 +763,6 @@ function fillStatisticsInfo() {
                                                 </div>
                                             ` : ""}
 
-
                                             ${unitTypeObj.isRadarAndJammerAircraft || unitTypeObj.isRadarAndJammerUnit || unitTypeObj.isClawlingBomb ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForSightD}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStylesightRange}"></div>
@@ -762,12 +777,62 @@ function fillStatisticsInfo() {
                                                     <div class="parameter-value">${setSpacesInBigNumbers(unitData.sightRange)}</div>
                                                 </div>
                                             ` : ""}
-                                        ${unitData.onlyDps == undefined && weapons.w2 == undefined && (unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther) ? `                     
-                                            <div class="parameter-value-nobar" style="margin-top: 14px; margin-bottom: 6px;">${weapons.w1_rt} s</div>
-                                        ` : ""}
-                                    </div>
-
+                                            </div>
                                 </div>
+                                <div class="exo2-26 detailed-info-header">${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber ? `
+                                                Weapon's details
+                                `: ""}</div>
+                                <div class="row" style="margin:0;">
+                                    <div class="col col-lg-6 no-padding">
+                                        ${weapons.w2 == undefined && weaponsData.w1.name != "" && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                        <div class="parameter-name">Weapon name: </div>
+                                        ` : ""}
+                                        ${unitData.onlyDps == undefined && weapons.w2 == undefined && (unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly) ? `                
+                                        <div class="parameter-name">Reload time: </div>
+                                        ` : ""}
+                                        ${weapons.w2 == undefined && weaponsData.w1.velocity != "" && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                        <div class="parameter-name">Weapon velocity: </div>
+                                        ` : ""}
+                                        ${weapons.w2 == undefined && weaponsData.w1.aoe != "" && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                        <div class="parameter-name">Area Of Effect: </div>
+                                        ` : ""}
+                                        ${weapons.w2 == undefined && weaponsData.w1.tolerance != "" && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                        <div class="parameter-name">Tolerance: </div>
+                                        ` : ""}
+                                        ${weapons.w2 == undefined && weaponsData.w1.turnRate != "" && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                        <div class="parameter-name">Weapon's turn rate: </div>
+                                        ` : ""}
+                                        ${weapons.w2 == undefined && weaponsData.w1.energyPerShot != "" && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                        <div class="parameter-name">Energy per shot: </div>
+                                        ` : ""}
+                                        </div>
+
+
+                                        <div class="col col-lg-6 no-padding">
+                                        ${weapons.w2 == undefined && weaponsData.w1.name != "" && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                               
+                                            <div class="parameter-value-nobar">${weaponsData.w1.name}</div>
+                                        ` : ""}
+                                        ${unitData.onlyDps == undefined && weapons.w2 == undefined && (unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther) ? `                     
+                                            <div class="parameter-value-nobar">${weapons.w1_rt} s</div>
+                                        ` : ""}
+                                        ${weapons.w2 == undefined && weaponsData.w1.velocity != "" && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly ||  unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                            <div class="parameter-value-nobar">${weaponsData.w1.velocity}</div>
+                                        ` : ""}
+                                        ${weapons.w2 == undefined && weaponsData.w1.aoe != "" && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                            <div class="parameter-value-nobar">${weaponsData.w1.aoe}</div>
+                                        ` : ""}
+                                        ${weapons.w2 == undefined && weaponsData.w1.tolerance != "" && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                            <div class="parameter-value-nobar">${weaponsData.w1.tolerance}</div>
+                                        ` : ""}
+                                        ${weapons.w2 == undefined && weaponsData.w1.turnRate != "" && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                            <div class="parameter-value-nobar">${weaponsData.w1.turnRate}</div>
+                                        ` : ""}
+                                        ${weapons.w2 == undefined && weaponsData.w1.energyPerShot != "" && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                            <div class="parameter-value-nobar">${weaponsData.w1.energyPerShot}</div>
+                                        ` : ""}
+                                        </div>
+                                     </div>
+
 
                                                     ${unitTypeObj.isEco && unitData.sup1 != undefined && unitData.sup2 != undefined ? `
                                                     <hr class="separator-between-info-stats">
@@ -794,7 +859,7 @@ function fillStatisticsInfo() {
                                         <div class="row">
                                             <div class="col col-lg-6 no-padding">
                                                     ${unitData.buildTime != undefined && (unitData.movementSpeed != 'n/a' || unitData.flyingSpeed != 'n/a') ? `
-                                                <div class="parameter-name"><span class="${(!isMobile) ? `tooltip-dotted`:""}" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Build time</span>This parameter shows how much time is needed to build a unit or structure. </br><span style='color: #DEA73C;'>Build time / Build speed = time in seconds </span> </br> <b>Example:</b></br> Commander with a build speed of 360 builds a <b>${unitData.name}</b> with a build time of ${setSpacesInBigNumbers(unitData.buildTime)} needs: </br><span style='color: #DEA73C;'> ${setSpacesInBigNumbers(unitData.buildTime)} / 360 = <b>${(unitData.buildTime / 360).toFixed(2)} seconds </b></span> </br> Remember to add lab's building speed to it, to be exact. </div>">Build time:</span></div>
+                                                <div class="parameter-name"><span class="${(!isMobile) ? `tooltip-dotted`:""}" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Build time</span>This parameter shows how much time is needed to build a unit or structure. </br><span style='color: #DEA73C;'>Build time / Build speed = time in seconds </span> </br> <b>Example:</b></br> Commander with a build speed of 360 builds a <b>${unitData.name}</b> with a build time of ${setSpacesInBigNumbers(unitData.buildTime)} needs: </br><span style='color: #DEA73C;'> ${setSpacesInBigNumbers(unitData.buildTime)} / 360 = <b>${(unitData.buildTime / 360).toFixed(2)} seconds </b></span> </br> Remember to add lab's build speed to it, to be exact. </div>">Build time:</span></div>
                                                     `: `
                                                 <div class="parameter-name"><span class="${(!isMobile) ? `tooltip-dotted` : ""}" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Build time</span>This parameter shows how much time is needed to build a unit or structure. </br><span style='color: #DEA73C;'>Build time / Build speed = time in seconds </span> </br> <b>Example:</b></br> Commander with a build speed of 360 builds a <b>${unitData.name}</b> with a build time of ${setSpacesInBigNumbers(unitData.buildTime)} needs: </br><span style='color: #DEA73C;'> ${setSpacesInBigNumbers(unitData.buildTime)} / 360 = <b>${(unitData.buildTime / 360).toFixed(2)} seconds </b></span> </div>">Build time:</span></div>
                                                     ` }
@@ -806,8 +871,8 @@ function fillStatisticsInfo() {
                                                 <div class="parameter-name">Energy make:</div>
 
                                                     `: ""}
-                                                    ${unitData.energyUse != undefined && unitData.energyUse != 0 && unitData.energyMake != 0 ? `
-                                                <div class="parameter-name"><span class="${(!isMobile) ? `tooltip-dotted` : ""}" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Energy drain</span>This parameter shows how much energy a unit drains. This includes only: <ul><li>Cloaking</li><li>Turned on units/buildings (jammers, radars, metal makers, galactic gates and more)</li><li>Moving (most units drain up to 1E/s while moving)</li></ul> </br> <b style='color: #DEA73C;'> Warning! </b> This parameter doesn't show energy drain while shooting (e.g. green lasers from Gaat).</div">Energy drain:</span></div>
+                                                    ${unitData.energyUse != undefined && unitData.energyUse != 0  && unitData.energyMake != 0 ? `
+                                                <div class="parameter-name"><span class="${(!isMobile) ? `tooltip-dotted` : ""}" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Energy use</span>This parameter shows how much energy a unit use. This includes only: <ul><li>Cloaking</li><li>Turned on units/buildings (jammers, radars, metal makers, galactic gates and more)</li><li>Moving (most units drain up to 1E/s while moving)</li></ul> </br> <b style='color: #DEA73C;'> Warning! </b> This parameter doesn't show energy use while shooting (e.g. green lasers from Gaat).</div">Energy use:</span></div>
 
                                                     `: ""}
                                                     ${unitData.energyStorage != undefined && unitData.energyStorage != 0 ? `
@@ -968,6 +1033,50 @@ function generateOtherStats(obj) {
     }
 }
 
+function getDataFromWeaponsCSV(numberOfWeapons) {
+
+    if (numberOfWeapons == 1) {
+        for (j = 0; j < weaponsObj.length; j++) {
+            if (weaponsObj[j].WEAPONOBJECT === unitData.weapon1ObjectName) {
+                weaponsData.w1.velocity = weaponsObj[j].weaponvelocity;
+                weaponsData.w1.aoe = weaponsObj[j].areaofeffect;
+                weaponsData.w1.name = weaponsObj[j].name;
+                weaponsData.w1.tolerance = weaponsObj[j].tolerance;
+                weaponsData.w1.turnRate = weaponsObj[j].turnrate;
+                weaponsData.w1.energyPerShot = weaponsObj[j].energypershot;
+            }
+        }
+    }
+    else {
+        for (j = 0; j < weaponsObj.length; j++) {
+            if (weaponsObj[j].WEAPONOBJECT === unitData.weapon1ObjectName) {
+                weaponsData.w1.velocity = weaponsObj[j].weaponvelocity;
+                weaponsData.w1.aoe = weaponsObj[j].areaofeffect;
+                weaponsData.w1.name = weaponsObj[j].name;
+                weaponsData.w1.tolerance = weaponsObj[j].tolerance;
+                weaponsData.w1.turnRate = weaponsObj[j].turnrate;
+                weaponsData.w1.energyPerShot = weaponsObj[j].energypershot;
+            }
+            if (weaponsObj[j].WEAPONOBJECT === unitData.weapon2ObjectName) {
+                weaponsData.w2.velocity = weaponsObj[j].weaponvelocity;
+                weaponsData.w2.aoe = weaponsObj[j].areaofeffect;
+                weaponsData.w2.name = weaponsObj[j].name;
+                weaponsData.w2.tolerance = weaponsObj[j].tolerance;
+                weaponsData.w2.turnRate = weaponsObj[j].turnrate;
+                weaponsData.w2.energyPerShot = weaponsObj[j].energypershot;
+            }
+            if (weaponsObj[j].WEAPONOBJECT === unitData.weapon3ObjectName) {
+                weaponsData.w3.velocity = weaponsObj[j].weaponvelocity;
+                weaponsData.w3.aoe = weaponsObj[j].areaofeffect;
+                weaponsData.w3.name = weaponsObj[j].name;
+                weaponsData.w3.tolerance = weaponsObj[j].tolerance;
+                weaponsData.w3.turnRate = weaponsObj[j].turnrate;
+                weaponsData.w3.energyPerShot = weaponsObj[j].energypershot;
+            }
+        }
+    }
+}
+
 
 jQuery.fn.changeKeywordsColor = function (str, className) {
     var regex = new RegExp(str, "gi");
@@ -1031,7 +1140,7 @@ ${upgradeData.name != "" ? `
 
                             <div class="unit-basic-stats">
 
-                                <div class="exo2-26 detailed-info-header" >Basic stats</div>
+                                <div class="exo2-26 detailed-info-header">Combat stats</div>
                                 <div class="row" style="margin:0; margin-top: 30px; padding-bottom: 25px; border-bottom: 1px solid #525252; padding-left: 22px;">
                                     <div class="col col-lg-3 no-padding" style="top: 24px;">
                                         <div class="parameter-name">${firstParameter}</div>
@@ -1039,8 +1148,19 @@ ${upgradeData.name != "" ? `
                                         ${unitData.onlyDps == undefined && !unitTypeObj.isAirFigther ? `
                                         <div class="parameter-name">${thirdParameter}</div>                                       
                                         ` : ""}
-                                        ${!isMobile ? `<div class="parameter-name">Reload time: </div>` : ""}
-
+                                        ${!isMobile && unitData.onlyDps == undefined ? `<div class="parameter-name">Reload time: </div>` : ""}
+                                        ${(weaponsData.w1.velocity != "" || weaponsData.w2.velocity != "" || weaponsData.w3.velocity != "") && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                        <div class="parameter-name">Weapon velocity: </div>
+                                        ` : ""}
+                                        ${(weaponsData.w1.aoe != "" || weaponsData.w2.aoe != "" || weaponsData.w3.aoe != "") && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                        <div class="parameter-name">Area Of Effect: </div>
+                                        ` : ""}
+                                        ${(weaponsData.w1.tolerance != "" || weaponsData.w2.tolerance != "" || weaponsData.w3.tolerance != "") && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                        <div class="parameter-name">Tolerance: </div>
+                                        ` : ""}
+                                        ${ (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                        <div class="parameter-name">Energy per shot: </div>
+                                        ` : ""}
                                     </div>
                             
 
@@ -1071,8 +1191,20 @@ ${upgradeData.name != "" ? `
                                             ` : ""}
 
                                             ${unitData.onlyDps == undefined ? `
-                                            <div class="parameter-value-nobar">${weapons.w1_rt} s</div>
+                                            <div class="parameter-value-nobar-3">${weapons.w1_rt} s</div>
                                             ` : ""}
+                                        ${weaponsData.w1.velocity != "" && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                            <div class="parameter-value-nobar-3">${weaponsData.w1.velocity}</div>
+                                            ` : `<div class="parameter-value-nobar-3">-</div>`}
+                                        ${weaponsData.w1.aoe != "" && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                            <div class="parameter-value-nobar-3">${weaponsData.w1.aoe}</div>
+                                            ` : `<div class="parameter-value-nobar-3">-</div>`}
+                                        ${weaponsData.w1.tolerance != "" && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                            <div class="parameter-value-nobar-3">${weaponsData.w1.tolerance}</div>
+                                            ` : `<div class="parameter-value-nobar-3">-</div>`}
+                                        ${weaponsData.w1.energyPerShot != "" && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                            <div class="parameter-value-nobar-3">${weaponsData.w1.energyPerShot}</div>
+                                            ` : `<div class="parameter-value-nobar-3">-</div>`}
 
                                     </div>
 
@@ -1103,9 +1235,20 @@ ${upgradeData.name != "" ? `
                                             ` : ""}
 
                                             ${unitData.onlyDps == undefined ? `
-                                            <div class="parameter-value-nobar">${weapons.w2_rt} s</div>
+                                            <div class="parameter-value-nobar-3">${weapons.w2_rt} s</div>
                                             ` : ""}
-
+                                        ${weaponsData.w2.velocity != "" && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                            <div class="parameter-value-nobar-3">${weaponsData.w2.velocity}</div>
+                                            ` : `<div class="parameter-value-nobar-3">-</div>`}
+                                        ${weaponsData.w2.aoe != "" && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                            <div class="parameter-value-nobar-3">${weaponsData.w2.aoe}</div>
+                                            ` : `<div class="parameter-value-nobar-3">-</div>`}
+                                        ${weaponsData.w2.tolerance != "" && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                            <div class="parameter-value-nobar-3">${weaponsData.w2.tolerance}</div>
+                                            ` : `<div class="parameter-value-nobar-3">-</div>`}
+                                        ${weaponsData.w2.energyPerShot != "" && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                            <div class="parameter-value-nobar-3">${weaponsData.w2.energyPerShot}</div>
+                                            ` : `<div class="parameter-value-nobar-3">-</div>`}
                                     </div>
 
 ${weapons.w3 != undefined ?
@@ -1137,9 +1280,20 @@ ${weapons.w3 != undefined ?
                                             ` : ""}
 
                                             ${unitData.onlyDps == undefined ? `
-                                            <div class="parameter-value-nobar">${weapons.w3_rt} s</div>
+                                            <div class="parameter-value-nobar-3">${weapons.w3_rt} s</div>
                                             ` : ""}
-
+                                        ${weaponsData.w3.velocity != "" && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                            <div class="parameter-value-nobar-3">${weaponsData.w3.velocity}</div>
+                                            ` : `<div class="parameter-value-nobar-3">-</div>`}
+                                        ${weaponsData.w3.aoe != "" && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                            <div class="parameter-value-nobar-3">${weaponsData.w3.aoe}</div>
+                                            ` : `<div class="parameter-value-nobar-3">-</div>`}
+                                        ${weaponsData.w3.tolerance != "" && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                            <div class="parameter-value-nobar-3">${weaponsData.w3.tolerance}</div>
+                                            ` : `<div class="parameter-value-nobar-3">-</div>`}
+                                        ${weaponsData.w3.energyPerShot != "" && (unitTypeObj.isFighter || unitTypeObj.isFighterDpsOnly || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isDefenseShootingBuildingDpsOnly || unitTypeObj.isAirFigther || unitTypeObj.isBomber) ? `                
+                                            <div class="parameter-value-nobar-3">${weaponsData.w3.energyPerShot}</div>
+                                            ` : `<div class="parameter-value-nobar-3">-</div>`}
  
                                     </div>
 `: ""}
@@ -1252,7 +1406,7 @@ ${weapons.w3 != undefined ?
 
                                                     `: ""}
                                                     ${unitData.energyUse != undefined && unitData.energyUse != 0 && unitData.energyMake != 0 ? `
-                                                <div class="parameter-name"><span class="tooltip-dotted" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Energy drain</span>This parameter shows how much energy a unit drains. This includes only: <ul><li>Cloaking</li><li>Turned on units/buildings (jammers, radars, metal makers, galactic gates and more)</li><li>Moving (most units drain up to 1E/s while moving)</li></ul> </br> <b style='color: #DEA73C;'> Warning! </b> This parameter doesn't show energy drain while shooting (e.g. green lasers from Gaat).</div">Energy drain:</span></div>
+                                                <div class="parameter-name"><span class="tooltip-dotted" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Energy use</span>This parameter shows how much energy a unit use. This includes only: <ul><li>Cloaking</li><li>Turned on units/buildings (jammers, radars, metal makers, galactic gates and more)</li><li>Moving (most units drain up to 1E/s while moving)</li></ul> </br> <b style='color: #DEA73C;'> Warning! </b> This parameter doesn't show energy use while shooting (e.g. green lasers from Gaat).</div">Energy use:</span></div>
 
                                                     `: ""}
                                                     ${unitData.energyStorage != undefined && unitData.energyStorage != 0 ? `
@@ -1375,6 +1529,8 @@ function resetParameterBars() {
     range3_SrcImg = "";
 
     unitData.isEco = false;
+    unitData.minEnergyIncome = undefined;
+    unitData.maxEnergyIncome = undefined;
     duplicateCounter = 0;
     firstParameter = "";
     secondParameter = "";
@@ -1516,4 +1672,10 @@ ${Math.floor((unitData.buildTime / 30) / 360)}x Tier 2 construction vehicle or $
 
 </ol>
 `
+}
+
+function generateDetailedComparison(chosenUnits) {
+    alert("lol;");
+    var listOfLabels = ["Damage per shot", "Damage per second", "Build speed"];
+
 }
