@@ -596,6 +596,37 @@ a {
     display: block;
     top: -84px;
 }
+.img-center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.comparison-content .row{
+    margin:0;
+}
+.detailed-cp {
+    background-color: #2b2b2b;
+    border: 2px solid white;
+    padding: 20px 50px;
+    border-radius: 5px;
+}
+
+.detailed-cp .col-lg-3, .detailed-cp .col-lg-2 {
+    color: white;
+    padding: 0;
+    text-align: center;
+    max-width: 200px;
+    margin: 8px 0;
+    font-weight: 400;
+}
+
+.cp-header-section{
+    background:gray;
+    color:white;
+    text-align:center;
+    font-weight:600;
+    font-size:26px;
+}
 
 .tier-unit-type-divider {
     margin-top: 65px;

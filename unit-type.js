@@ -222,7 +222,7 @@ function checkUnitType() {
     }
 
 
-    if (unitData.builder != 1 && (unitData.jammerRange == "n/a" || unitData.jammerRange == "0") && unitData.canAttack == 1 && unitData.isMineOrClawlingBomb != 1 && unitData.canMove == 1 && unitData.movementSpeed < 4 && unitData.name!="Decimator") { // is fighting unit/building?
+    if (unitData.builder != 1 && (unitData.jammerRange == "n/a" || unitData.jammerRange == "0") && unitData.canAttack == 1 && unitData.isMineOrClawlingBomb != 1 && unitData.canMove == 1 && unitData.movementSpeed < 4 && unitData.name != "Decimator" && unitData.name != "Mechanic") { // is fighting unit/building?
         if (unitData.name == "Voyeur" || unitData.name == "Marky" || unitData.name == "Seer" || unitData.name == "Informer") {
             unitTypeObj.isRadarUnit = true;
         }
@@ -237,9 +237,9 @@ function checkUnitType() {
             }
         }
     }
-    else if (unitData.builder != 0 && unitData.builder != "n/a" && (unitData.jammerRange == "n/a" || unitData.jammerRange == "0") && unitData.movementSpeed != "n/a") // is cons, semi-con
+    else if (unitData.builder != 0 && unitData.builder != "n/a" && (unitData.jammerRange == "n/a" || unitData.jammerRange == "0") && unitData.movementSpeed != "n/a" || unitData.name == "Mechanic") // is cons, semi-con
     {
-        if (unitData.builder != 0 && unitData.canMove == 1 && unitData.canBuild != "" && unitData.movementSpeed < 4) {
+        if (unitData.builder != 0 && unitData.canMove == 1 && unitData.canBuild != "" && unitData.movementSpeed < 4 || unitData.name == "Mechanic") {
             if (unitData.name == "Commander" || unitData.name == "Podger" || unitData.name == "Spoiler") {
                 unitData.HP = unitData.HP / 4;
             }

@@ -794,24 +794,28 @@ $(document).ready(function () {
         generateComparison();
     });
     function generateComparison() {
+        if ($("#dt-comparison-checkbox input").is(':checked')) {
+            $(".comparison-content").css("min-width", "783px");
+            $(".navbar").css("right", "17px");
+            generateDetailedComparison();
 
-        $(".navbar").css("right", "17px");
-        switch ($(".chosen-unit").length) {
-            case 2:
-                $(".comparison-content").css("min-width", "837px");
-                break;
-            case 3:
-                $(".comparison-content").css("min-width", "1255px");
-                break;
-            case 4:
-                $(".comparison-content").css("min-width", "1676px");
-                break;
         }
-        generateUnitComparison();
-        //$('#compare-container').slideUp(150);
-        //status = 0;
-        $(".navbar").css("filter", "0.15");
-        //hideAndClearCheckboxes();
+        else {
+            $(".navbar").css("right", "17px");
+            switch ($(".chosen-unit").length) {
+                case 2:
+                    $(".comparison-content").css("min-width", "837px");
+                    break;
+                case 3:
+                    $(".comparison-content").css("min-width", "1255px");
+                    break;
+                case 4:
+                    $(".comparison-content").css("min-width", "1676px");
+                    break;
+            }
+            generateUnitComparison();
+            $(".navbar").css("filter", "0.15");
+        }
     }
 
     $('#comparison-modal').on('hidden.bs.modal', function () {
@@ -825,7 +829,7 @@ $(document).ready(function () {
     });
 
     $(document).click(function (event) {
-        if (!$(event.target).closest('.unit-preview-comparison').length) {
+        if (!$(event.target).closest('.unit-preview-comparison, .detailed-cp').length) {
             $('#comparison-modal').modal('hide');
         }
     });
