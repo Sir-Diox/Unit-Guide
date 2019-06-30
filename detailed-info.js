@@ -9,7 +9,8 @@ var chosenUnitsArray = [];
 var weaponsArray = [];
 var canBuildHTML = "";
 var builtByHTML = "";
-
+var unitsInComparison = "";
+var wordsInCp = [];
 var u1;
 var u2;
 var popoverAsTooltipSettings = {
@@ -99,7 +100,10 @@ $('body').on('click', '.unit-box, .u-name, .search-input-row, #search-input-resu
 function generateDetailedInfo(val) {
     if (!isMobileDevice()) {
         $(".navbar").css("right", "17px");
-    } 
+    }
+    else {
+        window.location.hash = "#unit-details";
+    }
     if ($(val).hasClass("u-name")) {
         var obj = $(val).parent().parent().children().eq(0);
     }
@@ -129,42 +133,42 @@ function generateDetailedInfo(val) {
     }
     for (i = 0; i < csvObj.length; i++) {
         if (ctr < 1) {
-            if (csvObj[i].Name === unitName && csvObj[i].SIDE.toLowerCase() === unitSide) {
+            if (csvObj[i].name === unitName && csvObj[i].side.toLowerCase() === unitSide) {
                 ctr++;
 
-                unitData.energyCost = csvObj[i].BuildCostEnergy;
-                unitData.metalCost = csvObj[i].BuildCostMetal;
-                unitData.name = csvObj[i].Name;
-                unitData.HP = csvObj[i].MaxDamage;
-                unitData.movementSpeed = csvObj[i].MaxVelocity;
+                unitData.energyCost = csvObj[i].buildcostenergy;
+                unitData.metalCost = csvObj[i].buildcostmetal;
+                unitData.name = csvObj[i].name;
+                unitData.HP = csvObj[i].maxdamage;
+                unitData.movementSpeed = csvObj[i].maxvelocity;
                 unitData.flyingSpeed = unitData.movementSpeed;
-                unitData.description = csvObj[i].Description;
+                unitData.description = csvObj[i].description;
                 unitData.canMove = csvObj[i].canmove;
                 unitData.canAttack = csvObj[i].canattack;
                 unitData.energyStorage = csvObj[i].energystorage;
                 unitData.side = $(obj).attr("side");
-                unitData.acceleration = csvObj[i].Acceleration;
-                unitData.summoningCode = csvObj[i].Objectname.toLowerCase();
-                unitData.sightRange = csvObj[i].sightRange;
-                unitData.buildSpeed = csvObj[i].WorkerTime;
-                unitData.canBuild = csvObj[i].CanBuild;
-                unitData.builtBy = csvObj[i].BuiltBy;
+                unitData.acceleration = csvObj[i].acceleration;
+                unitData.summoningCode = csvObj[i].objectname.toLowerCase();
+                unitData.sightRange = csvObj[i].sightdistance;
+                unitData.buildSpeed = csvObj[i].workertime;
+                unitData.canBuild = csvObj[i].canbuild;
+                unitData.builtBy = csvObj[i].builtby;
 
-                if ((csvObj[i].Weapon1.indexOf("RANGE") >= 0 || csvObj[i].Weapon1.indexOf("NULL") >= 0) && csvObj[i].Weapon2 != "n/a") {
-                    unitData.weapon1ObjectName = csvObj[i].Weapon2;
-                } else if (csvObj[i].Weapon2 == "n/a") {
-                    unitData.weapon3ObjectName = csvObj[i].Weapon3;
+                if ((csvObj[i].weapon1.indexOf("RANGE") >= 0 || csvObj[i].weapon1.indexOf("NULL") >= 0) && csvObj[i].weapon2 != "") {
+                    unitData.weapon1ObjectName = csvObj[i].weapon2;
+                } else if ((csvObj[i].weapon1.indexOf("RANGE") >= 0 || csvObj[i].weapon1.indexOf("NULL") >= 0) && csvObj[i].weapon2 == "" && csvObj[i].weapon3 != "") {
+                    unitData.weapon1ObjectName = csvObj[i].weapon3;
                 } else {
                     unitData.weapon1ObjectName = csvObj[i].Weapon1;
                 }
-                unitData.weapon2ObjectName = csvObj[i].Weapon2;
-                if (csvObj[i].Weapon2 == "n/a" || (csvObj[i].Weapon2.indexOf("RANGE") >= 0 || csvObj[i].Weapon1.indexOf("NULL") >= 0) && csvObj[i].Weapon3 != "n/a") {
-                    unitData.weapon2ObjectName = csvObj[i].Weapon3;
+                unitData.weapon2ObjectName = csvObj[i].weapon2;
+                if (csvObj[i].weapon2 == "" || (csvObj[i].weapon2.indexOf("RANGE") >= 0 || csvObj[i].weapon2.indexOf("NULL") >= 0) && csvObj[i].weapon3 != "") {
+                    unitData.weapon2ObjectName = csvObj[i].weapon3;
                 } else {
-                    if (csvObj[i].Weapon3.indexOf("RANGE") >= 0 || csvObj[i].Weapon1.indexOf("NULL") >= 0) {
+                    if (csvObj[i].weapon3.indexOf("RANGE") >= 0 || csvObj[i].weapon3.indexOf("NULL") >= 0) {
                         unitData.weapon2ObjectName = "";
                     }else {
-                        unitData.weapon3ObjectName = csvObj[i].Weapon3;
+                        unitData.weapon3ObjectName = csvObj[i].weapon3;
                     }
                 }
 
@@ -174,10 +178,10 @@ function generateDetailedInfo(val) {
                 $(".detailed-info-wrapper").html("");
 
                 weapons.w2 = $(obj).attr("w2"); // for checking if unit has more than 1 weapon (in template)
-                unitData.radarRange = csvObj[i].radarRange;
-                unitData.jammerRange = csvObj[i].radarRangeJam;
-                unitData.builder = csvObj[i].Builder;
-                unitData.buildRange = csvObj[i].Builddistance;
+                unitData.radarRange = csvObj[i].radardistance;
+                unitData.jammerRange = csvObj[i].radardistancejam;
+                unitData.builder = csvObj[i].builder;
+                unitData.buildRange = csvObj[i].builddistance;
                 unitData.minMetalCostForE = "";
                 unitData.maxMetalCostForE = "";
                 unitData.isAntiAir1 = $(obj).attr("w1-AA");
@@ -189,14 +193,14 @@ function generateDetailedInfo(val) {
                 unitData.p1 = $(obj).attr("p1");
 
                 // additional info
-                unitData.buildTime = csvObj[i].BuildTime;
-                unitData.maxSlope = csvObj[i].MaxSlope;
-                unitData.energyMake = csvObj[i].EnergyMake;
-                unitData.energyUse = csvObj[i].EnergyUse;
-                unitData.turnRate = csvObj[i].TurnRate;
-                unitData.cloakCost = csvObj[i].CloakCost;
-                unitData.energyStorage = csvObj[i].EnergyStorage;
-                unitData.metalStorage = csvObj[i].MetalStorage;
+                unitData.buildTime = csvObj[i].buildtime;
+                unitData.maxSlope = csvObj[i].maxslope;
+                unitData.energyMake = csvObj[i].energymake;
+                unitData.energyUse = csvObj[i].energyuse;
+                unitData.turnRate = csvObj[i].turnrate;
+                unitData.cloakCost = csvObj[i].cloakcost;
+                unitData.energyStorage = csvObj[i].energystorage;
+                unitData.metalStorage = csvObj[i].metalstorage;
                 // additional info
 
 
@@ -261,8 +265,8 @@ function generateDetailedInfo(val) {
 
                 if (unitTypeObj.isBuildingType) {
                 }
-                else if (!isNaN(csvObj[i].DamageModifier)) {
-                    unitData.HP = csvObj[i].MaxDamage / csvObj[i].DamageModifier;
+                else if (csvObj[i].damagemodifier != "") {
+                    unitData.HP = csvObj[i].maxdamage / csvObj[i].damagemodifier;
                 }
 
                 if (unitTypeObj.isFighter) {
@@ -315,12 +319,12 @@ function generateDetailedInfo(val) {
                     upgradeName = obj.attr("upgrade");
 
                     for (i = 0; i < csvObj.length; i++) {
-                        if (csvObj[i].Objectname === upgradeName) {
-                            upgradeData.name = csvObj[i].Name;
-                            upgradeData.metalCost = csvObj[i].BuildCostMetal;
-                            upgradeData.energyCost = csvObj[i].BuildCostEnergy;
-                            upgradeData.description = csvObj[i].Description;
-                            upgradeData.imgSrc = csvObj[i].Objectname.replace("_", "-").toLowerCase();
+                        if (csvObj[i].objectname === upgradeName) {
+                            upgradeData.name = csvObj[i].name;
+                            upgradeData.metalCost = csvObj[i].buildcostmetal;
+                            upgradeData.energyCost = csvObj[i].buildcostenergy;
+                            upgradeData.description = csvObj[i].description;
+                            upgradeData.imgSrc = csvObj[i].objectname.replace("_", "-").toLowerCase();
                         }
                     }
                     fillUpgradeTemplate();
@@ -354,26 +358,33 @@ function generateDetailedInfo(val) {
 
     if (isMobileDevice()) {
         // for mobile
-        $("#unit-dt-info-overlay").scrollTop(0);
-        $('#unit-dt-info-overlay').html("");
-        canBuildHTML = $(".can-build").html();
-        builtByHTML = $(".built-by").html();
-        if (!(generalInfoTemplate.indexOf("li") >= 0)) {
-            generalInfoTemplate = '<div class="white exo2-16" style="text-align:center">No tips available for this unit.<div>';
-        }
-        fillMobileTemplate();
-        $('#unit-dt-info-overlay').append(mobileTemplate);
+        setTimeout(function () {
 
-        $('#unit-dt-info-overlay').css("z-index", "3000");
-        $('#unit-dt-info-overlay').addClass("fix-dt-desc");
-        if ($("#mobile-unit-nav").height() > 55) {
-            $(".unit-description-text").css("padding", "82px 25px 3px 25px");
-        } 
-        $('#unit-dt-info-overlay').removeClass("fix-dt-desc");
-        $('body').css("overflow", "hidden");
-        $('#unit-dt-info-overlay').fadeIn(300, function () {
+            $("#unit-dt-info-overlay").scrollTop(0);
+            $('#unit-dt-info-overlay').html("");
+            canBuildHTML = $(".can-build").html();
+            builtByHTML = $(".built-by").html();
+            if (!(generalInfoTemplate.indexOf("li") >= 0)) {
+                generalInfoTemplate = '<div class="white exo2-16" style="text-align:center">No tips available for this unit.<div>';
+            }
+            fillMobileTemplate();
+            $('#unit-dt-info-overlay').append(mobileTemplate);
 
-        });
+
+
+            $('#unit-dt-info-overlay').css("z-index", "3000");
+            $('#unit-dt-info-overlay').addClass("fix-dt-desc");
+            if ($("#mobile-unit-nav").height() > 55) {
+                $(".unit-description-text").css("padding", "82px 25px 3px 25px");
+            }
+            $('#unit-dt-info-overlay').removeClass("fix-dt-desc");
+            $('body').css("overflow", "hidden");
+            $('#unit-dt-info-overlay').fadeIn(300, function () {
+
+            });
+
+        }, 30);
+
         //openDtInfo();
         //$('#unit-dt-info-overlay').addClass("show-dt");
         //$('#unit-dt-info-overlay').css("display", "block");
@@ -553,7 +564,7 @@ function fillStatisticsInfo() {
                                                 </div>
 
                                             ` : ""}
-                                            ${unitTypeObj.isCons || unitTypeObj.isAirCons || unitTypeObj.isLab || unitTypeObj.isSemiCon ? `
+                                            ${unitTypeObj.isCons || unitTypeObj.isCom || unitTypeObj.isAirCons || unitTypeObj.isLab || unitTypeObj.isSemiCon ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForBuildSpeed}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStyleBuildSpeed}"> </div>
                                                     <img src="${buildSpeed_SrcImg}" class="parameter-bar" alt="">
@@ -618,7 +629,7 @@ function fillStatisticsInfo() {
                                                             <div class="parameter-value">${unitData.ratioMin}</div>
                                                     </div>
                                                     ` : ""}
-                                             ${unitTypeObj.isCons || unitTypeObj.isAirCons || unitTypeObj.isSemiCon ? `
+                                             ${unitTypeObj.isCons || unitTypeObj.isCom || unitTypeObj.isAirCons || unitTypeObj.isSemiCon ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForBuildRange}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStyleBuildRange}"></div>
                                                     <img src="${buildRange_SrcImg}" class="parameter-bar" alt="">
@@ -662,7 +673,7 @@ function fillStatisticsInfo() {
                                                             <div class="parameter-value">${unitData.ratioMax}</div>
                                                         </div>
                                                     ` : ""}
-                                            ${unitTypeObj.isCons || unitTypeObj.isAirCons || unitTypeObj.isSemiCon || unitTypeObj.isNuke ? `
+                                            ${unitTypeObj.isCons || unitTypeObj.isCom || unitTypeObj.isAirCons || unitTypeObj.isSemiCon || unitTypeObj.isNuke ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForHP}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStyleHP}"></div>
                                                     <img src="${barHP_SrcImg}" class="parameter-bar" alt="">
@@ -704,7 +715,7 @@ function fillStatisticsInfo() {
                                                     <div class="parameter-value">${setSpacesInBigNumbers(unitData.sightRange)}</div>
                                                 </div>
                                             ` : ""}
-                                            ${unitTypeObj.isUndefined || unitTypeObj.isUndefinedAircraft || unitTypeObj.isUndefinedUnit ? `
+                                            ${unitTypeObj.isUndefinedBuilding || unitTypeObj.isUndefinedAircraft || unitTypeObj.isUndefinedUnit ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForHP}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStyleHP}"></div>
                                                     <img src="${barHP_SrcImg}" class="parameter-bar" alt="">
@@ -742,7 +753,7 @@ function fillStatisticsInfo() {
                                                     <div class="parameter-value">${unitData.movementSpeed}</div>
                                                 </div>
                                             ` : ""}
-                                            ${unitTypeObj.isCons || unitTypeObj.isSemiCon || unitTypeObj.isUndefinedUnit ? `
+                                            ${unitTypeObj.isCons || unitTypeObj.isCom || unitTypeObj.isSemiCon || unitTypeObj.isUndefinedUnit ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForMS}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStyleMovementSpeed}"></div>
                                                     <img src="${movementSpeed_SrcImg}" class="parameter-bar" alt="">
@@ -763,7 +774,7 @@ function fillStatisticsInfo() {
                                                     <div class="parameter-value">${setSpacesInBigNumbers(unitData.sightRange)}</div>
                                                 </div>
                                             ` : ""}
-                                            ${unitTypeObj.isUndefined || unitTypeObj.isUndefinedAircraft || unitTypeObj.isUndefinedUnit ? `
+                                            ${unitTypeObj.isUndefinedBuilding || unitTypeObj.isUndefinedAircraft || unitTypeObj.isUndefinedUnit ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForSightD}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStylesightRange}"></div>
                                                     <img src="${sightRange_SrcImg}" class="parameter-bar" alt="">
@@ -778,7 +789,7 @@ function fillStatisticsInfo() {
                                                     <div class="parameter-value">${setSpacesInBigNumbers(unitData.sightRange)}</div>
                                                 </div>
                                             ` : ""}
-                                            ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isAirCons || unitTypeObj.isCons || unitTypeObj.isSemiCon ? `
+                                            ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isAirCons || unitTypeObj.isCons || unitTypeObj.isCom || unitTypeObj.isSemiCon ? `
                                                 <div class="parameter-bar-and-value ${ShineEffect.ForSightD}">
                                                 <div class="box-shadow-for-bar" style="${boxShadowsStylesightRange}"></div>
                                                     <img src="${sightRange_SrcImg}" class="parameter-bar" alt="">
@@ -871,11 +882,11 @@ function fillStatisticsInfo() {
                                                     `: `
                                                 <div class="parameter-name"><span class="${(!isMobile) ? `tooltip-dotted` : ""}" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Build time</span>This parameter shows how much time is needed to build a unit or structure. </br><span style='color: #DEA73C;'>Build time / Build speed = time in seconds </span> </br> <b>Example:</b></br> Commander with a build speed of 360 builds a <b>${unitData.name}</b> with a build time of ${setSpacesInBigNumbers(unitData.buildTime)} needs: </br><span style='color: #DEA73C;'> ${setSpacesInBigNumbers(unitData.buildTime)} / 360 = <b>${(unitData.buildTime / 360).toFixed(2)} seconds </b></span> </div>">Build time:</span></div>
                                                     ` }
-                                                    ${unitData.turnRate != "n/a" && unitData.turnRate != undefined ? `
+                                                    ${unitData.turnRate != "" && unitData.turnRate != undefined ? `
                                                 <div class="parameter-name"><span class="${(!isMobile) ? `tooltip-dotted` : ""}" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Turn speed</span>This parameter shows how fast a unit turns to change its direction. The lower a value, the slower a unit turns around. Turn speed may be important when you want to change direction to espace from an incoming threat or when you want to avoid an obstacle.</br> </br><span style='color: #DEA73C;'><b>Turn speed ranges:</b> </span> </br> <ul><li>Above 900: very fast</li><li>700 - 900: fast</li> <li>600 - 699: decent</li><li>400 - 599: average</li><li>200 - 399: slow</li> <li>Below 200: sluggish</li> </ul>   </div>">Turn speed:</span></div>
 
                                                     `: ""}
-                                                    ${unitData.energyMake != undefined && unitData.energyMake != "n/a" && unitData.energyMake != 0 ? `
+                                                    ${unitData.energyMake != undefined && unitData.energyMake != "" && unitData.energyMake != 0 ? `
                                                 <div class="parameter-name">Energy make:</div>
 
                                                     `: ""}
@@ -891,7 +902,7 @@ function fillStatisticsInfo() {
                                                 <div class="parameter-name">Metal storage:</div>
 
                                                     `: ""}
-                                                    ${unitData.cloakCost != "n/a" ? `
+                                                    ${unitData.cloakCost != "" ? `
                                                 <div class="parameter-name">Cloak cost:</div>
 
                                                     `: ""}
@@ -902,10 +913,10 @@ function fillStatisticsInfo() {
                                                     ${unitData.buildTime != undefined ? `
                                                     <div class="parameter-val">${setSpacesInBigNumbers(unitData.buildTime)}</div>
                                                     `: ""}
-                                                    ${unitData.turnRate != "n/a" && unitData.turnRate != undefined ? `
+                                                    ${unitData.turnRate != "" && unitData.turnRate != undefined ? `
                                                     <div class="parameter-val">${unitData.turnRate}</div>
                                                     `: ""}
-                                                    ${unitData.energyMake != undefined && unitData.energyMake != "n/a" && unitData.energyMake != 0 ? `
+                                                    ${unitData.energyMake != undefined && unitData.energyMake != "" && unitData.energyMake != 0 ? `
                                                     <div class="parameter-val">${unitData.energyMake}</div>
                                                     `: ""}
                                                     ${unitData.energyUse != undefined && unitData.energyUse != 0 && unitData.energyMake != 0 ? `
@@ -917,7 +928,7 @@ function fillStatisticsInfo() {
                                                     ${unitData.metalStorage != 0 && unitData.metalStorage != undefined ? `
                                                     <div class="parameter-val">${setSpacesInBigNumbers(unitData.metalStorage)}</div>
                                                     `: ""}
-                                                    ${unitData.cloakCost != "n/a" ? `
+                                                    ${unitData.cloakCost != "" ? `
                                                     <div class="parameter-val">${setSpacesInBigNumbers(unitData.cloakCost)}</div>
                                                     `: ""}
                                             </div>
@@ -1401,11 +1412,11 @@ ${weapons.w3 != undefined ?
                                                     `: `
                                                 <div class="parameter-name"><span class="tooltip-dotted" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Build time</span>This parameter shows how much time is needed to build a unit or structure. </br><span style='color: #DEA73C;'>Build time / Build speed = time in seconds </span> </br> <b>Example:</b></br> Commander with a build speed of 360 builds a <b>${unitData.name}</b> with a build time of ${setSpacesInBigNumbers(unitData.buildTime)} needs: </br><span style='color: #DEA73C;'> ${setSpacesInBigNumbers(unitData.buildTime)} / 360 = <b>${(unitData.buildTime / 360).toFixed(2)} seconds </b></span> </div>">Build time:</span></div>
                                                     ` }
-                                                    ${unitData.turnRate != "n/a" && unitData.turnRate != undefined ? `
+                                                    ${unitData.turnRate != "" && unitData.turnRate != undefined ? `
                                                 <div class="parameter-name"><span class="tooltip-dotted" data-toggle="popover" data-placement="right" data-content="<div class='tooltip-content'><span class='tooltip-title'>Turn speed</span>This parameter shows how fast a unit turns to change its direction. The lower a value, the slower a unit turns around. Turn speed may be important when you want to change direction to espace from an incoming threat or when you want to avoid an obstacle.</br> </br><span style='color: #DEA73C;'><b>Turn speed ranges:</b> </span> </br> <ul><li>Above 900: very fast</li><li>700 - 900: fast</li> <li>600 - 699: decent</li><li>400 - 599: average</li><li>200 - 399: slow</li> <li>Below 200: sluggish</li> </ul>   </div>">Turn speed:</span></div>
 
                                                     `: ""}
-                                                    ${unitData.energyMake != undefined && unitData.energyMake != "n/a" && unitData.energyMake != 0 ? `
+                                                    ${unitData.energyMake != undefined && unitData.energyMake != "" && unitData.energyMake != 0 ? `
                                                 <div class="parameter-name">Energy make:</div>
 
                                                     `: ""}
@@ -1421,7 +1432,7 @@ ${weapons.w3 != undefined ?
                                                 <div class="parameter-name">Metal storage:</div>
 
                                                     `: ""}
-                                                    ${unitData.cloakCost != "n/a" ? `
+                                                    ${unitData.cloakCost != "" ? `
                                                 <div class="parameter-name">Cloak cost:</div>
 
                                                     `: ""}
@@ -1432,10 +1443,10 @@ ${weapons.w3 != undefined ?
                                                     ${unitData.buildTime != undefined ? `
                                                     <div class="parameter-val">${setSpacesInBigNumbers(unitData.buildTime)}</div>
                                                     `: ""}
-                                                    ${unitData.turnRate != "n/a" && unitData.turnRate != undefined ? `
+                                                    ${unitData.turnRate != "" && unitData.turnRate != undefined ? `
                                                     <div class="parameter-val">${unitData.turnRate}</div>
                                                     `: ""}
-                                                    ${unitData.energyMake != undefined && unitData.energyMake != "n/a" && unitData.energyMake != 0 ? `
+                                                    ${unitData.energyMake != undefined && unitData.energyMake != "" && unitData.energyMake != 0 ? `
                                                     <div class="parameter-val">${unitData.energyMake}</div>
                                                     `: ""}
                                                     ${unitData.energyUse != undefined && unitData.energyUse != 0 ? `
@@ -1447,7 +1458,7 @@ ${weapons.w3 != undefined ?
                                                     ${unitData.metalStorage != 0 && unitData.metalStorage != undefined ? `
                                                     <div class="parameter-val">${setSpacesInBigNumbers(unitData.metalStorage)}</div>
                                                     `: ""}
-                                                    ${unitData.cloakCost != "n/a" ? `
+                                                    ${unitData.cloakCost != "" ? `
                                                     <div class="parameter-val">${setSpacesInBigNumbers(unitData.cloakCost)}</div>
                                                     `: ""}
                                             </div>
@@ -1794,29 +1805,29 @@ function generateDetailedComparison() {
        }
 
         for (i = 0; i < csvObj.length; i++) {
-            if (csvObj[i].Name === unitName && csvObj[i].SIDE.toLowerCase() === unitSide) {
+            if (csvObj[i].name === unitName && csvObj[i].side.toLowerCase() === unitSide) {
                 unitObj.imgSrc = $(obj).attr("img");
                 unitObj.name = unitName;
-                unitObj.energyCost = csvObj[i].BuildCostEnergy;
-                unitObj.metalCost = csvObj[i].BuildCostMetal;
-                unitObj.name = csvObj[i].Name;
-                unitObj.HP = csvObj[i].MaxDamage;
-                unitObj.movementSpeed = csvObj[i].MaxVelocity;
+                unitObj.energyCost = csvObj[i].buildcostenergy;
+                unitObj.metalCost = csvObj[i].buildcostmetal;
+                unitObj.name = csvObj[i].name;
+                unitObj.HP = csvObj[i].maxdamage;
+                unitObj.movementSpeed = csvObj[i].maxvelocity;
                 unitObj.flyingSpeed = unitObj.movementSpeed;
-                unitObj.description = csvObj[i].Description;
+                unitObj.description = csvObj[i].description;
                 unitObj.canMove = csvObj[i].canmove;
                 unitObj.canAttack = csvObj[i].canattack;
                 unitObj.energyStorage = csvObj[i].energystorage;
                 unitObj.side = $(obj).attr("side");
-                unitObj.acceleration = csvObj[i].Acceleration;
-                unitObj.summoningCode = csvObj[i].Objectname.toLowerCase();
-                unitObj.sightRange = csvObj[i].sightRange;
-                unitObj.buildSpeed = csvObj[i].WorkerTime;
-                unitObj.canBuild = csvObj[i].CanBuild;
-                unitObj.radarRange = csvObj[i].radarRange;
-                unitObj.jammerRange = csvObj[i].radarRangeJam;
-                unitObj.builder = csvObj[i].Builder;
-                unitObj.buildRange = csvObj[i].Builddistance;
+                unitObj.acceleration = csvObj[i].acceleration;
+                unitObj.summoningCode = csvObj[i].objectname.toLowerCase();
+                unitObj.sightRange = csvObj[i].sightdistance;
+                unitObj.buildSpeed = csvObj[i].workertime;
+                unitObj.canBuild = csvObj[i].canbuild;
+                unitObj.radarRange = csvObj[i].radardistance;
+                unitObj.jammerRange = csvObj[i].radardistancejam;
+                unitObj.builder = csvObj[i].builder;
+                unitObj.buildRange = csvObj[i].builddistance;
                 unitObj.minMetalCostForE = "";
                 unitObj.maxMetalCostForE = "";
                 unitObj.isAntiAir1 = $(obj).attr("w1-AA");
@@ -1830,39 +1841,43 @@ function generateDetailedComparison() {
                 unitObj.onlyDps = $(obj).attr("only-dps");
                 unitObj.p1 = $(obj).attr("p1");
                 unitObj.p2 = $(obj).attr("p2");
-                unitObj.buildTime = csvObj[i].BuildTime;
-                unitObj.maxSlope = csvObj[i].MaxSlope;
-                unitObj.energyMake = csvObj[i].EnergyMake;
-                unitObj.energyUse = csvObj[i].EnergyUse;
-                unitObj.turnRate = csvObj[i].TurnRate;
-                unitObj.cloakCost = csvObj[i].CloakCost;
-                unitObj.energyStorage = csvObj[i].EnergyStorage;
-                unitObj.metalStorage = csvObj[i].MetalStorage;
+                unitObj.buildTime = csvObj[i].buildtime;
+                unitObj.maxSlope = csvObj[i].maxslope;
+                unitObj.energyMake = csvObj[i].energymake;
+                unitObj.energyUse = csvObj[i].energyuse;
+                unitObj.turnRate = csvObj[i].turnrate;
+                unitObj.cloakCost = csvObj[i].cloakcost;
+                unitObj.energyStorage = csvObj[i].energystorage;
+                unitObj.metalStorage = csvObj[i].metalstorage;
 
-                unitTypeObj = checkUnitType();
 
-                if (unitTypeObj.isBuildingType) {
+
+
+                if (unitObj.movementSpeed < 0.5 || unitObj.movementSpeed == "" && unitObj.isMineOrClawlingBomb != 1) {// is building?
                 }
-                else if (!isNaN(csvObj[i].DamageModifier)) {
-                    unitObj.HP = csvObj[i].MaxDamage / csvObj[i].DamageModifier;
+                else if (unitObj.name == "Commander" || unitObj.name == "Podger" || unitObj.name == "Spoiler" || unitObj.name == "Croc" || unitObj.name == "Gimp" || unitObj.name == "Triton" || unitObj.name == "Defiler") {
+                    // original HP without diving by damage modifier
+                }
+                else if (csvObj[i].damagemodifier != "") {
+                    unitObj.HP = csvObj[i].maxdamage / csvObj[i].damagemodifier;
                 }
 
 
-                if ((csvObj[i].Weapon1.indexOf("RANGE") >= 0 || csvObj[i].Weapon1.indexOf("NULL") >= 0) && csvObj[i].Weapon2 != "n/a") {
-                    unitData.weapon1ObjectName = csvObj[i].Weapon2;
-                } else if (csvObj[i].Weapon2 == "n/a") {
-                    unitData.weapon3ObjectName = csvObj[i].Weapon3;
+                if ((csvObj[i].weapon1.indexOf("RANGE") >= 0 || csvObj[i].weapon1.indexOf("NULL") >= 0) && csvObj[i].weapon2 != "") {
+                    unitObj.weapon1ObjectName = csvObj[i].weapon2;
+                } else if ((csvObj[i].weapon1.indexOf("RANGE") >= 0 || csvObj[i].weapon1.indexOf("NULL") >= 0) && csvObj[i].weapon2 == "" && csvObj[i].weapon3 != "") {
+                    unitObj.weapon1ObjectName = csvObj[i].weapon3;
                 } else {
-                    unitData.weapon1ObjectName = csvObj[i].Weapon1;
+                    unitObj.weapon1ObjectName = csvObj[i].weapon1;
                 }
-                unitData.weapon2ObjectName = csvObj[i].Weapon2;
-                if (csvObj[i].Weapon2 == "n/a" || (csvObj[i].Weapon2.indexOf("RANGE") >= 0 || csvObj[i].Weapon1.indexOf("NULL") >= 0) && csvObj[i].Weapon3 != "n/a") {
-                    unitData.weapon2ObjectName = csvObj[i].Weapon3;
+                unitObj.weapon2ObjectName = csvObj[i].weapon2;
+                if (csvObj[i].weapon2 == "" || (csvObj[i].weapon2.indexOf("RANGE") >= 0 || csvObj[i].weapon2.indexOf("NULL") >= 0) && csvObj[i].weapon3 != "") {
+                    unitObj.weapon2ObjectName = csvObj[i].weapon3;
                 } else {
-                    if (csvObj[i].Weapon3.indexOf("RANGE") >= 0 || csvObj[i].Weapon1.indexOf("NULL") >= 0) {
-                        unitData.weapon2ObjectName = "";
+                    if (csvObj[i].weapon3.indexOf("RANGE") >= 0 || csvObj[i].weapon3.indexOf("NULL") >= 0) {
+                        unitObj.weapon2ObjectName = "";
                     } else {
-                        unitData.weapon3ObjectName = csvObj[i].Weapon3;
+                        unitObj.weapon3ObjectName = csvObj[i].weapon3;
                     }
                 }
 
@@ -1899,6 +1914,10 @@ function generateDetailedComparison() {
                         w2_energyPerShot: "",
                         w3_energyPerShot: ""
                     };
+
+                    weaponObjBasic.w1_dps = Math.round(weaponObjBasic.w1 / weaponObjBasic.w1_rt);
+                    weaponObjBasic.w2_dps = Math.round(weaponObjBasic.w2 / weaponObjBasic.w2_rt);
+                    weaponObjBasic.w3_dps = Math.round(weaponObjBasic.w3 / weaponObjBasic.w3_rt);
                 }
                 else {
                     weaponObjBasic = {
@@ -1911,7 +1930,7 @@ function generateDetailedComparison() {
                         w1_rt: "-",
                         w2_rt: "-",
                         w3_rt: "-",
-                        w1_dps: "",
+                        w1_dps: $(obj).attr("w1"),
                         w2_dps: "",
                         w3_dps: "",
                         w1_name: "",
@@ -1935,9 +1954,7 @@ function generateDetailedComparison() {
                     }
                 }
                 
-                    weaponObjBasic.w1_dps = Math.round(weaponObjBasic.w1 / weaponObjBasic.w1_rt);
-                    weaponObjBasic.w2_dps = Math.round(weaponObjBasic.w2 / weaponObjBasic.w2_rt);
-                    weaponObjBasic.w3_dps = Math.round(weaponObjBasic.w3 / weaponObjBasic.w3_rt);
+
 
                 // weapon obj
                 for (j = 0; j < weaponsObj.length; j++) {
@@ -1969,528 +1986,757 @@ function generateDetailedComparison() {
        }
        weaponsArray.push(weaponObjBasic);
        chosenUnitsArray.push(unitObj);
-
+      
     });
     $(".comparison-content").append(fillDetailedComparisonTmpl());
-    $(".combat-stats .col-lg-3, .build-stats .col-lg-3, .other-stats .col-lg-3").each(function () {
-        if ($(this).text() == "NaN" || $(this).text() == "undefined" || $(this).text() == "" || $(this).text() == "n/a" || $(this).text() == "0") {
+    $(".combat-stats .col-3, .build-stats .col-3, .other-stats .col-3, .basic-stats-cp .col-3").each(function () {
+        if ($(this).text() == "NaN" || $(this).text() == "undefined" || $(this).text() == "" || $(this).text() == "" || $(this).text() == "0") {
             $(this).text("-");
         }
 
     });
-    $(".combat-stats .col-lg-10 .row, .build-stats .col-lg-10 .row, .other-stats .col-lg-10 .row").each(function () {
+    $(".combat-stats .col-10 .row, .build-stats .col-10 .row, .other-stats .col-10 .row, .basic-stats-cp .col-10 .row").each(function () {
         if ($(this).children().eq(0).text() == "-" && $(this).children().eq(1).text() == "-" && ($(this).children().eq(2).text() == "-" || $(this).children().eq(2).text() == "") && ($(this).children().eq(3).text() == "-" || $(this).children().eq(3).text() == "")) {
             $(this).parent().parent().remove();
         }
     });
     $(".combat-stats, .build-stats, .other-stats").each(function () {
-        if ($(this).children().length == 1) {
-            $(this).remove();
+        if ($(this).children().length == 0) {
+            $(this).parent().parent().parent().remove();
         }
     });
+    //$(".collapse.show").parent().children().eq(0).children().children().children().eq(0).css({ "transform": "rotate(-180deg)", "transition": "transform .25s" });
+    if (chosenUnitsArray.length == 2) {
+        $(".detailed-cp .col-10 .row .col-3").each(function () {
+            $(this).removeClass("col-lg-3").addClass("col-6");
+        });
+        $(".detailed-cp .col-2").each(function () {
+            $(this).removeClass("col-2").addClass("col-3 cp-parameter");
+        });
+        $(".detailed-cp .col-10").each(function () {
+            $(this).removeClass("col-10").addClass("col-9");
+        });
+    } else if (chosenUnitsArray.length == 3) {
+        $(".detailed-cp .col-10 .row .col-3").each(function () {
+            $(this).removeClass("col-3").addClass("col-4");
+        });
+        $(".detailed-cp .col-2").each(function () {
+            $(this).removeClass("col-2").addClass("col-3 cp-parameter");
+        });
+        $(".detailed-cp .col-10").each(function () {
+            $(this).removeClass("col-10").addClass("col-9");
+        });
+    }
+    unitsInComparison = "";
+    for (k = 0; k < chosenUnitsArray.length; k++) {
+        
+        if ((chosenUnitsArray.length - 1) == k) {
+            unitsInComparison += chosenUnitsArray[k].name + ".png";
+        } else {
+            unitsInComparison += chosenUnitsArray[k].name + " vs. ";
+        }
+    }
+
+
+
 
 }
 
+
+$("body").on({
+    mouseenter: function () {
+        numberOfColumn = $(this).index();
+        $(".detailed-cp .vls .row").each(function () {
+            selectedColumn = $(this);
+            selectedColumn.children().eq(numberOfColumn).addClass("hovered-column");
+        });
+    }, mouseleave: function () {
+        $(".detailed-cp .vls .row .cpv").each(function () {
+            $(this).removeClass("hovered-column");
+        });
+    }
+}, ".cpv");
+
+$("body").on("click", ".detailed-cp .cpv", function () {
+    numberOfColumn = $(this).index();
+    if ($(this).hasClass("additional-values-brackets")) {
+        close = 0;
+    }
+    if ($(this).hasClass("selected-column")) {
+        $(".detailed-cp .vls .row").each(function () {
+            selectedColumn = $(this);
+            selectedColumn.children().eq(numberOfColumn).removeClass("selected-column");
+        });
+        $(".detailed-cp .cpv .additional-values-brackets").remove();
+    }
+    else {
+        var redColor = "red-color";
+        var greenColor = "green-color";
+        $(".detailed-cp .row .cpv").each(function () {
+            $(this).removeClass("selected-column");
+        });
+        $(".detailed-cp .cpv .additional-values-brackets").remove();
+        $(".detailed-cp .vls .row").each(function () {
+            selectedColumn = $(this);
+            var parameterText = selectedColumn.parent().parent().children().eq(0).text();
+
+            if (parameterText == "Metal cost" || parameterText == "Energy cost") {
+                wordsInCp[0] = "pricier";
+                wordsInCp[1] = "cheaper";
+                redColor = "green-color";
+                greenColor = "red-color";
+            }
+            else if (parameterText == "Build range" || parameterText == "Movement speed" || parameterText == "Weapon velocity" || parameterText == "Turn speed") {
+                wordsInCp[0] = "faster";
+                wordsInCp[1] = "slower";
+                redColor = "red-color";
+                greenColor = "green-color";
+            }
+            else if (parameterText == "Area Of Effect") {
+                wordsInCp[0] = "bigger";
+                wordsInCp[1] = "smaller";
+                redColor = "red-color";
+                greenColor = "green-color";
+            }
+            else if (parameterText == "Reload time (seconds)" || parameterText == "Build time") {
+                wordsInCp[0] = "longer";
+                wordsInCp[1] = "shorter";
+                redColor = "green-color";
+                greenColor = "red-color";
+            }
+            else {
+                wordsInCp[0] = "more";
+                wordsInCp[1] = "less";
+                redColor = "red-color";
+                greenColor = "green-color";
+            }
+
+            selectedColumn.children().eq(numberOfColumn).addClass("selected-column");
+            var valueFromSelected = selectedColumn.children().eq(numberOfColumn).text().replace(/\s/g, '');
+            for (i = 0; i < chosenUnitsArray.length; i++) {
+                
+                var textInCell = selectedColumn.children().eq(i).text().replace(/\s/g, '');
+                textInCell = parseFloat(textInCell);
+                if (numberOfColumn != i && !isNaN(textInCell)) {
+
+                    var countedNumber = parseFloat((((textInCell - valueFromSelected) / valueFromSelected) * 100));
+
+                    var modifiedText = "";
+                    if (countedNumber < 0) {
+                        if (countedNumber <= -50 && countedNumber >= -95) {
+                            countedNumber = parseFloat((100 / (100 + countedNumber)).toFixed(2));
+                            countedNumber.toString();
+                            modifiedText = " (" + countedNumber + "x " + wordsInCp[1] +")";
+                            selectedColumn.children().eq(i).append("<div class='additional-values-brackets " + redColor + "'><br>" + modifiedText + "</div>");
+                        } else if (countedNumber < -95) {
+                            countedNumber = Math.round((100 / (100 + countedNumber)).toFixed(2));
+                            countedNumber.toString();
+                            modifiedText = " (" + countedNumber + "x " + wordsInCp[1] +")";
+                            selectedColumn.children().eq(i).append("<div class='additional-values-brackets " + redColor + "'><br>" + modifiedText + "</div>");
+                        } else {
+                            countedNumber = (parseFloat(countedNumber.toFixed(2))).toString();
+                            modifiedText = " (" + (countedNumber * -1) + "% " + wordsInCp[1] +")";
+                            selectedColumn.children().eq(i).append("<div class='additional-values-brackets " + redColor + "'><br>" + modifiedText + "</div>");
+                        }
+                    }
+                    else if (countedNumber > 0) {
+                        if (countedNumber >= 100 && countedNumber <= 19000) {
+                            countedNumber = parseFloat((countedNumber / 100 + 1).toFixed(2));
+                            countedNumber.toString();
+                            modifiedText = " (" + countedNumber + "x " + wordsInCp[0] +")"
+                            selectedColumn.children().eq(i).append("<div class='additional-values-brackets " + greenColor + "'><br>" + modifiedText + "</div>");
+                        } else if (countedNumber > 19000) {
+                            countedNumber = Math.round((countedNumber / 100 + 1).toFixed(2));
+                            countedNumber.toString();
+                            modifiedText = " (" + countedNumber + "x " + wordsInCp[0] +")"
+                            selectedColumn.children().eq(i).append("<div class='additional-values-brackets " + greenColor + "'><br>" + modifiedText + "</div>");
+                        } else {
+                            countedNumber = (parseFloat(countedNumber.toFixed(2))).toString();
+                            modifiedText = " (+" + countedNumber + "% " + wordsInCp[0] +")";
+                            selectedColumn.children().eq(i).append("<div class='additional-values-brackets " + greenColor + "'><br>" + modifiedText + "</div>");
+                        }
+
+                    }
+                    else if (countedNumber == 0) {
+                        selectedColumn.children().eq(i).append("<div class='additional-values-brackets gray-color'><br>(equal)</div>");
+                    }
+                    else {
+
+                    }
+                }
+            }
+
+        });
+    }
+});
+
 function fillDetailedComparisonTmpl() {
     comparisonTemplate = `
-<div class="detailed-cp">
+
+ <img class="arrow-save" src="arrow-save-img.svg" />
+<div class="detailed-cp" id="detailed-cp">
+<div class="exo2-16 ug-button" id="save-img">Save as image</div>
+
+<span class="img-loading-msg">Creating the image<img class="loading-icon-cp" id="loading-icon-10" src="loading_icon.gif"> </span>
+        <br>
+        <br>
+
         <div class="row">
-            <div class="col-lg-2">&nbsp</div>
-            <div class="col-lg-10">
+            <div class="col-2 par" style="border-bottom:none">&nbsp</div>
+            <div class="col-10 vls">
                 <div class="row">
-                    <div class="col-lg-3 unit-image-box"><div class="unit-box-in-preview img-center" style="${chosenUnitsArray[0].imgSrc}"></div></div>     
-                    <div class="col-lg-3 unit-image-box"><div class="unit-box-in-preview img-center" style="${chosenUnitsArray[1].imgSrc}"></div></div>      
-                   ${chosenUnitsArray[2] ? `<div class="col-lg-3 unit-image-box"><div class="unit-box-in-preview img-center" style="${chosenUnitsArray[2].imgSrc}"></div></div>  ` : ""}   
-                   ${chosenUnitsArray[3] ? `<div class="col-lg-3 unit-image-box"><div class="unit-box-in-preview img-center" style="${chosenUnitsArray[3].imgSrc}"></div></div>  ` : ""}  
+                    <div class="col-3 cpv unit-image-box"><div class="unit-box-in-preview img-center" style="${chosenUnitsArray[0].imgSrc}"></div></div>     
+                    <div class="col-3 cpv unit-image-box"><div class="unit-box-in-preview img-center" style="${chosenUnitsArray[1].imgSrc}"></div></div>      
+                   ${chosenUnitsArray[2] ? `<div class="col-3 cpv unit-image-box"><div class="unit-box-in-preview img-center" style="${chosenUnitsArray[2].imgSrc}"></div></div>  ` : ""}   
+                   ${chosenUnitsArray[3] ? `<div class="col-3 cpv unit-image-box"><div class="unit-box-in-preview img-center" style="${chosenUnitsArray[3].imgSrc}"></div></div>  ` : ""}  
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-2">&nbsp</div>
-            <div class="col-lg-10">
+        <div class="row" style="background:#2b2b2b;">
+            <div class="col-2 par">&nbsp</div>
+            <div class="col-10 vls">
                 <div class="row">
-                    <div class="col-lg-3">${chosenUnitsArray[0].name}</div>     
-                    <div class="col-lg-3">${chosenUnitsArray[1].name}</div>       
-                   ${chosenUnitsArray[2] ? `<div class="col-lg-3">${chosenUnitsArray[2].name}</div> ` : ""}   
-                   ${chosenUnitsArray[3] ? `<div class="col-lg-3">${chosenUnitsArray[3].name}</div> ` : ""}     
+                    <div class="col-3 cpv name">${chosenUnitsArray[0].name}</div>     
+                    <div class="col-3 cpv name">${chosenUnitsArray[1].name}</div>       
+                   ${chosenUnitsArray[2] ? `<div class="col-3 cpv name">${chosenUnitsArray[2].name}</div> ` : ""}   
+                   ${chosenUnitsArray[3] ? `<div class="col-3 cpv name">${chosenUnitsArray[3].name}</div> ` : ""}     
                 </div>
             </div>
         </div>
-            <div class="row">
-                <div class="col-lg-2">Energy cost:</div>
-                <div class="col-lg-10">
+            <div class="row" style="background:#313131;">
+                <div class="col-2 par" style="line-height: 32px;">Side</div>
+                <div class="col-10 vls">
                    <div class="row">
-                       <div class="col-lg-3">${setSpacesInBigNumbers(chosenUnitsArray[0].energyCost)}</div>
-                       <div class="col-lg-3">${setSpacesInBigNumbers(chosenUnitsArray[1].energyCost)}</div>     
-                       ${chosenUnitsArray[2] ? `<div class="col-lg-3">${setSpacesInBigNumbers(chosenUnitsArray[2].energyCost)}</div>` : ""}   
-                       ${chosenUnitsArray[3] ? `<div class="col-lg-3">${setSpacesInBigNumbers(chosenUnitsArray[3].energyCost)}</div>` : ""}     
+                       <div class="col-3 cpv">${chosenUnitsArray[0].side == "core" ? `<img src="logo-core.svg" style="position: relative;top: 2px;">` : `<img src="logo-arm.svg">`}</div>
+                       <div class="col-3 cpv">${chosenUnitsArray[1].side == "core" ? `<img src="logo-core.svg" style="position: relative;top: 2px;">` : `<img src="logo-arm.svg">`}</div>     
+                       ${chosenUnitsArray[2] ? `<div class="col-3 cpv">${chosenUnitsArray[2].side == "core" ? `<img src="logo-core.svg" style="position: relative;top: 2px;">` : `<img src="logo-arm.svg">`}</div>` : ""}   
+                       ${chosenUnitsArray[3] ? `<div class="col-3 cpv">${chosenUnitsArray[3].side == "core" ? `<img src="logo-core.svg" style="position: relative;top: 2px;">` : `<img src="logo-arm.svg">`}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+        <div class="basic-stats-cp">
+            <div class="row">
+                <div class="col-2 par">Energy cost</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(chosenUnitsArray[0].energyCost)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(chosenUnitsArray[1].energyCost)}</div>     
+                       ${chosenUnitsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(chosenUnitsArray[2].energyCost)}</div>` : ""}   
+                       ${chosenUnitsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(chosenUnitsArray[3].energyCost)}</div>` : ""}     
                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-2">Metal cost:</div>
-                <div class="col-lg-10">
+                <div class="col-2 par">Metal cost</div>
+                <div class="col-10 vls">
                    <div class="row">
-                       <div class="col-lg-3">${setSpacesInBigNumbers(chosenUnitsArray[0].metalCost)}</div>
-                       <div class="col-lg-3">${setSpacesInBigNumbers(chosenUnitsArray[1].metalCost)}</div>     
-                       ${chosenUnitsArray[2] ? `<div class="col-lg-3">${setSpacesInBigNumbers(chosenUnitsArray[2].metalCost)}</div>` : ""}   
-                       ${chosenUnitsArray[3] ? `<div class="col-lg-3">${setSpacesInBigNumbers(chosenUnitsArray[3].metalCost)}</div>` : ""}     
-                   </div>
-                </div>
-            </div>
-
-
-        <div class="combat-stats">
-            <div class="row">
-                <div class="col-lg-2"></div>
-                <div class="col-lg-10 cp-header-section">Combat stats</div>
-            </div>
-            <div class="row">
-                <div class="col-lg-2">Weapon name:</div>
-                <div class="col-lg-10">
-                   <div class="row">
-                       <div class="col-lg-3">${weaponsArray[0].w1_name}</div>
-                       <div class="col-lg-3">${weaponsArray[1].w1_name}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${weaponsArray[2].w1_name}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${weaponsArray[3].w1_name}</div>` : ""}     
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(chosenUnitsArray[0].metalCost)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(chosenUnitsArray[1].metalCost)}</div>     
+                       ${chosenUnitsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(chosenUnitsArray[2].metalCost)}</div>` : ""}   
+                       ${chosenUnitsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(chosenUnitsArray[3].metalCost)}</div>` : ""}     
                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-2">Damage per second:</div>
-                <div class="col-lg-10">
+                <div class="col-2 par">Build speed</div>
+                <div class="col-10 vls">
                    <div class="row">
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[0].w1_dps)}</div>
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[1].w1_dps)}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[2].w1_dps)}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[3].w1_dps)}</div>` : ""}     
+                       <div class="col-3 cpv">${chosenUnitsArray[0].buildSpeed}</div>
+                       <div class="col-3 cpv">${chosenUnitsArray[1].buildSpeed}</div>     
+                       ${chosenUnitsArray[2] ? `<div class="col-3 cpv">${chosenUnitsArray[2].buildSpeed}</div>` : ""}   
+                       ${chosenUnitsArray[3] ? `<div class="col-3 cpv">${chosenUnitsArray[3].buildSpeed}</div>` : ""}     
                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-2">Damage per shot:</div>
-                <div class="col-lg-10">
+                <div class="col-2 par">Build range</div>
+                <div class="col-10 vls">
                    <div class="row">
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[0].w1)}</div>
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[1].w1)}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[2].w1)}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[3].w1)}</div>` : ""}     
+                       <div class="col-3 cpv">${chosenUnitsArray[0].buildRange}</div>
+                       <div class="col-3 cpv">${chosenUnitsArray[1].buildRange}</div>     
+                       ${chosenUnitsArray[2] ? `<div class="col-3 cpv">${chosenUnitsArray[2].buildRange}</div>` : ""}   
+                       ${chosenUnitsArray[3] ? `<div class="col-3 cpv">${chosenUnitsArray[3].buildRange}</div>` : ""}     
                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-2">Range:</div>
-                <div class="col-lg-10">
+                <div class="col-2 par">Health</div>
+                <div class="col-10 vls">
                    <div class="row">
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[0].w1_r)}</div>
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[1].w1_r)}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[2].w1_r)}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[3].w1_r)}</div>` : ""}     
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(chosenUnitsArray[0].HP)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(chosenUnitsArray[1].HP)}</div>     
+                       ${chosenUnitsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(chosenUnitsArray[2].HP)}</div>` : ""}   
+                       ${chosenUnitsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(chosenUnitsArray[3].HP)}</div>` : ""}     
                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-2">Reload time (seconds):</div>
-                <div class="col-lg-10">
+                <div class="col-2 par">Sight range</div>
+                <div class="col-10 vls">
                    <div class="row">
-                       <div class="col-lg-3">${weaponsArray[0].w1_rt}</div>
-                       <div class="col-lg-3">${weaponsArray[1].w1_rt}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${weaponsArray[2].w1_rt}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${weaponsArray[3].w1_rt}</div>` : ""}     
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(chosenUnitsArray[0].sightRange)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(chosenUnitsArray[1].sightRange)}</div>     
+                       ${chosenUnitsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(chosenUnitsArray[2].sightRange)}</div>` : ""}   
+                       ${chosenUnitsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(chosenUnitsArray[3].sightRange)}</div>` : ""}     
                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-2">Weapon velocity:</div>
-                <div class="col-lg-10">
+            <div class="row no-border">
+                <div class="col-2 par">Movement speed</div>
+                <div class="col-10 vls">
                    <div class="row">
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[0].w1_velocity)}</div>
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[1].w1_velocity)}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[2].w1_velocity)}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[3].w1_velocity)}</div>` : ""}     
+                       <div class="col-3 cpv">${chosenUnitsArray[0].movementSpeed}</div>
+                       <div class="col-3 cpv">${chosenUnitsArray[1].movementSpeed}</div>     
+                       ${chosenUnitsArray[2] ? `<div class="col-3 cpv">${chosenUnitsArray[2].movementSpeed}</div>` : ""}   
+                       ${chosenUnitsArray[3] ? `<div class="col-3 cpv">${chosenUnitsArray[3].movementSpeed}</div>` : ""}     
                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-2">Area Of Effect:</div>
-                <div class="col-lg-10">
-                   <div class="row">
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[0].w1_aoe)}</div>
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[1].w1_aoe)}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[2].w1_aoe)}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[3].w1_aoe)}</div>` : ""}     
-                   </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-2">Tolerance</div>
-                <div class="col-lg-10">
-                   <div class="row">
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[0].w1_tolerance)}</div>
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[1].w1_tolerance)}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[2].w1_tolerance)}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[3].w1_tolerance)}</div>` : ""}     
-                   </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-2">Energy per shot</div>
-                <div class="col-lg-10">
-                   <div class="row">
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[0].w1_energyPerShot)}</div>
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[1].w1_energyPerShot)}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[2].w1_energyPerShot)}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[3].w1_energyPerShot)}</div>` : ""}     
-                   </div>
-                </div>
-            </div>
-
-
-
-            <div class="row">
-                <div class="col-lg-2">Weapon name:</div>
-                <div class="col-lg-10">
-                   <div class="row">
-                       <div class="col-lg-3">${weaponsArray[0].w2_name}</div>
-                       <div class="col-lg-3">${weaponsArray[1].w2_name}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${weaponsArray[2].w2_name}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${weaponsArray[3].w2_name}</div>` : ""}     
-                   </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-2">Damage per second:</div>
-                <div class="col-lg-10">
-                   <div class="row">
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[0].w2_dps)}</div>
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[1].w2_dps)}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[2].w2_dps)}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[3].w2_dps)}</div>` : ""}     
-                   </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-2">Damage per shot:</div>
-                <div class="col-lg-10">
-                   <div class="row">
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[0].w2)}</div>
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[1].w2)}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[2].w2)}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[3].w2)}</div>` : ""}     
-                   </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-2">Range:</div>
-                <div class="col-lg-10">
-                   <div class="row">
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[0].w2_r)}</div>
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[1].w2_r)}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[2].w2_r)}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[3].w2_r)}</div>` : ""}     
-                   </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-2">Reload time (seconds):</div>
-                <div class="col-lg-10">
-                   <div class="row">
-                       <div class="col-lg-3">${weaponsArray[0].w2_rt}</div>
-                       <div class="col-lg-3">${weaponsArray[1].w2_rt}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${weaponsArray[2].w2_rt}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${weaponsArray[3].w2_rt}</div>` : ""}     
-                   </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-2">Weapon velocity:</div>
-                <div class="col-lg-10">
-                   <div class="row">
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[0].w2_velocity)}</div>
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[1].w2_velocity)}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[2].w2_velocity)}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[3].w2_velocity)}</div>` : ""}     
-                   </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-2">Area Of Effect:</div>
-                <div class="col-lg-10">
-                   <div class="row">
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[0].w2_aoe)}</div>
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[1].w2_aoe)}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[2].w2_aoe)}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[3].w2_aoe)}</div>` : ""}     
-                   </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-2">Tolerance</div>
-                <div class="col-lg-10">
-                   <div class="row">
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[0].w2_tolerance)}</div>
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[1].w2_tolerance)}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[2].w2_tolerance)}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[3].w2_tolerance)}</div>` : ""}     
-                   </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-2">Energy per shot</div>
-                <div class="col-lg-10">
-                   <div class="row">
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[0].w2_energyPerShot)}</div>
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[1].w2_energyPerShot)}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[2].w2_energyPerShot)}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[3].w2_energyPerShot)}</div>` : ""}     
-                   </div>
-                </div>
-            </div>
-
-
-            <div class="row">
-                <div class="col-lg-2">Weapon name:</div>
-                <div class="col-lg-10">
-                   <div class="row">
-                       <div class="col-lg-3">${weaponsArray[0].w3_name}</div>
-                       <div class="col-lg-3">${weaponsArray[1].w3_name}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${weaponsArray[2].w3_name}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${weaponsArray[3].w3_name}</div>` : ""}     
-                   </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-2">Damage per second:</div>
-                <div class="col-lg-10">
-                   <div class="row">
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[0].w3_dps)}</div>
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[1].w3_dps)}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[2].w3_dps)}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[3].w3_dps)}</div>` : ""}     
-                   </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-2">Damage per shot:</div>
-                <div class="col-lg-10">
-                   <div class="row">
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[0].w3)}</div>
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[1].w3)}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[2].w3)}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[3].w3)}</div>` : ""}     
-                   </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-2">Range:</div>
-                <div class="col-lg-10">
-                   <div class="row">
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[0].w3_r)}</div>
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[1].w3_r)}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[2].w3_r)}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[3].w3_r)}</div>` : ""}     
-                   </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-2">Reload time (seconds):</div>
-                <div class="col-lg-10">
-                   <div class="row">
-                       <div class="col-lg-3">${weaponsArray[0].w3_rt}</div>
-                       <div class="col-lg-3">${weaponsArray[1].w3_rt}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${weaponsArray[2].w3_rt}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${weaponsArray[3].w3_rt}</div>` : ""}     
-                   </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-2">Weapon velocity:</div>
-                <div class="col-lg-10">
-                   <div class="row">
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[0].w3_velocity)}</div>
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[1].w3_velocity)}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[2].w3_velocity)}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[3].w3_velocity)}</div>` : ""}     
-                   </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-2">Area Of Effect:</div>
-                <div class="col-lg-10">
-                   <div class="row">
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[0].w3_aoe)}</div>
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[1].w3_aoe)}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[2].w3_aoe)}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[3].w3_aoe)}</div>` : ""}     
-                   </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-2">Tolerance</div>
-                <div class="col-lg-10">
-                   <div class="row">
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[0].w3_tolerance)}</div>
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[1].w3_tolerance)}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[2].w3_tolerance)}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[3].w3_tolerance)}</div>` : ""}     
-                   </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-2">Energy per shot</div>
-                <div class="col-lg-10">
-                   <div class="row">
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[0].w3_energyPerShot)}</div>
-                       <div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[1].w3_energyPerShot)}</div>     
-                       ${weaponsArray[2] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[2].w3_energyPerShot)}</div>` : ""}   
-                       ${weaponsArray[3] ? `<div class="col-lg-3">${setSpacesInBigNumbers(weaponsArray[3].w3_energyPerShot)}</div>` : ""}     
-                   </div>
-                </div>
-            </div>
-
-            
         </div>
-
-
-
-        <div class="build-stats">
-            <div class="row">
-                <div class="col-lg-2"></div>
-                <div class="col-lg-10 cp-header-section">Build stats</div>
-            </div>
-            <div class="row">
-                <div class="col-lg-2">Build speed:</div>
-                <div class="col-lg-10">
+        
+            <div class="accordion" id="accordion-cp">
+              <div class="card">
+                <div id="headingOneCP">
+                  <h5 class="mb-0 cp-header-section card-header" data-toggle="collapse" data-target="#collapseOneCP" aria-expanded="true" aria-controls="collapseOneCP">Weapon stats
+                                  <span class="arrow-down">
+                                    <img src="arrow-down-cp.svg">
+                                </span>
+                  </h5>
+                </div>
+    <div id="collapseOneCP" class="collapse" aria-labelledby="headingOneCP">
+      <div class="card-body">
+            <div class="combat-stats">
+                   <div class="row weapon-separator">
+                <div class="col-2 par">Weapon name</div>
+                <div class="col-10 vls">
                    <div class="row">
-                       <div class="col-lg-3">${chosenUnitsArray[0].buildSpeed}</div>
-                       <div class="col-lg-3">${chosenUnitsArray[1].buildSpeed}</div>     
-                       ${chosenUnitsArray[2] ? `<div class="col-lg-3">${chosenUnitsArray[2].buildSpeed}</div>` : ""}   
-                       ${chosenUnitsArray[3] ? `<div class="col-lg-3">${chosenUnitsArray[3].buildSpeed}</div>` : ""}     
+                       <div class="col-3 cpv">${weaponsArray[0].w1_name}</div>
+                       <div class="col-3 cpv">${weaponsArray[1].w1_name}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${weaponsArray[2].w1_name}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${weaponsArray[3].w1_name}</div>` : ""}     
                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-2">Build range:</div>
-                <div class="col-lg-10">
+                <div class="col-2 par">Damage per second</div>
+                <div class="col-10 vls">
                    <div class="row">
-                       <div class="col-lg-3">${chosenUnitsArray[0].buildRange}</div>
-                       <div class="col-lg-3">${chosenUnitsArray[1].buildRange}</div>     
-                       ${chosenUnitsArray[2] ? `<div class="col-lg-3">${chosenUnitsArray[2].buildRange}</div>` : ""}   
-                       ${chosenUnitsArray[3] ? `<div class="col-lg-3">${chosenUnitsArray[3].buildRange}</div>` : ""}     
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[0].w1_dps)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[1].w1_dps)}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[2].w1_dps)}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[3].w1_dps)}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 par">Damage per shot</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[0].w1)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[1].w1)}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[2].w1)}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[3].w1)}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 par">Range</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[0].w1_r)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[1].w1_r)}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[2].w1_r)}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[3].w1_r)}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 par">Reload time (seconds)</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${weaponsArray[0].w1_rt}</div>
+                       <div class="col-3 cpv">${weaponsArray[1].w1_rt}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${weaponsArray[2].w1_rt}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${weaponsArray[3].w1_rt}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 par">Weapon velocity</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[0].w1_velocity)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[1].w1_velocity)}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[2].w1_velocity)}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[3].w1_velocity)}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 par">Area Of Effect</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[0].w1_aoe)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[1].w1_aoe)}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[2].w1_aoe)}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[3].w1_aoe)}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 par">Tolerance</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[0].w1_tolerance)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[1].w1_tolerance)}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[2].w1_tolerance)}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[3].w1_tolerance)}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 par">Energy per shot</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[0].w1_energyPerShot)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[1].w1_energyPerShot)}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[2].w1_energyPerShot)}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[3].w1_energyPerShot)}</div>` : ""}     
                    </div>
                 </div>
             </div>
 
+            <div class="row weapon-separator">
+                <div class="col-2 par">Weapon name</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${weaponsArray[0].w2_name}</div>
+                       <div class="col-3 cpv">${weaponsArray[1].w2_name}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${weaponsArray[2].w2_name}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${weaponsArray[3].w2_name}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 par">Damage per second</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[0].w2_dps)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[1].w2_dps)}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[2].w2_dps)}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[3].w2_dps)}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 par">Damage per shot</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[0].w2)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[1].w2)}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[2].w2)}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[3].w2)}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 par">Range</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[0].w2_r)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[1].w2_r)}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[2].w2_r)}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[3].w2_r)}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 par">Reload time (seconds)</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${weaponsArray[0].w2_rt}</div>
+                       <div class="col-3 cpv">${weaponsArray[1].w2_rt}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${weaponsArray[2].w2_rt}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${weaponsArray[3].w2_rt}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 par">Weapon velocity</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[0].w2_velocity)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[1].w2_velocity)}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[2].w2_velocity)}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[3].w2_velocity)}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 par">Area Of Effect</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[0].w2_aoe)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[1].w2_aoe)}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[2].w2_aoe)}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[3].w2_aoe)}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 par">Tolerance</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[0].w2_tolerance)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[1].w2_tolerance)}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[2].w2_tolerance)}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[3].w2_tolerance)}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 par">Energy per shot</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[0].w2_energyPerShot)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[1].w2_energyPerShot)}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[2].w2_energyPerShot)}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[3].w2_energyPerShot)}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
 
-        </div>
+            <div class="row weapon-separator">
+                <div class="col-2 par">Weapon name</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${weaponsArray[0].w3_name}</div>
+                       <div class="col-3 cpv">${weaponsArray[1].w3_name}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${weaponsArray[2].w3_name}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${weaponsArray[3].w3_name}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 par">Damage per second</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[0].w3_dps)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[1].w3_dps)}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[2].w3_dps)}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[3].w3_dps)}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 par">Damage per shot</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[0].w3)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[1].w3)}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[2].w3)}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[3].w3)}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 par">Range</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[0].w3_r)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[1].w3_r)}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[2].w3_r)}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[3].w3_r)}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 par">Reload time (seconds)</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${weaponsArray[0].w3_rt}</div>
+                       <div class="col-3 cpv">${weaponsArray[1].w3_rt}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${weaponsArray[2].w3_rt}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${weaponsArray[3].w3_rt}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 par">Weapon velocity</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[0].w3_velocity)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[1].w3_velocity)}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[2].w3_velocity)}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[3].w3_velocity)}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 par">Area Of Effect</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[0].w3_aoe)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[1].w3_aoe)}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[2].w3_aoe)}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[3].w3_aoe)}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 par">Tolerance</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[0].w3_tolerance)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[1].w3_tolerance)}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[2].w3_tolerance)}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[3].w3_tolerance)}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 par">Energy per shot</div>
+                <div class="col-10 vls">
+                   <div class="row">
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[0].w3_energyPerShot)}</div>
+                       <div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[1].w3_energyPerShot)}</div>     
+                       ${weaponsArray[2] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[2].w3_energyPerShot)}</div>` : ""}   
+                       ${weaponsArray[3] ? `<div class="col-3 cpv">${setSpacesInBigNumbers(weaponsArray[3].w3_energyPerShot)}</div>` : ""}     
+                   </div>
+                </div>
+            </div>
+         </div>
 
 
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div id="headingThreeCP">
+      <h5 class="mb-0 cp-header-section card-header" data-toggle="collapse" data-target="#collapseThreeCP" aria-expanded="true" aria-controls="collapseThreeCP">Other stats
+                                  <span class="arrow-down">
+                                    <img src="arrow-down-cp.svg">
+                                </span>
+      </h5>
+    </div>
+
+    <div id="collapseThreeCP" class="collapse" aria-labelledby="headingThreeCP">
+      <div class="card-body">
         <div class="other-stats">
-            <div class="row">
-                <div class="col-lg-2"></div>
-                <div class="col-lg-10 cp-header-section">Other stats</div>
-            </div>
-            <div class="row">
-                <div class="col-lg-2">Radar range:</div>
-                <div class="col-lg-10">
+            <div class="row" style="border-top: 1px solid #676767;">
+                <div class="col-2 par">Build time</div>
+                <div class="col-10 vls">
                    <div class="row">
-                       <div class="col-lg-3">${chosenUnitsArray[0].radarRange < 100 ? `` : `${chosenUnitsArray[0].radarRange}`}</div>
-                       <div class="col-lg-3">${chosenUnitsArray[1].radarRange < 100 ? `` : `${chosenUnitsArray[1].radarRange}`}</div>
-                       ${chosenUnitsArray[2] ? `<div class="col-lg-3">${chosenUnitsArray[2].radarRange < 100 ? `` : `${chosenUnitsArray[2].radarRange}`}</div>` : ""}   
-                       ${chosenUnitsArray[3] ? `<div class="col-lg-3">${chosenUnitsArray[3].radarRange < 100 ? `` : `${chosenUnitsArray[3].radarRange}`}</div>` : ""}     
+                       <div class="col-3 cpv">${chosenUnitsArray[0].buildTime}</div>
+                       <div class="col-3 cpv">${chosenUnitsArray[1].buildTime}</div>     
+                       ${chosenUnitsArray[2] ? `<div class="col-3 cpv">${chosenUnitsArray[2].buildTime}</div>` : ""}   
+                       ${chosenUnitsArray[3] ? `<div class="col-3 cpv">${chosenUnitsArray[3].buildTime}</div>` : ""}     
                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-2">Jammer range:</div>
-                <div class="col-lg-10">
+                <div class="col-2 par">Radar range</div>
+                <div class="col-10 vls">
                    <div class="row">
-                       <div class="col-lg-3">${chosenUnitsArray[0].jammerRange}</div>
-                       <div class="col-lg-3">${chosenUnitsArray[1].jammerRange}</div>     
-                       ${chosenUnitsArray[2] ? `<div class="col-lg-3">${chosenUnitsArray[2].jammerRange}</div>` : ""}   
-                       ${chosenUnitsArray[3] ? `<div class="col-lg-3">${chosenUnitsArray[3].jammerRange}</div>` : ""}     
+                       <div class="col-3 cpv">${chosenUnitsArray[0].radarRange < 100 ? `` : `${chosenUnitsArray[0].radarRange}`}</div>
+                       <div class="col-3 cpv">${chosenUnitsArray[1].radarRange < 100 ? `` : `${chosenUnitsArray[1].radarRange}`}</div>
+                       ${chosenUnitsArray[2] ? `<div class="col-3 cpv">${chosenUnitsArray[2].radarRange < 100 ? `` : `${chosenUnitsArray[2].radarRange}`}</div>` : ""}   
+                       ${chosenUnitsArray[3] ? `<div class="col-3 cpv">${chosenUnitsArray[3].radarRange < 100 ? `` : `${chosenUnitsArray[3].radarRange}`}</div>` : ""}     
                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-2">Build time:</div>
-                <div class="col-lg-10">
+                <div class="col-2 par">Jammer range</div>
+                <div class="col-10 vls">
                    <div class="row">
-                       <div class="col-lg-3">${chosenUnitsArray[0].buildTime}</div>
-                       <div class="col-lg-3">${chosenUnitsArray[1].buildTime}</div>     
-                       ${chosenUnitsArray[2] ? `<div class="col-lg-3">${chosenUnitsArray[2].buildTime}</div>` : ""}   
-                       ${chosenUnitsArray[3] ? `<div class="col-lg-3">${chosenUnitsArray[3].buildTime}</div>` : ""}     
+                       <div class="col-3 cpv">${chosenUnitsArray[0].jammerRange}</div>
+                       <div class="col-3 cpv">${chosenUnitsArray[1].jammerRange}</div>     
+                       ${chosenUnitsArray[2] ? `<div class="col-3 cpv">${chosenUnitsArray[2].jammerRange}</div>` : ""}   
+                       ${chosenUnitsArray[3] ? `<div class="col-3 cpv">${chosenUnitsArray[3].jammerRange}</div>` : ""}     
                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-2">Turn speed:</div>
-                <div class="col-lg-10">
+                <div class="col-2 par">Turn speed</div>
+                <div class="col-10 vls">
                    <div class="row">
-                       <div class="col-lg-3">${chosenUnitsArray[0].turnRate}</div>
-                       <div class="col-lg-3">${chosenUnitsArray[1].turnRate}</div>     
-                       ${chosenUnitsArray[2] ? `<div class="col-lg-3">${chosenUnitsArray[2].turnRate}</div>` : ""}   
-                       ${chosenUnitsArray[3] ? `<div class="col-lg-3">${chosenUnitsArray[3].turnRate}</div>` : ""}     
+                       <div class="col-3 cpv">${chosenUnitsArray[0].turnRate}</div>
+                       <div class="col-3 cpv">${chosenUnitsArray[1].turnRate}</div>     
+                       ${chosenUnitsArray[2] ? `<div class="col-3 cpv">${chosenUnitsArray[2].turnRate}</div>` : ""}   
+                       ${chosenUnitsArray[3] ? `<div class="col-3 cpv">${chosenUnitsArray[3].turnRate}</div>` : ""}     
                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-2">Energy make:</div>
-                <div class="col-lg-10">
+                <div class="col-2 par">Energy make</div>
+                <div class="col-10 vls">
                    <div class="row">
-                       <div class="col-lg-3">${chosenUnitsArray[0].energyMake}</div>
-                       <div class="col-lg-3">${chosenUnitsArray[1].energyMake}</div>     
-                       ${chosenUnitsArray[2] ? `<div class="col-lg-3">${chosenUnitsArray[2].energyMake}</div>` : ""}   
-                       ${chosenUnitsArray[3] ? `<div class="col-lg-3">${chosenUnitsArray[3].energyMake}</div>` : ""}     
+                       <div class="col-3 cpv">${chosenUnitsArray[0].energyMake}</div>
+                       <div class="col-3 cpv">${chosenUnitsArray[1].energyMake}</div>     
+                       ${chosenUnitsArray[2] ? `<div class="col-3 cpv">${chosenUnitsArray[2].energyMake}</div>` : ""}   
+                       ${chosenUnitsArray[3] ? `<div class="col-3 cpv">${chosenUnitsArray[3].energyMake}</div>` : ""}     
                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-2">Energy use:</div>
-                <div class="col-lg-10">
+                <div class="col-2 par">Energy use</div>
+                <div class="col-10 vls">
                    <div class="row">
-                       <div class="col-lg-3">${chosenUnitsArray[0].energyUse}</div>
-                       <div class="col-lg-3">${chosenUnitsArray[1].energyUse}</div>     
-                       ${chosenUnitsArray[2] ? `<div class="col-lg-3">${chosenUnitsArray[2].energyUse}</div>` : ""}   
-                       ${chosenUnitsArray[3] ? `<div class="col-lg-3">${chosenUnitsArray[3].energyUse}</div>` : ""}     
+                       <div class="col-3 cpv">${chosenUnitsArray[0].energyUse}</div>
+                       <div class="col-3 cpv">${chosenUnitsArray[1].energyUse}</div>     
+                       ${chosenUnitsArray[2] ? `<div class="col-3 cpv">${chosenUnitsArray[2].energyUse}</div>` : ""}   
+                       ${chosenUnitsArray[3] ? `<div class="col-3 cpv">${chosenUnitsArray[3].energyUse}</div>` : ""}     
                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-2">Cloak cost (E/s):</div>
-                <div class="col-lg-10">
+                <div class="col-2 par">Cloak cost (E/s)</div>
+                <div class="col-10 vls">
                    <div class="row">
-                       <div class="col-lg-3">${chosenUnitsArray[0].cloakCost}</div>
-                       <div class="col-lg-3">${chosenUnitsArray[1].cloakCost}</div>     
-                       ${chosenUnitsArray[2] ? `<div class="col-lg-3">${chosenUnitsArray[2].cloakCost}</div>` : ""}   
-                       ${chosenUnitsArray[3] ? `<div class="col-lg-3">${chosenUnitsArray[3].cloakCost}</div>` : ""}     
+                       <div class="col-3 cpv">${chosenUnitsArray[0].cloakCost}</div>
+                       <div class="col-3 cpv">${chosenUnitsArray[1].cloakCost}</div>     
+                       ${chosenUnitsArray[2] ? `<div class="col-3 cpv">${chosenUnitsArray[2].cloakCost}</div>` : ""}   
+                       ${chosenUnitsArray[3] ? `<div class="col-3 cpv">${chosenUnitsArray[3].cloakCost}</div>` : ""}     
                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-2">Energy storage:</div>
-                <div class="col-lg-10">
+                <div class="col-2 par">Energy storage</div>
+                <div class="col-10 vls">
                    <div class="row">
-                       <div class="col-lg-3">${chosenUnitsArray[0].energyStorage}</div>
-                       <div class="col-lg-3">${chosenUnitsArray[1].energyStorage}</div>     
-                       ${chosenUnitsArray[2] ? `<div class="col-lg-3">${chosenUnitsArray[2].energyStorage}</div>` : ""}   
-                       ${chosenUnitsArray[3] ? `<div class="col-lg-3">${chosenUnitsArray[3].energyStorage}</div>` : ""}     
+                       <div class="col-3 cpv">${chosenUnitsArray[0].energyStorage}</div>
+                       <div class="col-3 cpv">${chosenUnitsArray[1].energyStorage}</div>     
+                       ${chosenUnitsArray[2] ? `<div class="col-3 cpv">${chosenUnitsArray[2].energyStorage}</div>` : ""}   
+                       ${chosenUnitsArray[3] ? `<div class="col-3 cpv">${chosenUnitsArray[3].energyStorage}</div>` : ""}     
                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-2">Metal storage:</div>
-                <div class="col-lg-10">
+                <div class="col-2 par">Metal storage</div>
+                <div class="col-10 vls">
                    <div class="row">
-                       <div class="col-lg-3">${chosenUnitsArray[0].metalStorage}</div>
-                       <div class="col-lg-3">${chosenUnitsArray[1].metalStorage}</div>     
-                       ${chosenUnitsArray[2] ? `<div class="col-lg-3">${chosenUnitsArray[2].metalStorage}</div>` : ""}   
-                       ${chosenUnitsArray[3] ? `<div class="col-lg-3">${chosenUnitsArray[3].metalStorage}</div>` : ""}     
+                       <div class="col-3 cpv">${chosenUnitsArray[0].metalStorage}</div>
+                       <div class="col-3 cpv">${chosenUnitsArray[1].metalStorage}</div>     
+                       ${chosenUnitsArray[2] ? `<div class="col-3 cpv">${chosenUnitsArray[2].metalStorage}</div>` : ""}   
+                       ${chosenUnitsArray[3] ? `<div class="col-3 cpv">${chosenUnitsArray[3].metalStorage}</div>` : ""}     
                    </div>
                 </div>
             </div>
 
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
 
 </div>
     `;

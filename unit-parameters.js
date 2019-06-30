@@ -90,7 +90,7 @@ var weaponsData = {
     }
 }
 
-var keywords = ["Cloakable", "Stealth", "Amphibious", "Stun Immunity", "Upgradable", "Adjacency Bonus", "Stun Resistance", "Guided", "Radar Jammed", "Targeting", "Upgrades to Chaingun", "AA missiles", "Adj. Bonus"]
+var keywords = ["Cloakable","Self-Heal", "Anti-Stun", "Stealth", "Amphibious", "Stun Immunity", "Upgradable", "Adjacency Bonus", "Stun Resistance", "Guided", "Radar Jammed", "Targeting", "Upgrades to Chaingun", "AA missiles", "Adj. Bonus"]
 
 var ShineEffect = { //only for bars with 10/10
     ForDPS: "",

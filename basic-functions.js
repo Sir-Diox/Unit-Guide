@@ -5,6 +5,21 @@ function setWeaponsAA() {
     }
 }
 
+(function (a, b) { if ("function" == typeof define && define.amd) define([], b); else if ("undefined" != typeof exports) b(); else { b(), a.FileSaver = { exports: {} }.exports } })(this, function () { "use strict"; function b(a, b) { return "undefined" == typeof b ? b = { autoBom: !1 } : "object" != typeof b && (console.warn("Depricated: Expected third argument to be a object"), b = { autoBom: !b }), b.autoBom && /^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(a.type) ? new Blob(["\uFEFF", a], { type: a.type }) : a } function c(b, c, d) { var e = new XMLHttpRequest; e.open("GET", b), e.responseType = "blob", e.onload = function () { a(e.response, c, d) }, e.onerror = function () { console.error("could not download file") }, e.send() } function d(a) { var b = new XMLHttpRequest; return b.open("HEAD", a, !1), b.send(), 200 <= b.status && 299 >= b.status } function e(a) { try { a.dispatchEvent(new MouseEvent("click")) } catch (c) { var b = document.createEvent("MouseEvents"); b.initMouseEvent("click", !0, !0, window, 0, 0, 0, 80, 20, !1, !1, !1, !1, 0, null), a.dispatchEvent(b) } } var f = "object" == typeof window && window.window === window ? window : "object" == typeof self && self.self === self ? self : "object" == typeof global && global.global === global ? global : void 0, a = f.saveAs || ("object" != typeof window || window !== f ? function () { } : "download" in HTMLAnchorElement.prototype ? function (b, g, h) { var i = f.URL || f.webkitURL, j = document.createElement("a"); g = g || b.name || "download", j.download = g, j.rel = "noopener", "string" == typeof b ? (j.href = b, j.origin === location.origin ? e(j) : d(j.href) ? c(b, g, h) : e(j, j.target = "_blank")) : (j.href = i.createObjectURL(b), setTimeout(function () { i.revokeObjectURL(j.href) }, 4E4), setTimeout(function () { e(j) }, 0)) } : "msSaveOrOpenBlob" in navigator ? function (f, g, h) { if (g = g || f.name || "download", "string" != typeof f) navigator.msSaveOrOpenBlob(b(f, h), g); else if (d(f)) c(f, g, h); else { var i = document.createElement("a"); i.href = f, i.target = "_blank", setTimeout(function () { e(i) }) } } : function (a, b, d, e) { if (e = e || open("", "_blank"), e && (e.document.title = e.document.body.innerText = "downloading..."), "string" == typeof a) return c(a, b, d); var g = "application/octet-stream" === a.type, h = /constructor/i.test(f.HTMLElement) || f.safari, i = /CriOS\/[\d]+/.test(navigator.userAgent); if ((i || g && h) && "object" == typeof FileReader) { var j = new FileReader; j.onloadend = function () { var a = j.result; a = i ? a : a.replace(/^data:[^;]*;/, "data:attachment/file;"), e ? e.location.href = a : location = a, e = null }, j.readAsDataURL(a) } else { var k = f.URL || f.webkitURL, l = k.createObjectURL(a); e ? e.location = l : location.href = l, e = null, setTimeout(function () { k.revokeObjectURL(l) }, 4E4) } }); f.saveAs = a.saveAs = a, "undefined" != typeof module && (module.exports = a) });
+/*! dom-to-image 03-02-2016 */
+!function (a) { "use strict"; function b(a, b) { function c(a) { return b.bgcolor && (a.style.backgroundColor = b.bgcolor), b.width && (a.style.width = b.width + "px"), b.height && (a.style.height = b.height + "px"), b.style && Object.keys(b.style).forEach(function (c) { a.style[c] = b.style[c] }), a } return b = b || {}, g(b), Promise.resolve(a).then(function (a) { return i(a, b.filter, !0) }).then(j).then(k).then(c).then(function (c) { return l(c, b.width || q.width(a), b.height || q.height(a)) }) } function c(a, b) { return h(a, b || {}).then(function (b) { return b.getContext("2d").getImageData(0, 0, q.width(a), q.height(a)).data }) } function d(a, b) { return h(a, b || {}).then(function (a) { return a.toDataURL() }) } function e(a, b) { return b = b || {}, h(a, b).then(function (a) { return a.toDataURL("image/jpeg", b.quality || 1) }) } function f(a, b) { return h(a, b || {}).then(q.canvasToBlob) } function g(a) { "undefined" == typeof a.imagePlaceholder ? v.impl.options.imagePlaceholder = u.imagePlaceholder : v.impl.options.imagePlaceholder = a.imagePlaceholder, "undefined" == typeof a.cacheBust ? v.impl.options.cacheBust = u.cacheBust : v.impl.options.cacheBust = a.cacheBust } function h(a, c) { function d(a) { var b = document.createElement("canvas"); if (b.width = c.width || q.width(a), b.height = c.height || q.height(a), c.bgcolor) { var d = b.getContext("2d"); d.fillStyle = c.bgcolor, d.fillRect(0, 0, b.width, b.height) } return b } return b(a, c).then(q.makeImage).then(q.delay(100)).then(function (b) { var c = d(a); return c.getContext("2d").drawImage(b, 0, 0), c }) } function i(a, b, c) { function d(a) { return a instanceof HTMLCanvasElement ? q.makeImage(a.toDataURL()) : a.cloneNode(!1) } function e(a, b, c) { function d(a, b, c) { var d = Promise.resolve(); return b.forEach(function (b) { d = d.then(function () { return i(b, c) }).then(function (b) { b && a.appendChild(b) }) }), d } var e = a.childNodes; return 0 === e.length ? Promise.resolve(b) : d(b, q.asArray(e), c).then(function () { return b }) } function f(a, b) { function c() { function c(a, b) { function c(a, b) { q.asArray(a).forEach(function (c) { b.setProperty(c, a.getPropertyValue(c), a.getPropertyPriority(c)) }) } a.cssText ? b.cssText = a.cssText : c(a, b) } c(window.getComputedStyle(a), b.style) } function d() { function c(c) { function d(a, b, c) { function d(a) { var b = a.getPropertyValue("content"); return a.cssText + " content: " + b + ";" } function e(a) { function b(b) { return b + ": " + a.getPropertyValue(b) + (a.getPropertyPriority(b) ? " !important" : "") } return q.asArray(a).map(b).join("; ") + ";" } var f = "." + a + ":" + b, g = c.cssText ? d(c) : e(c); return document.createTextNode(f + "{" + g + "}") } var e = window.getComputedStyle(a, c), f = e.getPropertyValue("content"); if ("" !== f && "none" !== f) { var g = q.uid(); b.className = b.className + " " + g; var h = document.createElement("style"); h.appendChild(d(g, c, e)), b.appendChild(h) } } [":before", ":after"].forEach(function (a) { c(a) }) } function e() { a instanceof HTMLTextAreaElement && (b.innerHTML = a.value), a instanceof HTMLInputElement && b.setAttribute("value", a.value) } function f() { b instanceof SVGElement && (b.setAttribute("xmlns", "http://www.w3.org/2000/svg"), b instanceof SVGRectElement && ["width", "height"].forEach(function (a) { var c = b.getAttribute(a); c && b.style.setProperty(a, c) })) } return b instanceof Element ? Promise.resolve().then(c).then(d).then(e).then(f).then(function () { return b }) : b } return c || !b || b(a) ? Promise.resolve(a).then(d).then(function (c) { return e(a, c, b) }).then(function (b) { return f(a, b) }) : Promise.resolve() } function j(a) { return s.resolveAll().then(function (b) { var c = document.createElement("style"); return a.appendChild(c), c.appendChild(document.createTextNode(b)), a }) } function k(a) { return t.inlineAll(a).then(function () { return a }) } function l(a, b, c) { return Promise.resolve(a).then(function (a) { return a.setAttribute("xmlns", "http://www.w3.org/1999/xhtml"), (new XMLSerializer).serializeToString(a) }).then(q.escapeXhtml).then(function (a) { return '<foreignObject x="0" y="0" width="100%" height="100%">' + a + "</foreignObject>" }).then(function (a) { return '<svg xmlns="http://www.w3.org/2000/svg" width="' + b + '" height="' + c + '">' + a + "</svg>" }).then(function (a) { return "data:image/svg+xml;charset=utf-8," + a }) } function m() { function a() { var a = "application/font-woff", b = "image/jpeg"; return { woff: a, woff2: a, ttf: "application/font-truetype", eot: "application/vnd.ms-fontobject", png: "image/png", jpg: b, jpeg: b, gif: "image/gif", tiff: "image/tiff", svg: "image/svg+xml" } } function b(a) { var b = /\.([^\.\/]*?)$/g.exec(a); return b ? b[1] : "" } function c(c) { var d = b(c).toLowerCase(); return a()[d] || "" } function d(a) { return a.search(/^(data:)/) !== -1 } function e(a) { return new Promise(function (b) { for (var c = window.atob(a.toDataURL().split(",")[1]), d = c.length, e = new Uint8Array(d), f = 0; f < d; f++)e[f] = c.charCodeAt(f); b(new Blob([e], { type: "image/png" })) }) } function f(a) { return a.toBlob ? new Promise(function (b) { a.toBlob(b) }) : e(a) } function g(a, b) { var c = document.implementation.createHTMLDocument(), d = c.createElement("base"); c.head.appendChild(d); var e = c.createElement("a"); return c.body.appendChild(e), d.href = b, e.href = a, e.href } function h() { var a = 0; return function () { function b() { return ("0000" + (Math.random() * Math.pow(36, 4) << 0).toString(36)).slice(-4) } return "u" + b() + a++ } } function i(a) { return new Promise(function (b, c) { var d = new Image; d.onload = function () { b(d) }, d.onerror = c, d.src = a }) } function j(a) { var b = 3e4; return v.impl.options.cacheBust && (a += (/\?/.test(a) ? "&" : "?") + (new Date).getTime()), new Promise(function (c) { function d() { if (4 === g.readyState) { if (200 !== g.status) return void (h ? c(h) : f("cannot fetch resource: " + a + ", status: " + g.status)); var b = new FileReader; b.onloadend = function () { var a = b.result.split(/,/)[1]; c(a) }, b.readAsDataURL(g.response) } } function e() { h ? c(h) : f("timeout of " + b + "ms occured while fetching resource: " + a) } function f(a) { console.error(a), c("") } var g = new XMLHttpRequest; g.onreadystatechange = d, g.ontimeout = e, g.responseType = "blob", g.timeout = b, g.open("GET", a, !0), g.send(); var h; if (v.impl.options.imagePlaceholder) { var i = v.impl.options.imagePlaceholder.split(/,/); i && i[1] && (h = i[1]) } }) } function k(a, b) { return "data:" + b + ";base64," + a } function l(a) { return a.replace(/([.*+?^${}()|\[\]\/\\])/g, "\\$1") } function m(a) { return function (b) { return new Promise(function (c) { setTimeout(function () { c(b) }, a) }) } } function n(a) { for (var b = [], c = a.length, d = 0; d < c; d++)b.push(a[d]); return b } function o(a) { return a.replace(/#/g, "%23").replace(/\n/g, "%0A") } function p(a) { var b = r(a, "border-left-width"), c = r(a, "border-right-width"); return a.scrollWidth + b + c } function q(a) { var b = r(a, "border-top-width"), c = r(a, "border-bottom-width"); return a.scrollHeight + b + c } function r(a, b) { var c = window.getComputedStyle(a).getPropertyValue(b); return parseFloat(c.replace("px", "")) } return { escape: l, parseExtension: b, mimeType: c, dataAsUrl: k, isDataUrl: d, canvasToBlob: f, resolveUrl: g, getAndEncode: j, uid: h(), delay: m, asArray: n, escapeXhtml: o, makeImage: i, width: p, height: q } } function n() { function a(a) { return a.search(e) !== -1 } function b(a) { for (var b, c = []; null !== (b = e.exec(a));)c.push(b[1]); return c.filter(function (a) { return !q.isDataUrl(a) }) } function c(a, b, c, d) { function e(a) { return new RegExp("(url\\(['\"]?)(" + q.escape(a) + ")(['\"]?\\))", "g") } return Promise.resolve(b).then(function (a) { return c ? q.resolveUrl(a, c) : a }).then(d || q.getAndEncode).then(function (a) { return q.dataAsUrl(a, q.mimeType(b)) }).then(function (c) { return a.replace(e(b), "$1" + c + "$3") }) } function d(d, e, f) { function g() { return !a(d) } return g() ? Promise.resolve(d) : Promise.resolve(d).then(b).then(function (a) { var b = Promise.resolve(d); return a.forEach(function (a) { b = b.then(function (b) { return c(b, a, e, f) }) }), b }) } var e = /url\(['"]?([^'"]+?)['"]?\)/g; return { inlineAll: d, shouldProcess: a, impl: { readUrls: b, inline: c } } } function o() { function a() { return b(document).then(function (a) { return Promise.all(a.map(function (a) { return a.resolve() })) }).then(function (a) { return a.join("\n") }) } function b() { function a(a) { return a.filter(function (a) { return a.type === CSSRule.FONT_FACE_RULE }).filter(function (a) { return r.shouldProcess(a.style.getPropertyValue("src")) }) } function b(a) { var b = []; return a.forEach(function (a) { try { q.asArray(a.cssRules || []).forEach(b.push.bind(b)) } catch (c) { console.log("Error while reading CSS rules from " + a.href, c.toString()) } }), b } function c(a) { return { resolve: function () { var b = (a.parentStyleSheet || {}).href; return r.inlineAll(a.cssText, b) }, src: function () { return a.style.getPropertyValue("src") } } } return Promise.resolve(q.asArray(document.styleSheets)).then(b).then(a).then(function (a) { return a.map(c) }) } return { resolveAll: a, impl: { readAll: b } } } function p() { function a(a) { function b(b) { return q.isDataUrl(a.src) ? Promise.resolve() : Promise.resolve(a.src).then(b || q.getAndEncode).then(function (b) { return q.dataAsUrl(b, q.mimeType(a.src)) }).then(function (b) { return new Promise(function (c, d) { a.onload = c, a.onerror = d, a.src = b }) }) } return { inline: b } } function b(c) { function d(a) { var b = a.style.getPropertyValue("background"); return b ? r.inlineAll(b).then(function (b) { a.style.setProperty("background", b, a.style.getPropertyPriority("background")) }).then(function () { return a }) : Promise.resolve(a) } return c instanceof Element ? d(c).then(function () { return c instanceof HTMLImageElement ? a(c).inline() : Promise.all(q.asArray(c.childNodes).map(function (a) { return b(a) })) }) : Promise.resolve(c) } return { inlineAll: b, impl: { newImage: a } } } var q = m(), r = n(), s = o(), t = p(), u = { imagePlaceholder: void 0, cacheBust: !1 }, v = { toSvg: b, toPng: d, toJpeg: e, toBlob: f, toPixelData: c, impl: { fontFaces: s, images: t, util: q, inliner: r, options: {} } }; "undefined" != typeof module ? module.exports = v : a.domtoimage = v }(this);
+$("body").on("click", "#save-img", function () {
+    $(".img-loading-msg, #loading-icon-10").show();
+    var node = document.getElementById('detailed-cp');
+    domtoimage.toBlob(document.getElementById('detailed-cp'))
+        .then(function (blob) {
+            window.saveAs(blob, unitsInComparison);
+            $(".img-loading-msg, #loading-icon-10").hide();
+        });
+})
+
+
+
 function countDpsAndRange(obj) {
     var weapons = {
         w1: {
@@ -23,6 +38,7 @@ function countDpsAndRange(obj) {
             range: $(obj).attr("w3-r")
         }
     };
+    var close = 0;
     var W1_dps = Math.round(weapons.w1.damage / weapons.w1.reload);
     var W2_dps = Math.round(weapons.w2.damage / weapons.w2.reload);
     var W3_dps = Math.round(weapons.w3.damage / weapons.w3.reload);
@@ -144,6 +160,9 @@ var selectedRowNumber = 0;
 var typingTimer;
 var doneTypingInterval = 200;
 
+var selectedColumn = "";
+var numberOfColumn;
+
 $(".unit-type-list li").click(function () {
     closeNav();
 });
@@ -169,14 +188,19 @@ function closeDtInfo() {
     //$("#unit-dt-info-overlay").addClass("overlay-opened");
 }
 
-$(".card-header").click(function () {
+$('body').on("click", ".card-header", function () {
     if ($(this).parent().parent().children().eq(1).hasClass("show")) {
         $(this).children().eq(0).children().eq(0).css({ "transform": "rotate(0deg)", "transition": "transform .25s" });
     } else {
+        if ($("#tier-accordion .collapse-mb.collapse.show").length == 1) {
+            $(".card-header").each(function () {
+                $(this).children().eq(0).children().eq(0).css({ "transform": "rotate(0deg)", "transition": "transform .25s" });
+            });
+        }
         $(this).children().eq(0).children().eq(0).css({ "transform": "rotate(-180deg)", "transition": "transform .25s" });
     }
-
 });
+
 
 function takeCoords(evt) {
     x = evt.clientX;
@@ -246,17 +270,26 @@ $(document).ready(function () {
     $("#compare-container").hide();
     setSeparationLineHeight();
 
+    window.addEventListener("hashchange", function () {
+        if ($('.mobile-dt-info-wrapper').length == 1) {
+            $('#unit-dt-info-overlay').fadeOut(50);
+            $('#unit-dt-info-overlay').html("");
+            $('#unit-dt-info-overlay').css("z-index", "-1");
+            $('body').css("overflow", "auto");
+        }
+
+    });
 
     $(".units-container .unit-name").each(function () {
         var checkboxTemplate = `
 <label class="container">
 <input type="checkbox">
-<span class="checkmark"></span>
+<span class="checkmark"><span></span></span>
 </label>
     `;
         $(checkboxTemplate).insertAfter(this);
     });
-    //$('body').popover(popoverAsTooltipSettings);
+
     $('body').popover(popoverSettings);
 
     $('.dropdown-content').hover(function () {
@@ -270,14 +303,13 @@ $(document).ready(function () {
 
     $(".unit-box").each(function () {
         $(this).attr("data-toggle", "popover");
-        //$(this).attr("data-trigger", "hover");
-        //$(this).attr("data-toggle", "popover");
     });
-    //$('[data-toggle="popover"]').popover({ constraints: [{ to: 'scrollParent', pin: true }] });
     screenHeight = window.screen.availHeight;
     screenWidth = window.screen.availWidth;
 
-    $("#compare-container").draggable().css("top", ((screenHeight - 580) ) + "px");
+    $("#compare-container").draggable({
+        cancel: "#comparison-content"
+    }).css("top", (screenHeight - (screenHeight / 2) - 300) + "px");
 
     $(document).on({
         mouseenter: function () {
@@ -299,27 +331,27 @@ $(document).ready(function () {
                 unitData.imgSrc = unitImg;
             }
             for (i = 0; i < csvObj.length; i++) {
-                if (csvObj[i].Name === unitName && csvObj[i].SIDE.toLowerCase() === unitSide) {
-                    unitData.energyCost = csvObj[i].BuildCostEnergy;
-                    unitData.metalCost = csvObj[i].BuildCostMetal;
-                    unitData.name = csvObj[i].Name;
-                    unitData.HP = csvObj[i].MaxDamage;
-                    unitData.movementSpeed = csvObj[i].MaxVelocity;
+                if (csvObj[i].name === unitName && csvObj[i].side.toLowerCase() === unitSide) {
+                    unitData.energyCost = csvObj[i].buildcostenergy;
+                    unitData.metalCost = csvObj[i].buildcostmetal;
+                    unitData.name = csvObj[i].name;
+                    unitData.HP = csvObj[i].maxdamage;
+                    unitData.movementSpeed = csvObj[i].maxvelocity;
                     unitData.flyingSpeed = unitData.movementSpeed;
-                    unitData.description = csvObj[i].Description;
+                    unitData.description = csvObj[i].description;
                     unitData.canMove = csvObj[i].canmove;
                     unitData.canAttack = csvObj[i].canattack;
                     unitData.energyStorage = csvObj[i].energystorage;
                     unitData.side = $(obj).attr("side");
-                    unitData.acceleration = csvObj[i].Acceleration;
-                    unitData.summoningCode = csvObj[i].Objectname.toLowerCase();
-                    unitData.sightRange = csvObj[i].sightRange;
-                    unitData.buildSpeed = csvObj[i].WorkerTime;
-                    unitData.canBuild = csvObj[i].CanBuild;
-                    unitData.radarRange = csvObj[i].radarRange;
-                    unitData.jammerRange = csvObj[i].radarRangeJam;
-                    unitData.builder = csvObj[i].Builder;
-                    unitData.buildRange = csvObj[i].Builddistance;
+                    unitData.acceleration = csvObj[i].acceleration;
+                    unitData.summoningCode = csvObj[i].objectname.toLowerCase();
+                    unitData.sightRange = csvObj[i].sightdistance;
+                    unitData.buildSpeed = csvObj[i].workertime;
+                    unitData.canBuild = csvObj[i].canbuild;
+                    unitData.radarRange = csvObj[i].radardistance;
+                    unitData.jammerRange = csvObj[i].radardistancejam;
+                    unitData.builder = csvObj[i].builder;
+                    unitData.buildRange = csvObj[i].builddistance;
                     unitData.minMetalCostForE = "";
                     unitData.maxMetalCostForE = "";
                     unitData.isAntiAir1 = $(obj).attr("w1-AA");
@@ -361,8 +393,8 @@ $(document).ready(function () {
 
                     if (unitTypeObj.isBuildingType) {
                     }
-                    else if (!isNaN(csvObj[i].DamageModifier)) {
-                        unitData.HP = csvObj[i].MaxDamage / csvObj[i].DamageModifier;
+                    else if (csvObj[i].damagemodifier != "") {
+                        unitData.HP = csvObj[i].maxdamage / csvObj[i].damagemodifier;
                     }
 
                     countDpsAndRange(obj);
@@ -473,6 +505,17 @@ $(document).ready(function () {
         }
     });
 
+    $("body").on('keydown', function (e) {
+        if (e.key === "Escape") {
+            if (status == 1 && $("#comparison-modal").css("display") == "none") {
+                $("#compare-container").fadeOut(0);
+                $("#comparison-option-button").removeClass("active");
+                hideAndClearCheckboxes();
+                status = 0;
+            }
+        }
+    })
+
     $(".search-input").on('keyup', function (e) {
         inputNumber = $(this).attr("number");
         $('.popover').hide();
@@ -541,31 +584,32 @@ $(document).ready(function () {
 
                 else {
                     if (!isMobile) {
-                    // for comparison inputs
-                    var obj = $(".row-result").first();
-                    if (obj.length == 0) {
-                    } else {
-                        if ($(".row-result").hasClass("selected-row")) {
-                            obj = $(".row-result.selected-row").first();
+                        // for comparison inputs
+                        var obj = $(".row-result").first();
+                        if (obj.length == 0) {
                         } else {
-                            obj = $(".row-result").first();
-                        }
+                            if ($(".row-result").hasClass("selected-row")) {
+                                obj = $(".row-result.selected-row").first();
+                            } else {
+                                obj = $(".row-result").first();
+                            }
 
-                        var attributes = $(obj).prop("attributes");
-                        $("#search-input-" + inputNumber).parent().append("<li class='chosen-unit exo2-16' id='chosen-unit-id-" + inputNumber + "' side='" + $(obj).attr("side") + "'><span style='position:relative; left:-10px;'>" + $(obj).attr("uname") + "</span><div class='close-btn'>&#10006;</div></li>");
-                        $("#search-input-" + inputNumber).val("");
-                        checkCheckboxIfWrite($(obj).attr("uname"));
-                        for (i = 0; i < attributes.length; i++) {
-                            $("#chosen-unit-id-" + inputNumber).attr(attributes[i].name, attributes[i].value);
+                            var attributes = $(obj).prop("attributes");
+                            $("#search-input-" + inputNumber).parent().append("<li class='chosen-unit exo2-16' id='chosen-unit-id-" + inputNumber + "' side='" + $(obj).attr("side") + "'><span>" + $(obj).attr("uname") + "</span><div class='close-btn'>&#10006;</div></li>");
+                            $("#search-input-" + inputNumber).val("");
+                            checkCheckboxIfWrite($(obj).attr("uname"));
+                            for (i = 0; i < attributes.length; i++) {
+                                $("#chosen-unit-id-" + inputNumber).attr(attributes[i].name, attributes[i].value);
+                            }
+                            $("#chosen-unit-id-" + inputNumber).removeClass("row-result");
+                            $("#chosen-unit-id-" + inputNumber).addClass("chosen-unit exo2-16");
+                            $("#search-input-results-" + inputNumber).html("").css("display", "none");
+                            $('#search-input-results-' + inputNumber).hide();
+                            checkIfButtonDisabled();
+                            showOrHideClearAll();
+                            inputNumber++
+                            $('#search-input-' + inputNumber).focus();
                         }
-                        $("#chosen-unit-id-" + inputNumber).removeClass("row-result");
-                        $("#chosen-unit-id-" + inputNumber).addClass("chosen-unit exo2-16");
-                        $("#search-input-results-" + inputNumber).html("").css("display", "none");
-                        $('#search-input-results-' + inputNumber).hide();
-                        checkIfButtonDisabled();
-                        inputNumber++
-                        $('#search-input-' + inputNumber).focus();
-                    }
                         selectedRowNumber = 0;
                     }
                 }
@@ -598,7 +642,10 @@ $(document).ready(function () {
         else if (e.key === "Control" || e.key === "Alt" || e.key === "Shift" || e.key === "Tab") {
             $('#search-input-results-' + inputNumber).removeClass("border-white");
             $('#search-input-results-' + inputNumber).html("");
-            if (e.key === "Tab" && inputNumber == 4) {
+            if (e.key === "Tab" && $(this).parent().find('.chosen-unit').length == 0) {
+                e.preventDefault();
+            }
+            if (e.key === "Tab" && inputNumber == 4 && $(this).parent().find('.chosen-unit').length == 1) {
                 $('#search-input-1').focus();
             }
         }
@@ -635,12 +682,12 @@ $(document).ready(function () {
 
 
                 for (i = 0; i < csvObj.length; i++) {
-                    if (csvObj[i].Name != undefined && csvObj[i].Name != 'n/a') {
-                        var unitName = (csvObj[i].Name).toLowerCase().indexOf(textFromSearchInput);
+                    if (csvObj[i].name != undefined && csvObj[i].name != 'n/a') {
+                        var unitName = (csvObj[i].name).toLowerCase().indexOf(textFromSearchInput);
                         if (unitName >= 0) {
                             var unitNameAndSide = {
-                                name: csvObj[i].Name,
-                                side: csvObj[i].SIDE.toLowerCase()
+                                name: csvObj[i].name,
+                                side: csvObj[i].side.toLowerCase()
                             };
                             allNamesContainingStringFromSearch.push(unitNameAndSide);
                         }
@@ -684,7 +731,7 @@ $(document).ready(function () {
                             $(".row-result:last-child").removeAttr("style");
                         }
                         if (!isMobile) {
-                                                    $("#search-input-results-" + inputNumber).prepend('<div class="white exo2-16" style="padding-left:6px;padding-top:7px;font-size:14px;">Choose a unit:</div> ');
+                            $("#search-input-results-" + inputNumber).prepend('<div class="white exo2-16" style="padding-left:6px;padding-top:7px;font-size:14px;">Choose a unit:</div> ');
                         }
 
                     }
@@ -713,19 +760,20 @@ $(document).ready(function () {
 
                 if ($(".row-result").length == 1) {
                     if (!isMobile) {
-                    inputNumber = $(".row-result").parent().parent().parent().children().eq(0).attr("number");
-                    var attributes = $(".row-result").prop("attributes");
-                    $("#search-input-" + inputNumber).parent().append("<li class='chosen-unit exo2-16' id='chosen-unit-id-" + inputNumber + "' side='" + $(".row-result").attr("side") + "'><span style='position:relative; left:-10px;'>" + $(".row-result").attr("uname") + "</span><div class='close-btn'>&#10006;</div></li>");
-                    $("#search-input-" + inputNumber).val("");
-                    for (i = 0; i < attributes.length; i++) {
-                        $("#chosen-unit-id-" + inputNumber).attr(attributes[i].name, attributes[i].value);
-                    }
-                    checkCheckboxIfWrite($(".row-result").attr("uname"));
-                    $("#chosen-unit-id-" + inputNumber).removeClass("row-result");
-                    $("#chosen-unit-id-" + inputNumber).addClass("chosen-unit exo2-16");
-                    $("#search-input-results-" + inputNumber).html("");
-                    selectedRowNumber = 0;
-                    checkIfButtonDisabled();
+                        inputNumber = $(".row-result").parent().parent().parent().children().eq(0).attr("number");
+                        var attributes = $(".row-result").prop("attributes");
+                        $("#search-input-" + inputNumber).parent().append("<li class='chosen-unit exo2-16' id='chosen-unit-id-" + inputNumber + "' side='" + $(".row-result").attr("side") + "'><span>" + $(".row-result").attr("uname") + "</span><div class='close-btn'>&#10006;</div></li>");
+                        $("#search-input-" + inputNumber).val("");
+                        for (i = 0; i < attributes.length; i++) {
+                            $("#chosen-unit-id-" + inputNumber).attr(attributes[i].name, attributes[i].value);
+                        }
+                        checkCheckboxIfWrite($(".row-result").attr("uname"));
+                        $("#chosen-unit-id-" + inputNumber).removeClass("row-result");
+                        $("#chosen-unit-id-" + inputNumber).addClass("chosen-unit exo2-16");
+                        $("#search-input-results-" + inputNumber).html("");
+                        selectedRowNumber = 0;
+                        checkIfButtonDisabled();
+                        showOrHideClearAll();
                         $(".input-results-container").hide();
                     }
                 }
@@ -736,7 +784,7 @@ $(document).ready(function () {
     $('#compare-container').on('click', '.row-result', function () {
         inputNumber = $(this).parent().parent().parent().children().eq(0).attr("number");
         var attributes = $(this).prop("attributes");
-        $("#search-input-" + inputNumber).parent().append("<li class='chosen-unit exo2-16' id='chosen-unit-id-" + inputNumber + "' side='" + $(this).attr("side") + "'><span style='position:relative; left:-10px;'>" + $(this).attr("uname") + "</span><div class='close-btn'>&#10006;</div></li>");
+        $("#search-input-" + inputNumber).parent().append("<li class='chosen-unit exo2-16' id='chosen-unit-id-" + inputNumber + "' side='" + $(this).attr("side") + "'><span>" + $(this).attr("uname") + "</span><div class='close-btn'>&#10006;</div></li>");
         $("#search-input-" + inputNumber).val("");
         checkCheckboxIfWrite($(this).attr("uname"));
         for (i = 0; i < attributes.length; i++) {
@@ -747,6 +795,7 @@ $(document).ready(function () {
         $("#search-input-results-" + inputNumber).html("");
         selectedRowNumber = 0;
         checkIfButtonDisabled();
+        showOrHideClearAll();
         $(".input-results-container").hide();
     });
 
@@ -779,7 +828,7 @@ $(document).ready(function () {
         $("#search-input-results-" + inputNumber).hide();
         $(this).parent().children().eq(0).val("");
         $(this).remove();
-        
+
         uncheckCheckboxWhenDelete(uname);
         if ($('.chosen-unit').length < 2) {
             document.getElementById("comparison-button").disabled = true;
@@ -787,7 +836,37 @@ $(document).ready(function () {
         else {
             document.getElementById("comparison-button").disabled = false;
         }
+        showOrHideClearAll();
         $(".loading-icon").hide();
+    });
+
+    $('#compare-container').on('click', '.cp-x-clearall', function () {
+        $("#compare-container .search-input").val("");
+        $("#compare-container .chosen-unit").remove();
+        $(".units-container input").prop('checked', false);
+
+        if ($('.chosen-unit').length < 2) {
+            document.getElementById("comparison-button").disabled = true;
+        }
+        else {
+            document.getElementById("comparison-button").disabled = false;
+        }
+        $(".loading-icon").hide();
+        showOrHideClearAll();
+    });
+
+    function showOrHideClearAll(){
+        if ($('.chosen-unit').length < 2) {
+            $(".cp-x-clearall").slideUp(100);
+        } else {
+            $(".cp-x-clearall").slideDown(300).css("display", "block");;
+        }
+    }
+
+    $(".cp-x-clearall").hover(function () {
+        $(".close-btn").css("color", "#dea73c");
+    }, function () {
+        $(".close-btn").css("color", "");
     });
 
     $('#compare-container').on('click', '#comparison-button', function () {
@@ -795,7 +874,14 @@ $(document).ready(function () {
     });
     function generateComparison() {
         if ($("#dt-comparison-checkbox input").is(':checked')) {
-            $(".comparison-content").css("min-width", "783px");
+            if ($(".chosen-unit").length == 2) {
+                $(".comparison-content").attr("style","min-width: 600px !important");
+            } else if ($(".chosen-unit").length == 3) {
+                $(".comparison-content").attr("style", "min-width: 650px !important");
+            } else {
+                $(".comparison-content").attr("style", "min-width: 830px !important");
+            }
+
             $(".navbar").css("right", "17px");
             generateDetailedComparison();
 
@@ -830,7 +916,9 @@ $(document).ready(function () {
 
     $(document).click(function (event) {
         if (!$(event.target).closest('.unit-preview-comparison, .detailed-cp').length) {
-            $('#comparison-modal').modal('hide');
+            if (close == 1) {
+                $('#comparison-modal').modal('hide');
+            }
         }
     });
 
@@ -853,27 +941,27 @@ $(document).ready(function () {
             unitData.imgSrc = $(this).attr("img");
 
             for (i = 0; i < csvObj.length; i++) {
-                if (csvObj[i].Name === unitName && csvObj[i].SIDE.toLowerCase() === unitSide) {
-                    unitData.energyCost = csvObj[i].BuildCostEnergy;
-                    unitData.metalCost = csvObj[i].BuildCostMetal;
-                    unitData.name = csvObj[i].Name;
-                    unitData.HP = csvObj[i].MaxDamage;
-                    unitData.movementSpeed = csvObj[i].MaxVelocity;
+                if (csvObj[i].name === unitName && csvObj[i].side.toLowerCase() === unitSide) {
+                    unitData.energyCost = csvObj[i].buildcostenergy;
+                    unitData.metalCost = csvObj[i].buildcostmetal;
+                    unitData.name = csvObj[i].name;
+                    unitData.HP = csvObj[i].maxdamage;
+                    unitData.movementSpeed = csvObj[i].maxvelocity;
                     unitData.flyingSpeed = unitData.movementSpeed;
-                    unitData.description = csvObj[i].Description;
+                    unitData.description = csvObj[i].description;
                     unitData.canMove = csvObj[i].canmove;
                     unitData.canAttack = csvObj[i].canattack;
                     unitData.energyStorage = csvObj[i].energystorage;
                     unitData.side = $(obj).attr("side");
-                    unitData.acceleration = csvObj[i].Acceleration;
-                    unitData.summoningCode = csvObj[i].Objectname.toLowerCase();
-                    unitData.sightRange = csvObj[i].sightRange;
-                    unitData.buildSpeed = csvObj[i].WorkerTime;
-                    unitData.canBuild = csvObj[i].CanBuild;
-                    unitData.radarRange = csvObj[i].radarRange;
-                    unitData.jammerRange = csvObj[i].radarRangeJam;
-                    unitData.builder = csvObj[i].Builder;
-                    unitData.buildRange = csvObj[i].Builddistance;
+                    unitData.acceleration = csvObj[i].acceleration;
+                    unitData.summoningCode = csvObj[i].objectname.toLowerCase();
+                    unitData.sightRange = csvObj[i].sightdistance;
+                    unitData.buildSpeed = csvObj[i].workertime;
+                    unitData.canBuild = csvObj[i].canbuild;
+                    unitData.radarRange = csvObj[i].radardistance;
+                    unitData.jammerRange = csvObj[i].radardistancejam;
+                    unitData.builder = csvObj[i].builder;
+                    unitData.buildRange = csvObj[i].builddistance;
                     unitData.minMetalCostForE = "";
                     unitData.maxMetalCostForE = "";
                     unitData.isAntiAir1 = $(obj).attr("w1-AA");
@@ -915,8 +1003,8 @@ $(document).ready(function () {
 
                     if (unitTypeObj.isBuildingType) {
                     }
-                    else if (!isNaN(csvObj[i].DamageModifier)) {
-                        unitData.HP = csvObj[i].MaxDamage / csvObj[i].DamageModifier;
+                    else if (csvObj[i].damagemodifier != "") {
+                        unitData.HP = csvObj[i].maxdamage / csvObj[i].damagemodifier;
                     }
 
                     countDpsAndRange(obj);
@@ -982,7 +1070,7 @@ $(document).ready(function () {
             status = 1;
         }
         else {
-            $("#compare-container").fadeOut(150);
+            $("#compare-container").fadeOut(0);
             $(this).removeClass("active");
             hideAndClearCheckboxes();
             status = 0;
@@ -995,7 +1083,7 @@ $(document).ready(function () {
             status = 1;
         }
         else {
-            $("#compare-container").fadeOut(150);
+            $("#compare-container").fadeOut(0);
             $("#comparison-option-button").removeClass("active");
             hideAndClearCheckboxes();
             status = 0;
@@ -1021,7 +1109,7 @@ $(document).ready(function () {
         }
     });
 
- 
+
 
     jQuery.fn.changeKeywordsColor = function (str, className) {
         var regex = new RegExp(str, "gi");
@@ -1031,6 +1119,7 @@ $(document).ready(function () {
 
         });
     }
+
 
     function findKeywordsAndChangeColor() {
         for (i = 0; i < keywords.length; i++) {
@@ -1089,7 +1178,7 @@ $(document).ready(function () {
         inputNumber = checkWhichFirstInputIsFree();
         var checkboxObj = $(this).parent().children().eq(0);
         var uname = $(this).parent().parent().children().eq(0).attr("uname");
-        if (inputNumber == 10) {           
+        if (inputNumber == 10) {
             if (!($('.chosen-unit[uname = "' + uname + '"]').length == 1)) {
                 replaceLastChoiceIfFull();
                 inputNumber = 4;
@@ -1098,7 +1187,7 @@ $(document).ready(function () {
         if (!checkboxObj.prop('checked')) {
             var obj = $(this).parent().parent().children().eq(0);
             var attributes = $(obj).prop("attributes");
-            $("#search-input-" + inputNumber).parent().append("<li class='chosen-unit exo2-16' id='chosen-unit-id-" + inputNumber + "' side='" + $(obj).attr("side") + "'><span style='position:relative; left:-10px;'>" + $(obj).attr("uname") + "</span><div class='close-btn'>&#10006;</div></li>");
+            $("#search-input-" + inputNumber).parent().append("<li class='chosen-unit exo2-16' id='chosen-unit-id-" + inputNumber + "' side='" + $(obj).attr("side") + "'><span>" + $(obj).attr("uname") + "</span><div class='close-btn'>&#10006;</div></li>");
             $("#search-input-" + inputNumber).val("");
             for (i = 0; i < attributes.length; i++) {
                 if (!(attributes[i].name == "class") && !(attributes[i].name == "data-toggle") && !(attributes[i].name == "data-original-title")) {
@@ -1111,11 +1200,13 @@ $(document).ready(function () {
                 }
             }
             checkIfButtonDisabled();
+            showOrHideClearAll();
         }
-        else {           
+        else {
             $('.chosen-unit[uname = "' + uname + '"]').remove();
             $(this).prop('checked', false);
             checkIfButtonDisabled();
+            showOrHideClearAll();
         }
 
     });
@@ -1137,9 +1228,10 @@ $(document).ready(function () {
         }
     }
 
-    function hideAndClearCheckboxes() {
+
+    function hideAndClearCheckboxes() {      
+        $("#dt-comparison-checkbox").hide(150);
         $("label.container").hide();
-        //$("label.container>input").prop('checked', false);
     }
 
     function checkCheckboxIfWrite(uname) {
@@ -1169,7 +1261,7 @@ $(document).ready(function () {
                                                 <div class="unit-box-in-preview" style="${unitData.imgSrc}"></div>
                                         </div>
 
-                                        <div class="col col-lg-8" style="padding-left:0;">
+                                        <div class="col col-lg-8" style="padding-left:0; text-align: left;">
                                             <div class="res-cost-row"><div class="energy-cost-bar exo2-16">Energy cost</div><span class="energy-cost-digit exo2-16">${setSpacesInBigNumbers(unitData.energyCost)}</span></div>
                                             <div class="res-cost-row" style="margin-bottom:3px;"><div class="metal-cost-bar exo2-16">Metal cost</div><span class="metal-cost-digit exo2-16">${setSpacesInBigNumbers(unitData.metalCost)} </span></div>
                                             <div class="summoning-code exo2-16">Summoning code</div><span class="summoning-code-text exo2-16">+${unitData.summoningCode}</span>
@@ -1177,7 +1269,7 @@ $(document).ready(function () {
 
 
                                     </div>
-<div style="margin-top:6px; height:0;">${unitData.side == "core" ? `<img class="side-logo-preview" src="logo-core.svg" />` : `<img class="side-logo-preview" src="logo-arm.svg" />`}</div>
+<div style="margin-top:6px; height:0; text-align:center;">${unitData.side == "core" ? `<img class="side-logo-preview" src="logo-core.svg" />` : `<img class="side-logo-preview" src="logo-arm.svg" />`}</div>
                                     <hr style="margin: 0 auto 0 0; width: 172px; background: #757575; position: relative; top:1px;">
                                     <hr style="margin: 0 0 0 auto; width: 172px; background: #757575;">
                                     <div class="unit-basic-stats">
@@ -1207,7 +1299,7 @@ $(document).ready(function () {
                                                             <div class="parameter-value">${setSpacesInBigNumbers(unitData.dps)}</div>
                                                         </div>
                                                     ` : ""}
-                                                    ${unitTypeObj.isCons || unitTypeObj.isAirCons || unitTypeObj.isLab || unitTypeObj.isSemiCon ? `
+                                                    ${unitTypeObj.isCons || unitTypeObj.isCom || unitTypeObj.isAirCons || unitTypeObj.isLab || unitTypeObj.isSemiCon ? `
                                                         <div class="parameter-bar-and-value ${ShineEffect.ForBuildSpeed}">
                                                         <div class="box-shadow-for-bar" style="${boxShadowsStyleBuildSpeed}"> </div>
                                                             <img src="${buildSpeed_SrcImg}" class="parameter-bar" alt="">
@@ -1272,7 +1364,7 @@ $(document).ready(function () {
                                                             <div class="parameter-value">${unitData.ratioMin}</div>
                                                     </div>
                                                     ` : ""}
-                                                     ${unitTypeObj.isCons || unitTypeObj.isAirCons || unitTypeObj.isSemiCon ? `
+                                                     ${unitTypeObj.isCons || unitTypeObj.isCom || unitTypeObj.isAirCons || unitTypeObj.isSemiCon ? `
                                                         <div class="parameter-bar-and-value ${ShineEffect.ForBuildRange}">
                                                         <div class="box-shadow-for-bar" style="${boxShadowsStyleBuildRange}"></div>
                                                             <img src="${buildRange_SrcImg}" class="parameter-bar" alt="">
@@ -1316,7 +1408,7 @@ $(document).ready(function () {
                                                             <div class="parameter-value">${unitData.ratioMax}</div>
                                                         </div>
                                                     ` : ""}
-                                                    ${unitTypeObj.isCons || unitTypeObj.isAirCons || unitTypeObj.isSemiCon || unitTypeObj.isNuke ? `
+                                                    ${unitTypeObj.isCons || unitTypeObj.isCom || unitTypeObj.isAirCons || unitTypeObj.isSemiCon || unitTypeObj.isNuke ? `
                                                         <div class="parameter-bar-and-value ${ShineEffect.ForHP}">
                                                         <div class="box-shadow-for-bar" style="${boxShadowsStyleHP}"></div>
                                                             <img src="${barHP_SrcImg}" class="parameter-bar" alt="">
@@ -1358,7 +1450,7 @@ $(document).ready(function () {
                                                             <div class="parameter-value">${setSpacesInBigNumbers(unitData.sightRange)}</div>
                                                         </div>
                                                     ` : ""}
-                                                    ${unitTypeObj.isUndefined || unitTypeObj.isUndefinedAircraft || unitTypeObj.isUndefinedUnit ? `
+                                                    ${unitTypeObj.isUndefinedAircraft || unitTypeObj.isUndefinedUnit || unitTypeObj.isUndefinedBuilding ? `
                                                         <div class="parameter-bar-and-value ${ShineEffect.ForHP}">
                                                         <div class="box-shadow-for-bar" style="${boxShadowsStyleHP}"></div>
                                                             <img src="${barHP_SrcImg}" class="parameter-bar" alt="">
@@ -1396,7 +1488,7 @@ $(document).ready(function () {
                                                             <div class="parameter-value">${unitData.movementSpeed}</div>
                                                         </div>
                                                     ` : ""}
-                                                    ${unitTypeObj.isCons || unitTypeObj.isSemiCon ? `
+                                                    ${unitTypeObj.isCons || unitTypeObj.isCom || unitTypeObj.isSemiCon ? `
                                                         <div class="parameter-bar-and-value ${ShineEffect.ForMS}">
                                                         <div class="box-shadow-for-bar" style="${boxShadowsStyleMovementSpeed}"></div>
                                                             <img src="${movementSpeed_SrcImg}" class="parameter-bar" alt="">
@@ -1417,7 +1509,7 @@ $(document).ready(function () {
                                                             <div class="parameter-value">${setSpacesInBigNumbers(unitData.sightRange)}</div>
                                                         </div>
                                                     ` : ""}
-                                                    ${unitTypeObj.isUndefined || unitTypeObj.isUndefinedAircraft || unitTypeObj.isUndefinedUnit ? `
+                                                    ${unitTypeObj.isUndefined || unitTypeObj.isUndefinedAircraft || unitTypeObj.isUndefinedUnit || unitTypeObj.isUndefinedBuilding ? `
                                                         <div class="parameter-bar-and-value ${ShineEffect.ForSightD}">
                                                         <div class="box-shadow-for-bar" style="${boxShadowsStylesightRange}"></div>
                                                             <img src="${sightRange_SrcImg}" class="parameter-bar" alt="">
@@ -1433,7 +1525,7 @@ $(document).ready(function () {
                                                             <div class="parameter-value">${setSpacesInBigNumbers(unitData.sightRange)}</div>
                                                         </div>
                                                     ` : ""}
-                                                    ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isAirCons || unitTypeObj.isCons || unitTypeObj.isSemiCon || unitTypeObj.isAirFigther ? `
+                                                    ${unitTypeObj.isFighter || unitTypeObj.isDefenseShootingBuilding || unitTypeObj.isFighterDpsOnly || unitTypeObj.isAirCons || unitTypeObj.isCons || unitTypeObj.isCom || unitTypeObj.isSemiCon || unitTypeObj.isAirFigther ? `
                                                         <div class="parameter-bar-and-value ${ShineEffect.ForSightD}">
                                                         <div class="box-shadow-for-bar" style="${boxShadowsStylesightRange}"></div>
                                                             <img src="${sightRange_SrcImg}" class="parameter-bar" alt="">
@@ -1443,11 +1535,11 @@ $(document).ready(function () {
                                             </div>
 
                                         </div>
-                                                    ${(unitTypeObj.isRadarAndJammerAircraft || unitTypeObj.isRadarAndJammerBuilding || unitTypeObj.isRadarAndJammerUnit || unitTypeObj.isJammerAircraft || unitTypeObj.isJammerBuilding || unitTypeObj.isJammerUnit || unitTypeObj.isBuilding || unitTypeObj.isEco) && unitData.p1 != undefined && unitData.minEnergyIncome == undefined ? `
+                                                    ${(unitTypeObj.isRadarAndJammerAircraft || unitTypeObj.isRadarAndJammerBuilding || unitTypeObj.isCom || unitTypeObj.isRadarAndJammerUnit || unitTypeObj.isJammerAircraft || unitTypeObj.isJammerBuilding || unitTypeObj.isJammerUnit || unitTypeObj.isBuilding || unitTypeObj.isEco) && unitData.p1 != undefined && unitData.minEnergyIncome == undefined ? `
 
                                                             <hr class="separator-between-info-stats-1">
                                                             <div class="exo2-26 additional-info">Note</div>
-                                                            <p style="color:white; text-align:center; padding:7px 30px">${unitData.p1} ${unitData.p2 != undefined ? unitData.p2 : ""}</p>
+                                                            <p style="color:white; text-align:left; padding:7px 30px">${unitData.p1} <br> ${unitData.p2 != undefined ? unitData.p2 : ""}</p>
 
                                                     ` : ""}
                                                        ${unitTypeObj.isEco && unitData.sup1 != undefined && unitData.sup2 != undefined ? `
