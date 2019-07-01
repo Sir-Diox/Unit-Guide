@@ -1,5 +1,6 @@
 body {
     height: 100%;
+    background: #2b2b2b;
 }
 
 .ug-container {
@@ -155,9 +156,11 @@ a {
     left: 0;
     background: #2b2b2b;
     height: 100%;
-    z-index: 5;
-    width: 300px;
+    z-index: 50;
+    width: 340px;
+    overflow:scroll;
     border-right: 2px solid white;
+    color: white;
 }
 
 .filter-header {
@@ -165,6 +168,36 @@ a {
     font-size: 22px;
     color: white;
     font-weight: 500;
+}
+
+.filter-results{
+    margin-left:500px;
+    position:relative;
+    top:100px;
+}
+
+    .filter-results .unit-spacings-arm, .filter-results .unit-spacings-core {
+        display: inline-table;
+        position: relative;
+        width: 97px;
+    }
+
+    .input-text-small {
+        position: relative;
+        height: 37px;
+        padding-left: 5px;
+        border: 2px solid #FFFFFF;
+        border-radius: 4px;
+        color: #FFFFFF;
+        line-height: 35px;
+        background-color: #2b2b2b;
+        width: 74px;
+    }
+
+.btn-filter {
+    display: inline-block !important;
+    margin: 0 !important;
+    padding: 0 10px 0 10px !important;
 }
 
 .checkmark-filter {
@@ -237,10 +270,10 @@ a {
 }
 
 .ctn .checkmark-filter:after {
-    left: 9px;
-    top: 5px;
-    width: 5px;
-    height: 10px;
+    left: 8px;
+    top: 2px;
+    width: 8px;
+    height: 16px;
     border: solid white;
     border-width: 0 3px 3px 0;
     -webkit-transform: rotate(45deg);

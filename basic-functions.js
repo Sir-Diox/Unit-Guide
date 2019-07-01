@@ -1174,7 +1174,7 @@ $(document).ready(function () {
         }, 300);
     }
 
-    $(".container").on('click', ".checkmark", function () {
+    $("body").on('click', ".checkmark", function () {
         inputNumber = checkWhichFirstInputIsFree();
         var checkboxObj = $(this).parent().children().eq(0);
         var uname = $(this).parent().parent().children().eq(0).attr("uname");
@@ -1210,6 +1210,7 @@ $(document).ready(function () {
         }
 
     });
+
     function checkWhichFirstInputIsFree() {
         if ($("#chosen-unit-id-1").length != 1) {
             return 1;

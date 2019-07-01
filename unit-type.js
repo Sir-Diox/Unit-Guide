@@ -19,7 +19,6 @@ function setLabelParametersAndValues(unitType) {
         fifthParameter = "Sight range:";
     }
 
-
     else if (unitType.isAirFigther) {
         firstParameter = "Damage per second:";
         secondParameter = "Range:";
