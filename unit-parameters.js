@@ -90,7 +90,7 @@ var weaponsData = {
     }
 }
 
-var keywords = ["Cloakable","Self-Heal", "Anti-Stun", "Stealth", "Amphibious", "Stun Immunity", "Upgradable", "Adjacency Bonus", "Stun Resistance", "Guided", "Radar Jammed", "Targeting", "Upgrades to Chaingun", "AA missiles", "Adj. Bonus"]
+var keywords = ["Cloakable", "Self-Heal", "Self Heal", "Anti-Stun", "Stealth", "Amphibious", "Stun Immunity", "Upgradable", "Adjacency Bonus", "Stun Resistance", "Guided", "Radar Jammed", "Targeting", "Upgrades to Chaingun", "AA missiles", "Adj. Bonus"]
 
 var ShineEffect = { //only for bars with 10/10
     ForDPS: "",
@@ -196,9 +196,9 @@ var rangeOfParameters ={
         h7: 1500,
         h75: 1800,
         h8: 2100,
-        h85: 2500,
+        h85: 3000,
         h9: 5000,
-        h95: 5700,
+        h95: 8000,
         h10: 20000
     },
         damagePerShot: {
@@ -275,7 +275,7 @@ var rangeOfParameters ={
         h8: 120000,
         h85: 150000,
         h9: 181000,
-        h95: 200000,
+        h95: 250000,
         h10: 2000000
     },
     movementSpeed : {
@@ -368,7 +368,7 @@ var rangeOfParameters ={
         h85: 570,
         h9: 630,
         h95: 720,
-        h10: 1000
+        h10: 10000
     },
         buildRange : {
         h0: 0,

@@ -18,7 +18,58 @@ $("body").on("click", "#save-img", function () {
         });
 })
 
+$(document).ready(function () {
+    $(".ctn-range").hide();
+    setTimeout(function () {
+        if (window.location.href != "http://taesc-unitguide.tauniverse.com/") {
 
+            function parseURLParams(url) {
+                var queryStart = url.indexOf("?") + 1,
+                    queryEnd = url.indexOf("#") + 1 || url.length + 1,
+                    query = url.slice(queryStart, queryEnd - 1),
+                    pairs = query.replace(/\+/g, " ").split("&"),
+                    parms = {}, i, n, v, nv;
+
+                if (query === url || query === "") return;
+
+                for (i = 0; i < pairs.length; i++) {
+                    nv = pairs[i].split("=", 2);
+                    n = decodeURIComponent(nv[0]);
+                    v = decodeURIComponent(nv[1]);
+
+                    if (!parms.hasOwnProperty(n)) parms[n] = [];
+                    parms[n].push(nv.length === 2 ? v : null);
+                }
+                return parms;
+            }
+
+            //var urlString = "http://taesc-unitguide.tauniverse.com/?o=detailed-comparison&u=Hammer&u=Rocko&dt=1"; // example
+            var urlString = window.location.href;
+            urlParams = parseURLParams(urlString);
+
+            if (urlParams.o[0] == "detailed-comparison") {
+                $("#close-comparison-x").trigger('click');
+                $("#close-comparison-window").trigger('click');
+                $("#dt-comparison-checkbox").show();
+                $('#comparison-option-button').trigger('click');
+                $(".cp-x-clearall").trigger('click');
+
+                for (j = 0; j < urlParams.u.length; j++) {
+                    $('.unit-box[uname="' + urlParams.u[j] + '"]').parent().children().eq(2).children().eq(1).trigger('click');
+                }
+                if (urlParams.dt[0] == 1) {
+                    $("#dt-comparison-checkbox input").prop('checked', true);
+                }
+                else {
+                    $("#dt-comparison-checkbox input").prop('checked', false);
+                }
+                $('#comparison-button').trigger('click');
+            }
+
+        }
+
+    }, 0.01);
+});
 
 function countDpsAndRange(obj) {
     var weapons = {
@@ -855,7 +906,7 @@ $(document).ready(function () {
         showOrHideClearAll();
     });
 
-    function showOrHideClearAll(){
+    function showOrHideClearAll() {
         if ($('.chosen-unit').length < 2) {
             $(".cp-x-clearall").slideUp(100);
         } else {
@@ -864,9 +915,9 @@ $(document).ready(function () {
     }
 
     $(".cp-x-clearall").hover(function () {
-        $(".close-btn").css("color", "#dea73c");
+        $(".chosen-unit .close-btn").css("color", "#dea73c");
     }, function () {
-        $(".close-btn").css("color", "");
+        $(".chosen-unit .close-btn").css("color", "");
     });
 
     $('#compare-container').on('click', '#comparison-button', function () {
@@ -875,7 +926,7 @@ $(document).ready(function () {
     function generateComparison() {
         if ($("#dt-comparison-checkbox input").is(':checked')) {
             if ($(".chosen-unit").length == 2) {
-                $(".comparison-content").attr("style","min-width: 600px !important");
+                $(".comparison-content").attr("style", "min-width: 600px !important");
             } else if ($(".chosen-unit").length == 3) {
                 $(".comparison-content").attr("style", "min-width: 650px !important");
             } else {
@@ -1230,7 +1281,7 @@ $(document).ready(function () {
     }
 
 
-    function hideAndClearCheckboxes() {      
+    function hideAndClearCheckboxes() {
         $("#dt-comparison-checkbox").hide(150);
         $("label.container").hide();
     }
@@ -1540,7 +1591,7 @@ $(document).ready(function () {
 
                                                             <hr class="separator-between-info-stats-1">
                                                             <div class="exo2-26 additional-info">Note</div>
-                                                            <p style="color:white; text-align:left; padding:7px 30px">${unitData.p1} <br> ${unitData.p2 != undefined ? unitData.p2 : ""}</p>
+                                                            <p style="color:white; text-align:center; padding:7px 30px">${unitData.p1} <br> ${unitData.p2 != undefined ? unitData.p2 : ""}</p>
 
                                                     ` : ""}
                                                        ${unitTypeObj.isEco && unitData.sup1 != undefined && unitData.sup2 != undefined ? `
