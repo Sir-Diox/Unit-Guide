@@ -11,10 +11,12 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="perfect-scrollbar.css">
     <link rel="stylesheet" href="./fontawesome/css/all.css">
+
     <script src="jquery-3.3.1.min.js"></script>
     <script src="jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script src="jquery.csv.min.js"></script>
 
     <script>
@@ -198,12 +200,27 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex-it">
+                    <!--<div class="flex-it">
                         <a href="#tier-4-start" class="exo2-16 ug-menu-button tier-button" style="border-radius: 4px;">Tier 4</a>
-                    </div>
+                    </div>-->
                 </div>
-                <div class="flex-it" style="position: relative;">
-                    <div class="exo2-16 ug-button compare-button" id="comparison-option-button">Compare units</div>
+                <div class="flex-it" style="position: relative; top: 4px;">
+                    <div>
+                        <div class="exo2-16 filters-btn" id="filters-btn">Filters</div>
+                        <div class="toggle-container">
+                            <div class="toggle-btn" onclick="activateFilters(this)">
+                                <div class="inner-circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="exo2-16 compare-button" id="comparison-option-button">Unit comparison</div>
+                        <div class="toggle-container">
+                            <div class="toggle-btn" onclick="this.classList.toggle('active')">
+                                <div class="inner-circle"></div>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
                 <div class="teko-18 search-bar dropdown-search-results" id="search-bar" number="0">
@@ -238,7 +255,7 @@
 
 
         <div class="filters-menu">
-
+            <div class="filters-header">Filters</div>
             <div name="Side" class="Side">
                 <h2 class="filter-header">Side</h2>
                 <label class="ctn" value="ARM">
@@ -382,27 +399,27 @@
 
                 <div name="Speed" class="Speed">
                     <h2 class="filter-header">Movement speed</h2>
-                    <label class="ctn" value="Movement speed" from="0" to="0.9">
+                    <label class="ctn" value="Up to 0.9 (very slow)" from="0" to="0.9">
                         Up to 0.9 (very slow)
                         <input type="checkbox">
                         <span class="checkmark-filter"></span>
                     </label>
-                    <label class="ctn" value="Movement speed" from="0.9" to="1.2">
+                    <label class="ctn" value="0.9 to 1.2 (slow)" from="0.9" to="1.2">
                         0.9 to 1.2 (slow)
                         <input type="checkbox">
                         <span class="checkmark-filter"></span>
                     </label>
-                    <label class="ctn" value="Movement speed" from="1.2" to="1.7">
+                    <label class="ctn" value="1.2 to 1.7 (average)" from="1.2" to="1.7">
                         1.2 to 1.7 (average)
                         <input type="checkbox">
                         <span class="checkmark-filter"></span>
                     </label>
-                    <label class="ctn" value="Movement speed" from="1.7" to="2.1">
+                    <label class="ctn" value="1.7 to 2.1 (fast)" from="1.7" to="2.1">
                         1.7 to 2.1 (fast)
                         <input type="checkbox">
                         <span class="checkmark-filter"></span>
                     </label>
-                    <label class="ctn" value="Movement speed" from="2.1" to="3.5">
+                    <label class="ctn" value="2.1 and more (very fast)" from="2.1" to="20">
                         2.1 and more (very fast)
                         <input type="checkbox">
                         <span class="checkmark-filter"></span>
@@ -530,7 +547,7 @@
                                                 <div class="unit-name"><span class="u-name">Warrior</span></div>
                                             </div>
                                             <div class="col col-lg-3 unit-spacings-arm">
-                                                <div class="unit-box" uname="Jethro" w1="480" w1-rt="2" w1-r="825" w1-AA="1" side="arm" style="background: url('units-images/armjeth.jpg')"></div>
+                                                <div class="unit-box" uname="Jethro" w3="480" w3-rt="2" w3-r="825" w3-AA="1" side="arm" style="background: url('units-images/armjeth.jpg')"></div>
                                                 <div class="unit-name"><span class="u-name">Jethro</span></div>
                                             </div>
                                             <div class="col col-lg-3 unit-spacings-arm">
@@ -579,7 +596,7 @@
                                                 <div class="unit-name"><span class="u-name">M.A.K.</span></div>
                                             </div>
                                             <div class="col col-lg-3 unit-spacings-core">
-                                                <div class="unit-box" uname="Crasher" w1="480" w1-rt="2" w1-r="825" w1-AA="1" side="core" style="background: url('units-images/corcrash.jpg')"></div>
+                                                <div class="unit-box" uname="Crasher" w3="480" w3-rt="2" w3-r="825" w1-AA="1" side="core" style="background: url('units-images/corcrash.jpg')"></div>
                                                 <div class="unit-name"><span class="u-name">Crasher</span></div>
                                             </div>
                                             <div class="col col-lg-3 unit-spacings-core">
@@ -2376,8 +2393,6 @@
                                         <div class="unit-box" uname="Sabotage Mine" urole="defense" side="arm" style="background: url('units-images/armmine4.jpg')"></div>
                                         <div class="unit-name"><span class="u-name">Sabotage Mine</span></div>
                                     </div>
-
-
                                 </div>
                             </div>
                             <div class="col col-modifier-core">
@@ -3393,7 +3408,7 @@
                 </div>
             </div>
 
-            <footer>Unit guide for TA:Escalation mod's version: 9.0. Check the latest mod's changes <a href="https://www.tauniverse.com/forum/showthread.php?t=45962" target="_blank" style="font-weight:500;">here</a>. Guide made by Dioxide. </footer>
+            <footer>Unit guide for TA: Escalation mod's version: 9.0. Check the latest mod's changes <a href="https://www.tauniverse.com/forum/showpost.php?p=763315&postcount=2" target="_blank" style="font-weight:500;">here</a>. Guide made by Dioxide. </footer>
         </div>
     <div id="unit-dt-info-overlay"></div>
     <script src="unit-parameters.js"></script>

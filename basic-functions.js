@@ -895,7 +895,7 @@ $(document).ready(function () {
         $("#compare-container .search-input").val("");
         $("#compare-container .chosen-unit").remove();
         $(".units-container input").prop('checked', false);
-
+        $(".filters-results-container input").prop('checked', false);
         if ($('.chosen-unit').length < 2) {
             document.getElementById("comparison-button").disabled = true;
         }
